@@ -7,3 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Card.create(image: '/assets/images/test1', st: 4, bunya: "連立方程式", ans:234 ,imans1:345 ,imans2:567 ,imans3:678)
+Card.create(image: '/assets/images/test2', st: 4, bunya: "整数", ans:234 ,imans1:345 ,imans2:567 ,imans3:678)
+Card.create(image: '/assets/images/test3', st: 2, bunya: "二次方程式", ans:234 ,imans1:345 ,imans2:567 ,imans3:678)
+Card.create(image: '/assets/images/test4', st: 1, bunya: "引き算", ans:234 ,imans1:345 ,imans2:567 ,imans3:678)
+Card.create(image: '/assets/images/test5', st: 3, bunya: "連立方程式", ans:234 ,imans1:345 ,imans2:567 ,imans3:678)
