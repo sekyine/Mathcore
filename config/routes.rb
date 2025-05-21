@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "gacha/draw"
   get "static_pages/home"
 
   get "up" => "rails/health#show", as: :rails_health_check
