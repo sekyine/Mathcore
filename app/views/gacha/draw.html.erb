@@ -1,9 +1,11 @@
 <h1>Gacha#draw</h1>
-<% if @item %>
-  <p><strong>結果：</strong><%= @card.name %>（<%= @card.st %>）</p>
+<% if @card %>
+  <strong>結果：</strong>
+
+  <%= image_tag @card.image, size: '218x270' %>
+  <p> st = <%= @card.st %> </p>
 <% else %>
   <p>景品が登録されていません。</p>
 <% end %>
 
 <%= link_to 'もう一度引く', draw_path %>
-<p>Find me in app/views/gacha/draw.html.erb</p>
