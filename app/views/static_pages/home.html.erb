@@ -1,8 +1,13 @@
-<h1>StaticPages#home</h1>
-<% if logged_in?%> 
-    <h1>home</h1> 
-    <h4>こんにちは,<%=current_user.name%>さん</h4> 
-<% else %> 
-    <h4>ログインしてください</h4> 
-<%end%> 
-<a href="./draw">ガチャる</a>
+<div class="container mt-5">
+  <div class="text-center p-4 rounded" style="background-color: #e6f0ff;">
+    <h1 class="mb-4 text-primary">StaticPages#home</h1>
+
+    <% if logged_in? %> 
+      <h4 class="mb-3 text-primary">こんにちは、<%= current_user.name %>さん</h4> 
+    <% else %> 
+      <h4 class="mb-3 text-danger">ログインしてください</h4> 
+    <% end %>
+
+    <%= link_to 'ガチャる', draw_path, class: 'btn btn-outline-primary btn-lg mt-3' %>
+  </div>
+</div>
