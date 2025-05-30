@@ -65,3 +65,8 @@ end
 gem 'dotenv-rails' 
 gem 'omniauth' 
 gem 'omniauth-twitter' 
+
+
+gem 'bootstrap', '~> 4.6'
+
+gem "dartsass-rails"

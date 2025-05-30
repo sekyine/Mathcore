@@ -1,0 +1,12 @@
+{
+  "name": "app",
+  "private": "true",
+  "scripts": {
+    "build:css": "postcss ./app/assets/stylesheets/application.bootstrap.scss -o ./app/assets/builds/application.css"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "postcss-cli": "^11.0.1"
+  }
+}
