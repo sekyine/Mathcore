@@ -1,13 +1,17 @@
 <div class="container mt-5">
-  <div class="text-center p-4 rounded" style="background-color: #e6f0ff;">
-    <h1 class="mb-4 text-primary">StaticPages#home</h1>
+  <div class="text-center p-4 rounded" style="background-color: #2c2c2c; color: #f5f5f5; border: 2px solid #800020;">
+    <h1 class="mb-4" style="color: #bfa14f;">
+      HOME <i class="fa-solid fa-house"></i>
+    </h1>
 
     <% if logged_in? %> 
-      <h4 class="mb-3 text-primary">こんにちは、<%= current_user.name %>さん</h4> 
+      <h4 class="mb-3" style="color: #d4af37;">ようこそ、<%= current_user.name %></h4>
     <% else %> 
       <h4 class="mb-3 text-danger">ログインしてください</h4> 
     <% end %>
 
-    <%= link_to 'ガチャる', draw_path, class: 'btn btn-outline-primary btn-lg mt-3' %>
+    <%= link_to draw_path, class: 'btn btn-outline-warning btn-lg mt-3', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+      <i class="fa-solid fa-dice fa-lg me-2"></i> ガチャる
+    <% end %>
   </div>
 </div>
