@@ -26,10 +26,11 @@
   </head>
 
    <body style="background-color: #1c1c1c; color: #f5f5dc; font-family: 'Helvetica Neue', sans-serif;">
-    <%= render 'layouts/header' %> 
+    <%= render 'layouts/header' %>  
     <% flash.each do |message_type, message| %> 
       <%= message %> 
     <% end %> 
+    
     <%= yield %> 
   </body>
 </html>
