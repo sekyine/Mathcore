@@ -5,7 +5,14 @@ class GachaController < ApplicationController
     rarity = weighted_random(rates)
     cards = Card.where(st: rarity) #stを指定して...
     @card = cards.sample #ランダムに選出
-
+    user_card = current_user.user_cards.find_or_initialize_by(card: @card) #ユーザーのカードの保持状況を呼び出し
+    user_card.quantity ||= 0
+    user_card.quantity += 1
+    if @card.nil?
+      flash.now[:alert] = 'カードがないっすねw'
+      return
+    end
+    user_card.save! #カードを保存
   end
 
   def weighted_random(weights)

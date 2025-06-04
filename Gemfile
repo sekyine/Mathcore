@@ -66,6 +66,7 @@ gem 'dotenv-rails'
 gem 'omniauth' 
 gem 'omniauth-twitter' 
 
+gem 'foreman'
 
 gem 'bootstrap', '~> 4.6'
 
