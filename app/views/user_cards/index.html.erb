@@ -1,0 +1,24 @@
+<h1>所持カード一覧</h1>
+
+<% if @user_cards.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>カード</th>
+        <th>st</th>
+        <th>枚数</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user_cards.each do |uc| %>
+        <tr>
+          <td><%= image_tag uc.card.image, size: '218x270', class: 'mb-3' %></td>
+          <td><p style="color: #f5f5dc;"> <i class="fa-solid fa-star"></i> <%= uc.card.st %></p></td>
+          <td><%= uc.quantity %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>まだカードを所持していません。</p>
+<% end %>
