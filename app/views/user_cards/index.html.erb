@@ -2,25 +2,29 @@
 
 <% if @user_cards.any? %>
   <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5 g-4">
       <% @user_cards.each do |uc| %>
         <div class="col">
           <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
-            <div class="card-img-top d-flex align-items-center justify-content-center" style="background-color: #1c1c1c; height: 360px;">
-              <%= image_tag uc.card.image, style: "height: 100%; width: auto; object-fit: contain;" %>
+            
+            <!-- カード画像 -->
+            <div class="card-img-top d-flex align-items-center justify-content-center bg-black" style="aspect-ratio: 4 / 5;">
+              <%= image_tag uc.card.image, style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
             </div>
-            <div class="card-body">
-              <table class="table table-dark table-bordered mb-0">
+
+            <!-- カード情報 -->
+            <div class="card-body p-2">
+              <table class="table table-dark table-bordered table-sm mb-0">
                 <tbody>
                   <tr>
-                    <th scope="row"> レア度</th>
+                    <th scope="row">レア度</th>
                     <td>
                       <%= safe_join(Array.new(uc.card.st) { content_tag(:i, '', class: 'fa-solid fa-star text-warning') }) %>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">枚数</th>
-                    <td><%= uc.quantity %>枚</td>
+                    <td><%= uc.quantity %> 枚</td>
                   </tr>
                   <tr>
                     <th scope="row">分野</th>
@@ -29,6 +33,7 @@
                 </tbody>
               </table>
             </div>
+
           </div>
         </div>
       <% end %>
