@@ -13,20 +13,6 @@ class GachaController < ApplicationController
       return
     end
     user_card.save! #カードを保存
-<<<<<<< HEAD
-=======
-  end
-
-  def weighted_random(weights)
-    total = weights.values.sum #普通は100
-    point = rand(total) #1~100からランダムに値を選ぶ
-    current = 0
-
-    weights.each do |key, weight| #選んだ値がある確率より下ならそれを返す
-      current += weight #例えば、1=>70,2=>20として、point=88とすると、88 > 70, 88 < 90より、stは2となる
-      return key if point < current
-    end
->>>>>>> usercard-display
   end
 
   def weighted_random(weights)

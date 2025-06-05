@@ -3,8 +3,4 @@ class UserCard < ApplicationRecord
   belongs_to :card
 
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
-<<<<<<< HEAD
 end
-=======
-end
->>>>>>> usercard-display

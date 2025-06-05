@@ -1,24 +1,39 @@
-<h1>所持カード一覧</h1>
+<h1 class="text-center mb-4 text-warning">所持カード一覧</h1>
 
 <% if @user_cards.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>カード</th>
-        <th><i class="fa-solid fa-star"></i>レア度</th>
-        <th>枚数</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <% @user_cards.each do |uc| %>
-        <tr>
-          <td><%= image_tag uc.card.image, size: '218x270', class: 'mb-3' %></td>
-          <td><p style="color: #f5f5dc;"> <i class="fa-solid fa-star"></i> <%= uc.card.st %></p></td>
-          <td><%= uc.quantity %></td>
-        </tr>
+        <div class="col">
+          <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
+            <div class="card-img-top d-flex align-items-center justify-content-center" style="background-color: #1c1c1c; height: 360px;">
+              <%= image_tag uc.card.image, style: "height: 100%; width: auto; object-fit: contain;" %>
+            </div>
+            <div class="card-body">
+              <table class="table table-dark table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row"> レア度</th>
+                    <td>
+                      <%= safe_join(Array.new(uc.card.st) { content_tag(:i, '', class: 'fa-solid fa-star text-warning') }) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">枚数</th>
+                    <td><%= uc.quantity %>枚</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">分野</th>
+                    <td><%= uc.card.bunya %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       <% end %>
-    </tbody>
-  </table>
+    </div>
+  </div>
 <% else %>
-  <p>まだカードを所持していません。</p>
+  <p class="text-center text-muted">まだカードを所持していません。</p>
 <% end %>

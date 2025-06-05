@@ -37,17 +37,10 @@
           <div class="card-body">
             <h5 class="card-title" style="color: #bfa14f;">ダンジョン</h5>
             <p class="card-text" style="color: #ccc;">coming soon...</p>
-<<<<<<< HEAD
-            <%= link_to draw_path,class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
-              <i class="fa-solid fa-dragon"></i>ダンジョンへ
-            <% end %>  
-          </div>
-=======
-            <%= link_to draw_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
-              <i class="fa-solid fa-dice fa-lg me-2"></i> ガチャる
+            <%= link_to "#", class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+              <i class="fa-solid fa-dragon fa-lg me-2"></i> ダンジョる
             <% end %>
             </div>
->>>>>>> usercard-display
         </div>
       </div>
 
@@ -57,7 +50,10 @@
           <div class="card-body">
             <h5 class="card-title" style="color: #bfa14f;">コレクション</h5>
             <p class="card-text" style="color: #ccc;">coming soon...</p>
-          </div>
+            <%= link_to user_cards_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+              <i class="fa-solid fa-clone fa-lg me-2"></i> コレクトる
+            <% end %>
+            </div>
         </div>
       </div>
 
