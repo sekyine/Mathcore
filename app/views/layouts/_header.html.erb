@@ -7,7 +7,7 @@
 
     <div>
       <%= link_to 'ホーム', root_path, class: 'btn btn-sm btn-outline-warning' %>
-
+      <%= link_to "所持カード一覧", user_cards_path, class: 'btn btn-sm btn-outline-light'%>
       <% if logged_in? %>
         <%= link_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-sm btn-outline-light' %>
       <% else %>
