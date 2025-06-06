@@ -8,4 +8,8 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/draw', to: 'gacha#draw'
+  post '/gemini', to: 'gemini#generate_content'
+  get '/gemini', to: 'gemini#generate_content'
+  get 'gemini/test', to: 'gemini#test'
 end
+

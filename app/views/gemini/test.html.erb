@@ -1,0 +1,32 @@
+<head>
+<meta name="csrf-token" content="<%= form_authenticity_token %>">
+</head>
+<h1>GeminiTest</h1>
+  <input type="text" id="promptInput" placeholder="プロンプトを入力してください" size="40">
+  <button id="callGeminiBtn">送信</button>
+
+  <h2>結果:</h2>
+  <pre id="resultArea"></pre>
+
+  <script>
+    document.getElementById("callGeminiBtn").addEventListener("click", () => {
+      const prompt = document.getElementById("promptInput").value;
+
+      fetch("http://127.0.0.1:3000/gemini", {
+        method: "POST",
+        headers: {
+  "Content-Type": "application/json",
+  "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ""
+}
+,
+        body: JSON.stringify({ prompt: prompt })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("resultArea").textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        document.getElementById("resultArea").textContent = "エラー: " + error;
+      });
+    });
+  </script>
