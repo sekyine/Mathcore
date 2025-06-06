@@ -10,4 +10,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/draw', to: 'gacha#draw'
   resources :user_cards, path: 'cards'
+  resources :battles, only: [:new, :create, :show] do
+    post :play, on: :member
+  end
 end
