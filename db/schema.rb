@@ -33,19 +33,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_043958) do
     t.index ["user_id"], name: "index_user_cards_on_user_id"
   end
 
-<<<<<<< HEAD
-=======
-  create_table "usercards", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "card_id", null: false
-    t.integer "quantity", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["card_id"], name: "index_usercards_on_card_id"
-    t.index ["user_id"], name: "index_usercards_on_user_id"
-  end
-
->>>>>>> usercard-display
   create_table "users", force: :cascade do |t|
     t.string "uid"
     t.string "nickname"
@@ -64,9 +51,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_043958) do
 
   add_foreign_key "user_cards", "cards"
   add_foreign_key "user_cards", "users"
-<<<<<<< HEAD
-=======
   add_foreign_key "usercards", "cards"
   add_foreign_key "usercards", "users"
->>>>>>> usercard-display
 end
