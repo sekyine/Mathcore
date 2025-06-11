@@ -1,32 +1,39 @@
 <head>
-<meta name="csrf-token" content="<%= form_authenticity_token %>">
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
 </head>
 <h1>GeminiTest</h1>
-  <input type="text" id="promptInput" placeholder="プロンプトを入力してください" size="40">
-  <button id="callGeminiBtn">送信</button>
+<input type="text" id="promptInput" placeholder="プロンプトを入力してください" size="40">
+<button id="callGeminiBtn">送信</button>
 
-  <h2>結果:</h2>
-  <pre id="resultArea"></pre>
+<h2>会話:</h2>
+<div id="conversationHistory"></div>
 
-  <script>
-    document.getElementById("callGeminiBtn").addEventListener("click", () => {
-      const prompt = document.getElementById("promptInput").value;
+<script>
+  document.getElementById("callGeminiBtn").addEventListener("click", () => {
+    const prompt = document.getElementById("promptInput").value;
 
-      fetch("http://127.0.0.1:3000/gemini", {
-        method: "POST",
-        headers: {
-  "Content-Type": "application/json",
-  "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ""
-}
-,
-        body: JSON.stringify({ prompt: prompt })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("resultArea").textContent = JSON.stringify(data, null, 2);
-      })
-      .catch(error => {
-        document.getElementById("resultArea").textContent = "エラー: " + error;
-      });
+    fetch("http://127.0.0.1:3000/gemini", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ""
+      },
+      body: JSON.stringify({ prompt: prompt })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const conversationHistory = document.getElementById("conversationHistory");
+
+      // ユーザーの入力を追加
+      const userMessage = `<p><strong>ユーザー:</strong> ${prompt}</p>`;
+      conversationHistory.innerHTML = userMessage + conversationHistory.innerHTML;
+
+      // AIの応答を追加
+      const aiMessage = `<p><strong>AI:</strong> ${JSON.stringify(data.response, null, 2)}</p>`;
+      conversationHistory.innerHTML = aiMessage + conversationHistory.innerHTML;
+    })
+    .catch(error => {
+      document.getElementById("conversationHistory").innerHTML = `<p style="color: red;">エラー: ${error}</p>`;
     });
-  </script>
+  });
+</script>
