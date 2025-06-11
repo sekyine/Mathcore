@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_04_043958) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_06_071507) do
+  create_table "battles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "player_hp"
+    t.integer "boss_hp"
+    t.text "deck"
+    t.text "player_hand"
+    t.integer "turn"
+    t.text "log"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_battles_on_user_id"
+  end
+
   create_table "cards", force: :cascade do |t|
     t.string "image"
     t.integer "st"
@@ -21,6 +34,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_043958) do
     t.string "imans3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "effect_type"
+    t.integer "power"
+    t.string "question"
   end
 
   create_table "user_cards", force: :cascade do |t|
@@ -33,6 +49,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_043958) do
     t.index ["user_id"], name: "index_user_cards_on_user_id"
   end
 
+
+  create_table "usercards", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "card_id", null: false
+    t.integer "quantity", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_usercards_on_card_id"
+    t.index ["user_id"], name: "index_usercards_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "uid"
     t.string "nickname"
@@ -42,6 +69,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_043958) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "battles", "users"
   add_foreign_key "user_cards", "cards"
   add_foreign_key "user_cards", "users"
 end

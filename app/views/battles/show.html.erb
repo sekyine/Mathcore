@@ -1,0 +1,20 @@
+<h2>ターン <%= @battle.turn %></h2>
+<p>あなたのHP: <%= @battle.player_hp %></p>
+<p>ボスのHP: <%= @battle.boss_hp %></p>
+
+<h3>手札</h3>
+<% @battle.player_hand.each do |card_id| %>
+  <% card = Card.find(card_id) %>
+  <%= form_with url: play_battle_path(@battle), method: :post do %>
+    <%= hidden_field_tag :card_id, card.id %>
+    <%= image_tag card.image, size: '109x135', class: 'mb-3' %>
+    <button><%= card.bunya %>（<%= card.effect_type %>: <%= card.power %>）</button>
+  <% end %>
+<% end %>
+
+<h3>ログ</h3>
+<pre style="color:white"><%= @battle.log.join("\n") %></pre>
+
+<h3>Debug</h3>
+<pre style="color:white">player_hand: <%= @battle.player_hand %></pre>
+<pre style="color:white">deck: <%= @battle.deck %></pre>
