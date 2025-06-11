@@ -49,35 +49,3 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_071507) do
     t.index ["user_id"], name: "index_user_cards_on_user_id"
   end
 
-  create_table "usercards", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "card_id", null: false
-    t.integer "quantity", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["card_id"], name: "index_usercards_on_card_id"
-    t.index ["user_id"], name: "index_usercards_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "uid"
-    t.string "nickname"
-    t.string "name"
-    t.string "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  add_foreign_key "battles", "users"
-  add_foreign_key "user_cards", "cards"
-  add_foreign_key "user_cards", "users"
-  add_foreign_key "usercards", "cards"
-  add_foreign_key "usercards", "users"
-end
