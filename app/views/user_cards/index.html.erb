@@ -1,0 +1,89 @@
+<h1 class="text-center mb-4 text-warning">所持カード一覧</h1>
+
+<% if @user_cards.any? %>
+  <div class="container">
+    <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5 g-4">
+      <% @user_cards.each_with_index do |uc, index| %>
+        <div class="col">
+          <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
+
+            <!-- カード画像 -->
+            <div class="card-img-top d-flex align-items-center justify-content-center bg-black" style="aspect-ratio: 4 / 5;">
+              <%= image_tag uc.card.image, style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            </div>
+
+            <!-- カード情報 -->
+            <div class="card-body p-2">
+              <table class="table table-dark table-bordered table-sm mb-2">
+                <tbody>
+                  <tr>
+                    <th scope="row">レア度</th>
+                    <td>
+                      <%= safe_join(Array.new(uc.card.st) { content_tag(:i, '', class: 'fa-solid fa-star text-warning') }) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">枚数</th>
+                    <td><%= uc.quantity %> 枚</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">分野</th>
+                    <td><%= uc.card.bunya %></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- モーダルボタン -->
+              <button type="button" class="btn btn-outline-light btn-sm w-100" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#cardModal<%= index %>" 
+                      data-turbo="false">
+                問題を解く！
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- モーダル -->
+        <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-dark">
+              
+              <div class="modal-body">
+                <%= image_tag uc.card.image, class: "img-fluid mb-3" %>
+                <p><strong>レア度:</strong> <%= uc.card.st %> ⭐</p>
+                <p><strong>枚数:</strong> <%= uc.quantity %> 枚</p>
+                <p><strong>分野:</strong> <%= uc.card.bunya %></p>
+                <p>回答</p>
+                <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans1 %></button>
+                <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans2 %></button>
+                <button type="button" class="btn btn-secondary answer-btn" data-answer="true"><%= uc.card.ans %></button>
+                <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans3 %></button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <p class="text-center text-muted">まだカードを所持していません。</p>
+<% end %>
+
+<!-- Toast  -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
+  <div id="answerToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastBody">
+        正解！
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,72 @@
+<!-- HOME 枠 -->
+<div class="container mt-5">
+  <div class="text-center p-4 rounded" style="background-color: #2c2c2c; color: #f5f5f5; border: 2px solid #800020;">
+    <h1 class="mb-4" style="color: #bfa14f;">
+      HOME <i class="fa-solid fa-house"></i>
+    </h1>
+
+    <% if logged_in? %> 
+      <h4 class="mb-3" style="color: #d4af37;">ようこそ、<%= current_user.name %></h4>
+    <% else %> 
+      <h4 class="mb-3 text-danger">ログインしてください</h4> 
+    <% end %>
+  </div>
+</div>
+
+<!-- カード群：HOME枠の外に独立して配置 -->
+<% if logged_in? %>
+  <div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+
+      <!-- ガチャ -->
+      <div class="col">
+        <div class="card h-100 text-center shadow" style="background-color: #1c1c1c; border: 1px solid #bfa14f;">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #bfa14f;">ガチャ</h5>
+            <p class="card-text" style="color: #ccc;">第一弾　四則演算</p>
+            <%= link_to draw_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+              <i class="fa-solid fa-dice fa-lg me-2"></i> ガチャる
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- ダンジョン -->
+      <div class="col">
+        <div class="card h-100 text-center shadow" style="background-color: #1c1c1c; border: 1px solid #bfa14f;">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #bfa14f;">ダンジョン</h5>
+            <p class="card-text" style="color: #ccc;">coming soon...</p>
+            <%= link_to "#", class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+              <i class="fa-solid fa-dragon fa-lg me-2"></i> ダンジョる
+            <% end %>
+            </div>
+        </div>
+      </div>
+
+      <!-- コレクション -->
+      <div class="col">
+        <div class="card h-100 text-center shadow" style="background-color: #1c1c1c; border: 1px solid #bfa14f;">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #bfa14f;">コレクション</h5>
+            <p class="card-text" style="color: #ccc;">coming soon...</p>
+            <%= link_to user_cards_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+              <i class="fa-solid fa-clone fa-lg me-2"></i> コレクトる
+            <% end %>
+            </div>
+        </div>
+      </div>
+
+      <!-- フリー -->
+      <div class="col">
+        <div class="card h-100 text-center shadow" style="background-color: #1c1c1c; border: 1px solid #bfa14f;">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #bfa14f;">フリー</h5>
+            <p class="card-text" style="color: #ccc;">coming soon...</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
