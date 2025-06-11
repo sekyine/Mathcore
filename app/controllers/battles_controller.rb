@@ -18,7 +18,10 @@ class BattlesController < ApplicationController
       turn: 1,
       log: ["バトル開始！"]
     )
-
+    if @battle.player_hand == []
+      flash[:notice] = "デッキが無いよ！！！"
+      return redirect_to root_path
+    end
     redirect_to battle_path(@battle)
   end
 
@@ -53,23 +56,26 @@ class BattlesController < ApplicationController
       @battle.log << "回復！HPが#{card.power}回復"
     end
 
-    @battle.player_hand.delete(card_id)
+    # カードの削除
+    index = @battle.player_hand.index(card_id)
+    @battle.player_hand.delete_at(index) if index
     
     if gameover?
       return redirect_to root_path
     end
 
     boss_turn
-
-    if gameover?
+    if @battle.player_hand == []
+      flash[:notice] = "デッキが無くなってしまった...あなたは負けた..."
+      return redirect_to root_path
+    elsif gameover?
       return redirect_to root_path
     end
 
-    # 手札補充
-    while @battle.player_hand.size < 5 && @battle.deck.any?
-
-      @battle.player_hand << @battle.deck.shift
-    end
+    # 手札補充 (not working!!)
+    # while @battle.player_hand.size < 5 && @battle.deck.any?
+    #  @battle.player_hand << @battle.deck.shift
+    # end
     
     @battle.turn += 1
     @battle.save!
