@@ -49,6 +49,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_071507) do
     t.index ["user_id"], name: "index_user_cards_on_user_id"
   end
 
+
   create_table "usercards", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "card_id", null: false

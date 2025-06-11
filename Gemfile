@@ -68,5 +68,5 @@ gem 'omniauth-twitter'
 
 gem 'foreman'
 
-gem 'bootstrap', '~> 4.6'
+gem 'bootstrap', '~> 5.0'
 gem "dartsass-rails"
