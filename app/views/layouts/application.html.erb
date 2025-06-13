@@ -59,6 +59,26 @@
         });
       </script>
 
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          document.querySelectorAll('.answer-btn').forEach(button => {
+            button.addEventListener('click', () => {
+              const isCorrect = button.dataset.answer === 'true';
+              const resultId = button.dataset.resultId;
+              const resultElement = document.getElementById(resultId);
+
+              if (resultElement) {
+                resultElement.textContent = isCorrect ? '正解！' : '不正解…';
+                resultElement.className = isCorrect
+                  ? 'fw-bold text-center text-success'
+                  : 'fw-bold text-center text-danger';
+              }
+            });
+          });
+        });
+      </script>
+
+
   
     </body>
 

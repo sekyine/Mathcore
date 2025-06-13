@@ -49,21 +49,32 @@
         <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-dark">
-              
               <div class="modal-body">
                 <%= image_tag uc.card.image, class: "img-fluid mb-3" %>
                 <p><strong>レア度:</strong> <%= uc.card.st %> ⭐</p>
                 <p><strong>枚数:</strong> <%= uc.quantity %> 枚</p>
                 <p><strong>分野:</strong> <%= uc.card.bunya %></p>
                 <p>回答</p>
-                <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans1 %></button>
-                <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans2 %></button>
-                <button type="button" class="btn btn-secondary answer-btn" data-answer="true"><%= uc.card.ans %></button>
-                <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans3 %></button>
+
+                <% 
+                  answers = [
+                    { text: uc.card.imans1, correct: false },
+                    { text: uc.card.imans2, correct: false },
+                    { text: uc.card.ans,    correct: true  },
+                    { text: uc.card.imans3, correct: false }
+                  ].shuffle
+                %>
+
+                <% answers.each do |ans| %>
+                  <button type="button" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
+                    <%= ans[:text] %>
+                  </button>
+                <% end %>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-              </div>
+                <p id="result<%= index %>" class="fw-bold text-center"></p>
+                </div>
             </div>
           </div>
         </div>
