@@ -9,31 +9,40 @@
 <div id="conversationHistory"></div>
 
 <script>
+  // 送信ボタンのクリックイベント処理
   document.getElementById("callGeminiBtn").addEventListener("click", () => {
-    const prompt = document.getElementById("promptInput").value;
-
+    const promptInput = document.getElementById("promptInput");
+    const prompt = promptInput.value;
+  
     fetch("http://127.0.0.1:3000/gemini", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ""
       },
+      // API送信用のプロンプトは内部変数（例：aggregatedPrompt）を使うか、最新の入力のみ送るか
       body: JSON.stringify({ prompt: prompt })
     })
     .then(res => res.json())
     .then(data => {
       const conversationHistory = document.getElementById("conversationHistory");
-
-      // ユーザーの入力を追加
+      const resultText = data.response.text;
+  
+      // 画面に追加するのは最新の発言のみ（履歴は内部管理）
       const userMessage = `<p><strong>ユーザー:</strong> ${prompt}</p>`;
-      conversationHistory.innerHTML = userMessage + conversationHistory.innerHTML;
-
-      // AIの応答を追加
-      const aiMessage = `<p><strong>AI:</strong> ${JSON.stringify(data.response, null, 2)}</p>`;
-      conversationHistory.innerHTML = aiMessage + conversationHistory.innerHTML;
+      conversationHistory.insertAdjacentHTML('beforeend', userMessage);
+  
+      const aiMessage = `<p><strong>AI:</strong> ${resultText}</p>`;
+      conversationHistory.insertAdjacentHTML('beforeend', aiMessage);
+  
+      // 送信後、入力欄を空に
+      promptInput.value = "";
     })
     .catch(error => {
-      document.getElementById("conversationHistory").innerHTML = `<p style="color: red;">エラー: ${error}</p>`;
+      document.getElementById("conversationHistory")
+        .insertAdjacentHTML('beforeend', `<p style="color: red;">エラー: ${error}</p>`);
     });
   });
 </script>
+
+
