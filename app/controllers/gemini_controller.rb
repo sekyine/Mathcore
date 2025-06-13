@@ -12,7 +12,6 @@ class GeminiController < ApplicationController
 
     begin
 
-      # API呼び出し
       result = GeminiApiService.call_gemini_api(prompt)
 
       # AIの応答を履歴に追加
