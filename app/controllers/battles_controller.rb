@@ -7,7 +7,30 @@ class BattlesController < ApplicationController
 
   def create
     user_cards = current_user.user_cards.where('quantity > 0')
-    deck = user_cards.map { |uc| [uc.card_id] * uc.quantity }.flatten.shuffle
+    selected_deck = params[:deck]&.to_unsafe_h || {}
+    deck = []
+    
+    selected_deck.each do |card_id_str, qty_str|
+      card_id = card_id_str.to_i
+      qty = qty_str.to_i
+      user_card = current_user.user_cards.find_by(card_id: card_id)
+
+      next unless user_card && qty > 0 && qty <= user_card.quantity
+
+      deck.concat([card_id] * qty)
+    end
+
+    if deck.empty?
+      flash[:notice] = "デッキが空です。カードを選んでください。"
+      return redirect_to new_battle_path
+    end
+
+    if deck.size > Battle::MAX_DECK_SIZE
+      flash[:alert] = "デッキは最大#{Battle::MAX_DECK_SIZE}枚までです。"
+      return redirect_to new_battle_path
+    end
+
+    deck.shuffle!
 
     @battle = Battle.create!(
       user: current_user,
