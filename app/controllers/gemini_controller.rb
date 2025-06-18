@@ -1,6 +1,6 @@
 # app/controllers/gemini_controller.rb
 class GeminiController < ApplicationController
-  protect_from_forgery with: :null_session  # API用にCSRF無効化
+  protect_from_forgery with: :null_session  
 
   def generate_content
     prompt = params[:prompt]
