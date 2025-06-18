@@ -1,12 +1,14 @@
-<div id="slider-container">
-    <div id="slider">
-      <span>➡</span>
-    </div>
-    <div id="slider-label">ガチャを引く</div>
-  </div>
+<div id="animation-overlay" style="display: none;">
+  <%= image_tag "pack_opening.gif", id: "animation-gif" %>
 </div>
 
-<!-- CSS -->
+<div id="slider-container">
+  <div id="slider">
+    <span>➡</span>
+  </div>
+  <div id="slider-label">ガチャを引く</div>
+</div>
+
 <style>
   #slider-container {
     width: 300px;
@@ -55,9 +57,26 @@
   #slider-container.unlocked #slider-label {
     color: #000;
   }
+
+  #animation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  #animation-gif {
+    max-width: 90%;
+    max-height: 90%;
+  }
 </style>
 
-<!-- JavaScript -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const slider = document.getElementById('slider');
@@ -89,17 +108,31 @@
       isDragging = false;
     });
 
+    // 3. unlock関数の中身を修正
     function unlock() {
+      // isDraggingをfalseにして、マウスを離したときにリセットされないようにする
+      isDragging = false; 
       container.classList.add('unlocked');
       slider.innerHTML = '✓';
       slider.style.left = (container.offsetWidth - slider.offsetWidth) + 'px';
       slider.style.cursor = 'default';
+      
+      // ページ遷移の前にアニメーションを挟む
+      const overlay = document.getElementById('animation-overlay');
+      if (overlay) {
+        // GIFオーバーレイを表示
+        overlay.style.display = 'flex';
 
-      // 再抽選ページに遷移
-     window.location.href = "/gacha/redraw";
-
-
-
+        // アニメーションの時間だけ待機 (3秒)
+        const animationDuration = 3000; // GIFの長さに合わせて調整してください
+        setTimeout(() => {
+          // 結果ページへ遷移
+          window.location.href = "/gacha/redraw";
+        }, animationDuration);
+      } else {
+        // 念のため、オーバーレイがない場合はすぐに遷移
+        window.location.href = "/gacha/redraw";
+      }
     }
   });
 </script>
