@@ -65,18 +65,25 @@ class BattlesController < ApplicationController
 
   def play
     card_id = params[:card_id].to_i
+    correct = ActiveModel::Type::Boolean.new.cast(params[:correct])
     card = Card.find(card_id)
-
-    # カードの効果処理
-    case card.effect_type
-    when 'attack'
-      @battle.boss_hp -= card.power
-      @battle.log << "攻撃！ボスに#{card.power}ダメージ"
-    when 'defend'
-      @battle.log << "防御！次に受けるダメージが-#{card.power}される"
-    when 'heal'
-      @battle.player_hp += card.power
-      @battle.log << "回復！HPが#{card.power}回復"
+    if correct
+      @battle.log << "正解！"
+      # カードの効果処理
+      case card.effect_type
+      when 'attack'
+        @battle.boss_hp -= card.power
+        @battle.log << "攻撃！ボスに#{card.power}ダメージ"
+      when 'defence'
+        @battle.log << "防御！次に受けるダメージが-#{card.power}される"
+      when 'heal'
+        @battle.player_hp += card.power
+        @battle.log << "回復！HPが#{card.power}回復"
+      end
+    else
+      damage = rand(1..3)
+      @battle.player_hp -= damage
+      @battle.log << "不正解！#{damage}ダメージを受けた"
     end
 
     # カードの削除
