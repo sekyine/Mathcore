@@ -18,7 +18,3 @@ class GeminiController < ApplicationController
     end
   end
 end
-
-
-
-

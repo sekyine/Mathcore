@@ -1,0 +1,71 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // 「解説を表示」ボタンのクリック時に初回解説文を取得して表示
+  document.querySelectorAll("[id^='showExplanation']").forEach(btn => {
+    btn.addEventListener("click", () => {
+      // ボタンの data-question 属性から card.question を取得
+      const question = btn.getAttribute("data-question");
+      
+      // 対応するモーダルの index を取得
+      const index = btn.getAttribute("id").replace("showExplanation", "");
+      const conversationHistory = document.getElementById("conversationHistory" + index);
+      
+      // 初回表示のため、会話エリアをクリアして「取得中」表示
+      conversationHistory.innerHTML = `<p><em>解説を取得中…</em></p>`;
+      
+      // Gemini API にリクエスト（エンドポイントは実環境に合わせて設定してください）
+      fetch("http://127.0.0.1:3000/gemini_api/generate_content", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+        },
+        body: JSON.stringify({ prompt: question })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Gemini API の応答 (data.response.text) を会話エリアに表示
+        conversationHistory.innerHTML = `<p><strong>AI:</strong> ${data.response.text}</p>`;
+      })
+      .catch(error => {
+        conversationHistory.innerHTML = `<p style="color: red;">エラー: ${error}</p>`;
+      });
+    });
+  });
+
+  // その後の対話（解説モーダル内の送信ボタンの処理）
+  document.querySelectorAll("[id^='callGeminiBtn']").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = btn.getAttribute("id").replace("callGeminiBtn", "");
+      const promptInput = document.getElementById("promptInput" + index);
+      const prompt = promptInput.value.trim();
+      if (!prompt) return;
+      
+      const conversationHistory = document.getElementById("conversationHistory" + index);
+      
+      // ユーザーの追加発言を表示
+      conversationHistory.insertAdjacentHTML('beforeend', `<p><strong>ユーザー:</strong> ${prompt}</p>`);
+      promptInput.value = "";
+      conversationHistory.scrollTop = conversationHistory.scrollHeight;
+      
+      // Gemini API への追加入力の問い合わせ
+      fetch("http://127.0.0.1:3000/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+        },
+        body: JSON.stringify({ prompt: prompt })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const aiMessage = data.response.text;
+        conversationHistory.insertAdjacentHTML('beforeend', `<p><strong>AI:</strong> ${aiMessage}</p>`);
+        conversationHistory.scrollTop = conversationHistory.scrollHeight;
+      })
+      .catch(error => {
+        conversationHistory.insertAdjacentHTML('beforeend', `<p style="color: red;">エラー: ${error}</p>`);
+      });
+    });
+  });
+});
+
