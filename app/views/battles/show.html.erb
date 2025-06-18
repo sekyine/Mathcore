@@ -2,13 +2,25 @@
 <p>あなたのHP: <%= @battle.player_hp %></p>
 <p>ボスのHP: <%= @battle.boss_hp %></p>
 
-<h3>手札</h3>
-<% @battle.player_hand.each_with_index do |card_id, index| %>
-  <% card = Card.find(card_id) %>
-  <%= form_with url: play_battle_path(@battle), method: :post do %>
-    <%= hidden_field_tag :card_id, card.id %>
-    <%= image_tag card.image, size: '109x135', class: 'mb-3' %>
-    <button><%= card.bunya %>（<%= card.effect_type %>: <%= card.power %>）</button>
+<h3 class="mb-3">手札</h3>
+
+<div class="d-flex flex-row flex-nowrap overflow-auto gap-3">
+  <% @battle.player_hand.each_with_index do |card_id, index| %>
+    <% card = Card.find(card_id) %>
+
+    <div class="card bg-dark text-white" style="width: 8rem; min-width: 8rem;">
+      <%= form_with url: play_battle_path(@battle), method: :post, local: true do %>
+        <%= hidden_field_tag :card_id, card.id %>
+        
+        <%= image_tag card.image, class: "card-img-top", style: "height: 135px; object-fit: cover;" %>
+
+        <div class="card-body p-2">
+          <p class="card-text mb-1"><%= card.bunya %></p>
+          <p class="card-text small mb-2"><%= card.effect_type %>: <%= card.power %></p>
+          <button type="submit" class="btn btn-sm btn-outline-light w-100">出す</button>
+        </div>
+      <% end %>
+    </div>
     <!-- こっからコピペ -->
     <button type="button" class="btn btn-outline-light btn-sm w-100" 
       data-bs-toggle="modal" 
@@ -16,42 +28,43 @@
       data-turbo="false">
       問題を解く！
     </button>
-  <% end %>
-  <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-dark">
-        
-        <div class="modal-body">
-          <%= image_tag card.image, class: "img-fluid mb-3" %>
-          <p><strong>レア度:</strong> <%= card.st %> ⭐</p>
-          <p><strong>分野:</strong> <%= card.bunya %></p>
-          <p>回答</p>
-            <% 
-          answers = [
-            { text: card.imans1, correct: false },
-            { text: card.imans2, correct: false },
-            { text: card.ans,    correct: true  },
-            { text: card.imans3, correct: false }
-          ].shuffle
-        %>
 
-        <% answers.each do |ans| %>
-          <%= form_with url: play_battle_path(@battle), method: :post, local: true do %>
-            <%= hidden_field_tag :card_id, card.id %>
-            <%= hidden_field_tag :correct, ans[:correct] %>
-            <button class="btn btn-secondary answer-btn">
-              <%= ans[:text] %>
-            </button>
+    <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-dark">
+          
+          <div class="modal-body">
+            <%= image_tag card.image, class: "img-fluid mb-3" %>
+            <p><strong>レア度:</strong> <%= card.st %> ⭐</p>
+            <p><strong>分野:</strong> <%= card.bunya %></p>
+            <p>回答</p>
+              <% 
+            answers = [
+              { text: card.imans1, correct: false },
+              { text: card.imans2, correct: false },
+              { text: card.ans,    correct: true  },
+              { text: card.imans3, correct: false }
+            ].shuffle
+          %>
+
+          <% answers.each do |ans| %>
+            <%= form_with url: play_battle_path(@battle), method: :post, local: true do %>
+              <%= hidden_field_tag :card_id, card.id %>
+              <%= hidden_field_tag :correct, ans[:correct] %>
+              <button class="btn btn-secondary answer-btn">
+                <%= ans[:text] %>
+              </button>
+            <% end %>
           <% end %>
-        <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
 <h3>ログ</h3>
 <pre style="color:white"><%= @battle.log.join("\n") %></pre>
