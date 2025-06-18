@@ -14,5 +14,8 @@ Rails.application.routes.draw do
   get '/gemini', to: 'gemini#generate_content'
   get 'gemini/test', to: 'gemini#test'
   resources :user_cards, path: 'cards'
+  resources :battles, only: [:new, :create, :show] do
+    post :play, on: :member
+  end
 end
 

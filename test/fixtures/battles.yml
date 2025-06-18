@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  player_hp: 1
+  boss_hp: 1
+  deck: MyText
+  player_hand: MyText
+  turn: 1
+  log: MyText
+
+two:
+  user: two
+  player_hp: 1
+  boss_hp: 1
+  deck: MyText
+  player_hand: MyText
+  turn: 1
+  log: MyText
