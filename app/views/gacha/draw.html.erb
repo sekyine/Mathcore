@@ -1,26 +1,14 @@
-<div class="container d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 100vh; background-color: #1c1c1c;">
-  <h1 class="mb-4" style="color: #b3003b;">ガチャ結果！</h1>
-
-  <% if @card %>
-    <div class="card p-4 mb-4 shadow" style="background-color: #2c2c2c; border: 1px solid #ffd700;">
-      <strong class="mb-3 d-block" style="color: #ffd700;">結果：</strong>
-      <%= image_tag @card.image, size: '218x270', class: 'mb-3' %>
-      <p style="color: #f5f5dc;"> <i class="fa-solid fa-star"></i> <%= @card.st %></p>
-    </div>
-  <% else %>
-    <p style="color: #ff6666;">景品が登録されていません。</p>
-  <% end %>
-
-  <!-- スライドで再抽選 -->
-  <div id="slider-container">
-    <div id="slider">
-      <span>➡</span>
-    </div>
-    <div id="slider-label">もう一度引く</div>
-  </div>
+<div id="animation-overlay" style="display: none;">
+  <%= image_tag "pack_opening.gif", id: "animation-gif" %>
 </div>
 
-<!-- CSS -->
+<div id="slider-container">
+  <div id="slider">
+    <span>➡</span>
+  </div>
+  <div id="slider-label">ガチャを引く</div>
+</div>
+
 <style>
   #slider-container {
     width: 300px;
@@ -69,9 +57,26 @@
   #slider-container.unlocked #slider-label {
     color: #000;
   }
+
+  #animation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  #animation-gif {
+    max-width: 90%;
+    max-height: 90%;
+  }
 </style>
 
-<!-- JavaScript -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const slider = document.getElementById('slider');
@@ -103,14 +108,31 @@
       isDragging = false;
     });
 
+    // 3. unlock関数の中身を修正
     function unlock() {
+      // isDraggingをfalseにして、マウスを離したときにリセットされないようにする
+      isDragging = false; 
       container.classList.add('unlocked');
       slider.innerHTML = '✓';
       slider.style.left = (container.offsetWidth - slider.offsetWidth) + 'px';
       slider.style.cursor = 'default';
+      
+      // ページ遷移の前にアニメーションを挟む
+      const overlay = document.getElementById('animation-overlay');
+      if (overlay) {
+        // GIFオーバーレイを表示
+        overlay.style.display = 'flex';
 
-      // 再抽選ページに遷移
-      window.location.href = "<%= draw_path %>";
+        // アニメーションの時間だけ待機 (3秒)
+        const animationDuration = 3000; // GIFの長さに合わせて調整してください
+        setTimeout(() => {
+          // 結果ページへ遷移
+          window.location.href = "/gacha/redraw";
+        }, animationDuration);
+      } else {
+        // 念のため、オーバーレイがない場合はすぐに遷移
+        window.location.href = "/gacha/redraw";
+      }
     }
   });
 </script>

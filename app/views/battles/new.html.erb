@@ -21,7 +21,7 @@
               <p class="mb-1"><%= uc.card.effect_type %>: <%= uc.card.power %></p>
               <p class="mb-2">所持枚数: <%= uc.quantity %></p>
               
-              <div style="max-width: 150px;">
+              <div style="max-width: 25%;">
                 <%= number_field_tag "deck[#{uc.card_id}]", 0, in: 0..uc.quantity, class: "form-control form-control-sm deck-input", data: { max: uc.quantity } %>
               </div>
             </div>
