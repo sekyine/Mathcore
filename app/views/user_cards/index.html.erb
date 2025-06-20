@@ -51,53 +51,32 @@
               <div class="modal-body">
                 <%= image_tag uc.card.image, class: "img-fluid mb-3" %>
                 <p><strong>レア度:</strong> <%= uc.card.st %> ⭐</p>
-                <p><strong>枚数:</strong> <%= uc.quantity %> 枚</p>
+                <p><strong>枚数:</strong> <%= uc.card.question %> 枚</p>
                 <p><strong>分野:</strong> <%= uc.card.bunya %></p>
                 <p>回答</p>
                 <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans1 %></button>
                 <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans2 %></button>
                 <button type="button" class="btn btn-secondary answer-btn" data-answer="true"><%= uc.card.ans %></button>
                 <button type="button" class="btn btn-secondary answer-btn" data-answer="false"><%= uc.card.imans3 %></button>
+               <!-- 正解時に表示される解説表示ボタン -->
                 <div class="mt-3 text-center">
-                  <!-- 正解時に表示される解説表示ボタン -->
-                  <button type="button" id="showExplanation<%= index %>" class="btn btn-info d-none" data-bs-toggle="modal" data-bs-target="#explanationModal<%= index %>"data-question="<%= uc.card.question %>">
+                  <button type="button" 
+                          id="showExplanation<%= index %>" 
+                          class="btn btn-info d-none explanation-btn" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#geminiModal" 
+                          data-question="<%= uc.card.question %>">
                     解説を表示
                   </button>
                 </div>
+                
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- 解説・AIチャット用モーダル -->
-<div class="modal fade" id="explanationModal<%= index %>" tabindex="-1" aria-labelledby="explanationModalLabel<%= index %>" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content text-dark">
-      <div class="modal-header">
-        <h5 class="modal-title" id="explanationModalLabel<%= index %>">解説 / AIチャット</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- CSRF用metaタグ（レイアウトに含めてもOK） -->
-        <meta name="csrf-token" content="<%= form_authenticity_token %>">
-  
-        <!-- 会話表示エリア。初回は空にしておく -->
-        <div id="conversationHistory<%= index %>" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-          <!-- 初期化として空にしておき、JSで追加 -->
-        </div>
-  
-        <!-- 入力フィールドと送信ボタン -->
-        <input type="text" id="promptInput<%= index %>" placeholder="メッセージを入力してください" class="form-control mb-2">
-        <button id="callGeminiBtn<%= index %>" class="btn btn-primary w-100">送信</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-        
+        </div>     
       <% end %>
     </div>
   </div>
@@ -110,9 +89,65 @@
   <div id="answerToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">
       <div class="toast-body" id="toastBody">
-        正解！
+      正解！
       </div>
       <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 回答ボタンのイベントリスナー
+  document.querySelectorAll(".answer-btn").forEach(function(button) {
+    button.addEventListener("click", function() {
+      // 正解かどうかの確認
+      if (this.getAttribute("data-answer") === "true") {
+        // ユーザーが正解の場合、モーダル内の解説表示ボタンを表示する
+        const modalBody = this.closest(".modal-body");
+        // ここでは、id属性が "showExplanation" で始まる要素を探す
+        const explanationBtn = modalBody.querySelector("[id^='showExplanation']");
+        if (explanationBtn) {
+          explanationBtn.classList.remove("d-none");
+        }
+        // 例: 正解通知用のToastを表示する処理などもここで追加可能
+      } else {
+        // 不正解の場合の処理（例：フィードバックの表示）をここで記述
+      }
+    });
+  });
+
+  // 解説表示ボタンのクリックイベント（.explanation-btn クラスのボタン全般）
+  document.querySelectorAll('.explanation-btn').forEach(function(button) {
+    button.addEventListener("click", function(event) {
+      event.preventDefault();
+      // data-question属性から card.question の値を取得
+      const question = this.getAttribute("data-question");
+      // GeminiTest ページのURLにクエリパラメーターとして追加
+      const url = "/gemini/test?question=" + encodeURIComponent(question);
+      console.log("GeminiTest URL: ", url);
+      // iframe のsrcを設定してページを読み込む
+      document.getElementById("geminiIframe").src = url;
+      // GeminiTest のポップアップ用モーダルを表示
+      var geminiModal = new bootstrap.Modal(document.getElementById("geminiModal"));
+      geminiModal.show();
+    });
+  });
+});
+</script>
+
+
+<!-- GeminiTest ポップアップ用モーダル -->
+<div class="modal fade" id="geminiModal" tabindex="-1" aria-labelledby="geminiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="geminiModalLabel">解説の方</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+      </div>
+      <div class="modal-body">
+        <iframe id="geminiIframe" src="" style="width:100%; height:600px; border:0;"></iframe>
+      </div>
     </div>
   </div>
 </div>
