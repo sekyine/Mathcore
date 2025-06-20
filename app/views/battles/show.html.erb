@@ -1,74 +1,108 @@
-<h2>ターン <%= @battle.turn %></h2>
-<p>あなたのHP: <%= @battle.player_hp %></p>
-<p>ボスのHP: <%= @battle.boss_hp %></p>
+<div class="container mt-4">
+  <div class="row text-center mb-3">
+    <div class="col-6">
+      <h2>ターン</h2>
+      <p class="h3"><%= @battle.turn %></p>
+    </div>
+    <div class="col-6">
+      <h2>ボスのHP</h2>
+      <p class="h3"><%= @battle.boss_hp %></p>
+    </div>
+  </div>
+  <div class="row align-items-center justify-content-center my-4">
+    <div class="col-5 text-center">
+      <%= image_tag "boss.png", style: "max-width: 150px; height: auto;" %>
+      <p class="mt-2 text-white">ボス</p>
+    </div>
 
-<h3 class="mb-3">手札</h3>
+    <div class="col-2 text-center h4 text-white">VS</div>
 
-<div class="d-flex flex-row flex-nowrap overflow-auto gap-3">
-  <% @battle.player_hand.each_with_index do |card_id, index| %>
-    <% card = Card.find(card_id) %>
+    <div class="col-5 text-center">
+      <%= image_tag @battle.user.image, style: "max-width: 150px; height: auto; border-radius: 50%; border: 3px solid #fff;" %>
+      <p class="mt-2 text-white"><%= @battle.user.nickname %></p>
+    </div>
+  </div>
 
-    <div class="card bg-dark text-white" style="width: 8rem; min-width: 8rem;">
-      <%= form_with url: play_battle_path(@battle), method: :post, local: true do %>
-        <%= hidden_field_tag :card_id, card.id %>
-        
+  <div class="row text-center mb-4">
+    <div class="col-12">
+      <h2>あなたのHP</h2>
+      <p class="h3 text-success"><%= @battle.player_hp %></p>
+    </div>
+  </div>
+  <hr>
+
+  <h3 class="mb-3 text-white">あなたの手札</h3>
+
+  <div class="d-flex flex-row flex-nowrap overflow-auto gap-3 pb-3">
+    <% @battle.player_hand.each_with_index do |card_id, index| %>
+      <% card = Card.find(card_id) %>
+
+      <div class="card bg-dark text-white battle-card" style="width: 8rem; min-width: 8rem;">
         <%= image_tag card.image, class: "card-img-top", style: "height: 135px; object-fit: cover;" %>
-
         <div class="card-body p-2">
           <p class="card-text mb-1"><%= card.bunya %></p>
-          <p class="card-text small mb-2"><%= card.effect_type %>: <%= card.power %></p>
-          <button type="submit" class="btn btn-sm btn-outline-light w-100">出す</button>
+          <p class="card-text small mb-2">（<%= card.effect_type %>: <%= card.power %>）</p>
+          <button type="button" class="btn btn-outline-light btn-sm w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#cardModal<%= index %>"
+                  data-turbo="false">
+            問題を解く！
+          </button>
         </div>
-      <% end %>
-    </div>
-    <!-- こっからコピペ -->
-    <button type="button" class="btn btn-outline-light btn-sm w-100" 
-      data-bs-toggle="modal" 
-      data-bs-target="#cardModal<%= index %>" 
-      data-turbo="false">
-      問題を解く！
-    </button>
+      </div>
 
-    <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-dark">
-          
-          <div class="modal-body">
-            <%= image_tag card.image, class: "img-fluid mb-3" %>
-            <p><strong>レア度:</strong> <%= card.st %> ⭐</p>
-            <p><strong>分野:</strong> <%= card.bunya %></p>
-            <p>回答</p>
-              <% 
-            answers = [
-              { text: card.imans1, correct: false },
-              { text: card.imans2, correct: false },
-              { text: card.ans,    correct: true  },
-              { text: card.imans3, correct: false }
-            ].shuffle
-          %>
-
-          <% answers.each do |ans| %>
-            <%= form_with url: play_battle_path(@battle), method: :post, local: true do %>
-              <%= hidden_field_tag :card_id, card.id %>
-              <%= hidden_field_tag :correct, ans[:correct] %>
-              <button class="btn btn-secondary answer-btn">
-                <%= ans[:text] %>
-              </button>
-            <% end %>
-          <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+      <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-dark">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cardModalLabel<%= index %>">問題</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <%= image_tag card.image, class: "img-fluid mb-3" %>
+              <p><strong>レア度:</strong> <%= card.st %> ⭐</p>
+              <p><strong>分野:</strong> <%= card.bunya %></p>
+              <hr>
+              <p><strong>問題:</strong> <%= card.question %></p>
+              <p><strong>回答:</strong></p>
+              <%
+                answers = [
+                  { text: card.imans1, correct: false },
+                  { text: card.imans2, correct: false },
+                  { text: card.ans,    correct: true  },
+                  { text: card.imans3, correct: false }
+                ].shuffle
+              %>
+              <div class="d-grid gap-2">
+                <% answers.each do |ans| %>
+                  <%= form_with url: play_battle_path(@battle), method: :post, local: true do %>
+                    <%= hidden_field_tag :card_id, card.id %>
+                    <%= hidden_field_tag :correct, ans[:correct] %>
+                    <button type="submit" class="btn btn-secondary answer-btn w-100">
+                      <%= ans[:text] %>
+                    </button>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+  <hr>
+
+  <h3 class="text-white">ログ</h3>
+  <div class="rpg-message-window">
+    <% @battle.log.last(5).each do |message| %>
+      <p class="log-message"><%= message %></p>
+    <% end %>
+  </div>
+
+  <h3 class="text-white mt-4">Debug</h3>
+  <pre style="color:white">player_hand: <%= @battle.player_hand %></pre>
+  <pre style="color:white">deck: <%= @battle.deck %></pre>
 </div>
-
-<h3>ログ</h3>
-<pre style="color:white"><%= @battle.log.join("\n") %></pre>
-
-<h3>Debug</h3>
-<pre style="color:white">player_hand: <%= @battle.player_hand %></pre>
-<pre style="color:white">deck: <%= @battle.deck %></pre>

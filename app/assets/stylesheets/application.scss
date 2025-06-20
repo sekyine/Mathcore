@@ -15,3 +15,42 @@
  */
 
  @import "bootstrap";
+
+ /* battles/show.html.erb のための追加スタイル */
+
+.battle-card {
+  transition: transform 0.2s ease-in-out;
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.rpg-message-window {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 150px;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.log-message {
+  margin-bottom: 8px;
+  border-bottom: 1px dashed #555;
+  padding-bottom: 8px;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.answer-btn {
+  margin-bottom: 10px;
+}
+
+.answer-btn:last-child {
+  margin-bottom: 0;
+}
