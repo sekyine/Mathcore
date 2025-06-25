@@ -32,7 +32,7 @@
                   <tr>
                     <th scope="row"></th>
                     <td>
-                   <% if @solved_card_ids.include?(uc.card.id) %>解答済み<% end %>
+                    <% if @solved_card_ids.include?(uc.card.id) %>解答済み<% end %>
                     </td>
                   </tr>
                 </tbody>
@@ -67,15 +67,6 @@
                   ].shuffle
                 %>
 
-                <% answers.each do |ans| %>
-                  <%= form_with url: answer_card_path, method: :post, local: true do %>
-                    <%= hidden_field_tag :card_id, uc.card.id %>
-                    <%= hidden_field_tag :correct, ans[:correct] %>
-                    <button type="submit" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
-                      <%= ans[:text] %>
-                    </button>
-                  <% end %>
-                <% end %>
                 <div class="d-grid gap-2 answer-container">
                   <% answers.each do |ans| %>
                     <button type="button" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
