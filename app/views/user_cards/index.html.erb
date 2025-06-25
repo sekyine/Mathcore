@@ -3,6 +3,7 @@
 <% if @user_cards.any? %>
   <div class="container">
     <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5 g-4">
+      <% @solved_card_ids = current_user.solved_cards.pluck(:card_id) %>
       <% @user_cards.each_with_index do |uc, index| %>
         <div class="col">
           <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
@@ -27,6 +28,12 @@
                   <tr>
                     <th scope="row">分野</th>
                     <td><%= uc.card.bunya %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row"></th>
+                    <td>
+                   <% if @solved_card_ids.include?(uc.card.id) %>解答済み<% end %>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -69,11 +76,13 @@
                    ].shuffle %>
 
                 <% answers.each do |ans| %>
-                  <button type="button"
-                          class="btn btn-secondary answer-btn"
-                          data-answer="<%= ans[:correct] %>">
-                    <%= ans[:text] %>
-                  </button>
+                  <%= form_with url: answer_card_path, method: :post, local: true do %>
+                    <%= hidden_field_tag :card_id, uc.card.id %>
+                    <%= hidden_field_tag :correct, ans[:correct] %>
+                    <button type="submit" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
+                      <%= ans[:text] %>
+                    </button>
+                  <% end %>
                 <% end %>
 
               </div>

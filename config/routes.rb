@@ -18,6 +18,13 @@ Rails.application.routes.draw do
   resources :user_cards, path: 'cards'
   resources :battles, only: [:new, :create, :show] do
     post :play, on: :member
+    collection do
+      post :start_investigation
+    end
   end
+  resource :battle_investigate, only: [:new] do
+    post :answer, on: :collection
+  end
+  post 'cards/answer', to: 'cards#answer', as: :answer_card
 end
 
