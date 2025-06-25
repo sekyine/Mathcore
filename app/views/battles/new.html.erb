@@ -1,37 +1,40 @@
-<h2>デッキ編成（最大<%= max_deck_size %>枚まで）</h2>
+<div style="margin: 20px; padding: 10px;">
+  <h2>デッキ編成（最大<%= max_deck_size %>枚まで）</h2>
+</div>
 
 <%= form_with url: start_investigation_battles_path, method: :post, id: "deck-form", local: true do %>
   <div class="deck-builder">
-    <% current_user.user_cards.each do |uc| %>
-      <div class="container">
-        
-        <div class="card-option mb-3 p-2 border rounded">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% current_user.user_cards.each do |uc| %>
+        <div class="container">
           
-          <div class="row align-items-center">
-
+          <div class="card-option mb-3 p-2 border rounded">
             
-            <div class="col-3">
-              
-              <%= image_tag uc.card.image, class: 'img-fluid' %>
-            </div>
+            <div class="row align-items-center">
 
-            
-            <div class="col-9">
-              <p class="mb-1"><strong><%= uc.card.bunya %></strong></p>
-              <p class="mb-1"><%= uc.card.effect_type %>: <%= uc.card.power %></p>
-              <p class="mb-2">所持枚数: <%= uc.quantity %></p>
               
-              <div style="max-width: 25%;">
-                <%= number_field_tag "deck[#{uc.card_id}]", 0, in: 0..uc.quantity, class: "form-control form-control-sm deck-input", data: { max: uc.quantity } %>
+              <div class="col-3">
+                
+                <%= image_tag uc.card.image, class: 'img-fluid' %>
               </div>
-            </div>
-            
-          </div> 
-        </div>
-      </div>
-    <% end %>
-  </div>
 
+              
+              <div class="col-9">
+                <p class="mb-1"><strong><%= uc.card.bunya %></strong></p>
+                <p class="mb-1"><%= uc.card.effect_type %>: <%= uc.card.power %></p>
+                <p class="mb-2">所持枚数: <%= uc.quantity %></p>
+                
+                <div style="max-width: 25%;">
+                  <%= number_field_tag "deck[#{uc.card_id}]", 0, in: 0..uc.quantity, class: "form-control form-control-sm deck-input", data: { max: uc.quantity } %>
+                </div>
+              </div>
+              
+            </div> 
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
 <p id="deck-count">デッキ合計枚数: 0 / <%= max_deck_size %></p>
 
