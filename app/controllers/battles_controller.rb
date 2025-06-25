@@ -79,6 +79,9 @@ class BattlesController < ApplicationController
       @battle.log << "正解！"
     else
       @battle.log << "不正解！"
+      damage = rand(1..3)
+      @battle.player_hp -= damage
+      @battle.log << "#{damage}ダメージを受けた"
     end
     
     case card.effect_type
