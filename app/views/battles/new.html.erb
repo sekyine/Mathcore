@@ -33,7 +33,7 @@
   </div>
 
 
-<p id="deck-count">デッキの合計枚数: 0 / <%= max_deck_size %></p>
+<p id="deck-count">デッキ合計枚数: 0 / <%= max_deck_size %></p>
 
 <%= submit_tag "バトル開始！", class: "btn btn-warning", disabled: true, id: "start-battle", data: { max: max_deck_size } %>
 <% end %>
@@ -50,7 +50,7 @@
       inputs.forEach(input => {
         total += parseInt(input.value) || 0;
       });
-      counter.textContent = `現在の合計枚数: ${total} / ${maxSize}`;
+      counter.textContent = `デッキ合計枚数: ${total} / ${maxSize}`;
 
       submitBtn.disabled = total === 0 || total > maxSize;
     }

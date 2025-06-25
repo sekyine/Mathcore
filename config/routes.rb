@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/draw', to: 'gacha#draw'
+
+  post '/gemini', to: 'gemini#generate_content'
+  get '/gemini', to: 'gemini#generate_content'
+  get 'gemini/test', to: 'gemini#test'
   resources :user_cards, path: 'cards'
   resources :battles, only: [:new, :create, :show] do
     post :play, on: :member
@@ -23,3 +27,4 @@ Rails.application.routes.draw do
   end
   post 'cards/answer', to: 'cards#answer', as: :answer_card
 end
+
