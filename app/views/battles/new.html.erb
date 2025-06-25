@@ -1,6 +1,6 @@
 <h2>デッキ編成（最大<%= max_deck_size %>枚まで）</h2>
 
-<%= form_with url: battles_path, method: :post, id: "deck-form" do %>
+<%= form_with url: start_investigation_battles_path, method: :post, id: "deck-form", local: true do %>
   <div class="deck-builder">
     <% current_user.user_cards.each do |uc| %>
       <div class="card-option">

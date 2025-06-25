@@ -1,20 +1,22 @@
 class BattlesController < ApplicationController
   before_action :set_battle, only: [:show, :play]
 
+  MAX_DECK_SIZE = Battle::MAX_DECK_SIZE
+
   def new
-    @battle = Battle.new
+    # デッキ構築画面
+    @max_deck_size = MAX_DECK_SIZE
   end
 
-  def create
+  def start_investigation
     user_cards = current_user.user_cards.where('quantity > 0')
     selected_deck = params[:deck]&.to_unsafe_h || {}
     deck = []
-    
+
     selected_deck.each do |card_id_str, qty_str|
       card_id = card_id_str.to_i
       qty = qty_str.to_i
-      user_card = current_user.user_cards.find_by(card_id: card_id)
-
+      user_card = user_cards.find_by(card_id: card_id)
       next unless user_card && qty > 0 && qty <= user_card.quantity
 
       deck.concat([card_id] * qty)
@@ -25,51 +27,55 @@ class BattlesController < ApplicationController
       return redirect_to new_battle_path
     end
 
-    if deck.size > Battle::MAX_DECK_SIZE
-      flash[:alert] = "デッキは最大#{Battle::MAX_DECK_SIZE}枚までです。"
+    if deck.size > MAX_DECK_SIZE
+      flash[:alert] = "デッキは最大#{MAX_DECK_SIZE}枚までです。"
       return redirect_to new_battle_path
     end
 
-    deck.shuffle!
+    # 構築したデッキをセッションに保存し、探索へ
+    session[:base_deck] = deck
+    session[:bonus_cards] = []
+    redirect_to new_battle_investigate_path
+  end
 
-    @battle = Battle.create!(
-      user: current_user,
-      player_hp: 100,
-      boss_hp: 1,
-      deck: deck,
-      player_hand: deck.shift(5),
-      turn: 1,
-      log: ["バトル開始！"]
-    )
-    if @battle.player_hand == []
-      flash[:notice] = "デッキが無いよ！！！"
-      return redirect_to root_path
+  def create
+    base_deck = session[:base_deck] || []
+    bonus_cards = session[:bonus_cards] || []
+    full_deck = (base_deck + bonus_cards).shuffle
+
+    if full_deck.size > MAX_DECK_SIZE
+      flash[:alert] = "合計デッキ枚数が上限を超えています。"
+      return redirect_to new_battle_path
     end
+
+    # @battle = Battle.create!( #今はbattle_investigation_controller
+    #   user: current_user, #にてパラメータを弄ってます
+    #   player_hp: 100, 
+    #   boss_hp: 1,
+    #   deck: full_deck,
+    #   player_hand: full_deck.shift(5),
+    #   turn: 1,
+    #   log: ["バトル開始！"]
+    # )
+
+    # セッション初期化
+    session[:base_deck] = nil
+    session[:bonus_cards] = nil
+
     redirect_to battle_path(@battle)
   end
 
   def show
-    # 表示用
-  end
-  
-  def gameover? #勝敗判定
-    if @battle.player_hp <= 0
-      flash[:alert] = "あなたは負けてしまった..."
-      return true
-    elsif @battle.boss_hp <= 0
-      flash[:notice] = "ボスを倒した！勝利！"
-      return true
-    end
-    false
+    # バトル画面
   end
 
   def play
     card_id = params[:card_id].to_i
     correct = ActiveModel::Type::Boolean.new.cast(params[:correct])
     card = Card.find(card_id)
+
     if correct
       @battle.log << "正解！"
-      # カードの効果処理
       case card.effect_type
       when 'attack'
         @battle.boss_hp -= card.power
@@ -86,30 +92,27 @@ class BattlesController < ApplicationController
       @battle.log << "不正解！#{damage}ダメージを受けた"
     end
 
-    # カードの削除
     index = @battle.player_hand.index(card_id)
     @battle.player_hand.delete_at(index) if index
-    
-    if gameover?
-      return redirect_to root_path
-    end
+
+    return redirect_to root_path if gameover?
 
     boss_turn
-    if @battle.player_hand == []
+
+    if @battle.player_hand.empty?
       flash[:notice] = "デッキが無くなってしまった...あなたは負けた..."
       return redirect_to root_path
     elsif gameover?
       return redirect_to root_path
     end
 
-    # 手札補充 (not working!!)
-    # while @battle.player_hand.size < 5 && @battle.deck.any?
-    #  @battle.player_hand << @battle.deck.shift
-    # end
-    
+    # 手札補充
+    while @battle.player_hand.size < 5 && @battle.deck.any?
+      @battle.player_hand << @battle.deck.shift
+    end
+
     @battle.turn += 1
     @battle.save!
-
     redirect_to battle_path(@battle)
   end
 
@@ -117,6 +120,17 @@ class BattlesController < ApplicationController
 
   def set_battle
     @battle = Battle.find(params[:id])
+  end
+
+  def gameover?
+    if @battle.player_hp <= 0
+      flash[:alert] = "あなたは負けてしまった..."
+      return true
+    elsif @battle.boss_hp <= 0
+      flash[:notice] = "ボスを倒した！勝利！"
+      return true
+    end
+    false
   end
 
   def boss_turn
