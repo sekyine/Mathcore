@@ -77,22 +77,21 @@ class BattlesController < ApplicationController
     if correct
       current_user.solved_cards.find_or_create_by(card: card)
       @battle.log << "正解！"
-      case card.effect_type
-      when 'attack'
-        @battle.boss_hp -= card.power
-        @battle.log << "攻撃！ボスに#{card.power}ダメージ"
-      when 'defence'
-        @battle.log << "防御！次に受けるダメージが-#{card.power}される"
-      when 'heal'
-        @battle.player_hp += card.power
-        @battle.log << "回復！HPが#{card.power}回復"
-      end
     else
-      damage = rand(1..3)
-      @battle.player_hp -= damage
-      @battle.log << "不正解！#{damage}ダメージを受けた"
+      @battle.log << "不正解！"
     end
-
+    
+    case card.effect_type
+    when 'attack'
+      @battle.boss_hp -= card.power
+      @battle.log << "攻撃！ボスに#{card.power}ダメージ"
+    when 'defence'
+      @battle.log << "防御！次に受けるダメージが-#{card.power}される"
+    when 'heal'
+      @battle.player_hp += card.power
+      @battle.log << "回復！HPが#{card.power}回復"
+    end
+    
     index = @battle.player_hand.index(card_id)
     @battle.player_hand.delete_at(index) if index
 
