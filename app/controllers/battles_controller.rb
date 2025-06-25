@@ -75,6 +75,7 @@ class BattlesController < ApplicationController
     card = Card.find(card_id)
 
     if correct
+      current_user.solved_cards.find_or_create_by(card: card)
       @battle.log << "正解！"
       case card.effect_type
       when 'attack'

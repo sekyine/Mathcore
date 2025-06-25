@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_20_081046) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_25_041820) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -48,6 +48,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_081046) do
     t.string "question"
   end
 
+  create_table "solved_cards", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "card_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_solved_cards_on_card_id"
+    t.index ["user_id"], name: "index_solved_cards_on_user_id"
+  end
+
   create_table "user_cards", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "card_id", null: false
@@ -69,6 +78,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_081046) do
 
   add_foreign_key "battle_investigates", "users"
   add_foreign_key "battles", "users"
+  add_foreign_key "solved_cards", "cards"
+  add_foreign_key "solved_cards", "users"
   add_foreign_key "user_cards", "cards"
   add_foreign_key "user_cards", "users"
 end

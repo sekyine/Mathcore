@@ -41,7 +41,7 @@
         <%= image_tag card.image, class: "card-img-top", style: "height: 135px; object-fit: cover;" %>
         <div class="card-body p-2">
           <p class="card-text mb-1"><%= card.bunya %></p>
-          <p class="card-text small mb-2">（<%= card.effect_type %>: <%= card.power %>）</p>
+          <p class="card-text small mb-2">（<%= card.effect_type %>: <%= effective_power_with_base(card, current_user) %>）</p>
           <button type="button" class="btn btn-outline-light btn-sm w-100"
                   data-bs-toggle="modal"
                   data-bs-target="#cardModal<%= index %>"

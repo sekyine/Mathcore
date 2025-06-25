@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   resource :battle_investigate, only: [:new] do
     post :answer, on: :collection
   end
+  post 'cards/answer', to: 'cards#answer', as: :answer_card
 end
