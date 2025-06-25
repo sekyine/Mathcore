@@ -1,1 +1,64 @@
-<%= button_to "バトル開始！", battles_path, method: :post, class: "btn btn-warning" %>
+<h2>デッキ編成（最大<%= max_deck_size %>枚まで）</h2>
+
+<%= form_with url: start_investigation_battles_path, method: :post, id: "deck-form", local: true do %>
+  <div class="deck-builder">
+    <% current_user.user_cards.each do |uc| %>
+      <div class="container">
+        
+        <div class="card-option mb-3 p-2 border rounded">
+          
+          <div class="row align-items-center">
+
+            
+            <div class="col-3">
+              
+              <%= image_tag uc.card.image, class: 'img-fluid' %>
+            </div>
+
+            
+            <div class="col-9">
+              <p class="mb-1"><strong><%= uc.card.bunya %></strong></p>
+              <p class="mb-1"><%= uc.card.effect_type %>: <%= uc.card.power %></p>
+              <p class="mb-2">所持枚数: <%= uc.quantity %></p>
+              
+              <div style="max-width: 25%;">
+                <%= number_field_tag "deck[#{uc.card_id}]", 0, in: 0..uc.quantity, class: "form-control form-control-sm deck-input", data: { max: uc.quantity } %>
+              </div>
+            </div>
+            
+          </div> 
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+
+<p id="deck-count">デッキの合計枚数: 0 / <%= max_deck_size %></p>
+
+<%= submit_tag "バトル開始！", class: "btn btn-warning", disabled: true, id: "start-battle", data: { max: max_deck_size } %>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputs = document.querySelectorAll(".deck-input");
+    const counter = document.getElementById("deck-count");
+    const submitBtn = document.getElementById("start-battle");
+    const maxSize = parseInt(submitBtn.dataset.max);
+
+    function updateCount() {
+      let total = 0;
+      inputs.forEach(input => {
+        total += parseInt(input.value) || 0;
+      });
+      counter.textContent = `現在の合計枚数: ${total} / ${maxSize}`;
+
+      submitBtn.disabled = total === 0 || total > maxSize;
+    }
+
+    inputs.forEach(input => {
+      input.addEventListener("input", updateCount);
+    });
+
+    updateCount();
+  });
+</script>
