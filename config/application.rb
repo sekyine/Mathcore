@@ -25,3 +25,6 @@ module Mathcore
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+
+require 'dotenv'
+Dotenv.load if Rails.env.development? || Rails.env.test?
