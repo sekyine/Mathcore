@@ -61,14 +61,14 @@
       <div class="col">
         <div class="card h-100 text-center shadow" style="background-color: #1c1c1c; border: 1px solid #bfa14f;">
           <div class="card-body">
-            <h5 class="card-title" style="color: #bfa14f;">フリー</h5>
-            <p class="card-text" style="color: #ccc;">coming soon...</p>
+            <h5 class="card-title" style="color: #bfa14f;">AI に聞く</h5>
+            <p class="card-text" style="color: #ccc;">Gemini に質問！</p>
+            <%= link_to gemini_test_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+              <i class="fa-solid fa-comment fa-lg me-2"></i> クエスチョる
+            <% end %>
           </div>
         </div>
       </div>
-
-    <%= button_to "Geminiテストページへ", gemini_test_path, method: :get, class: "btn btn-primary" %>
-
 
     </div>
   </div>
