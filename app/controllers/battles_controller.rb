@@ -66,7 +66,7 @@ class BattlesController < ApplicationController
   end
 
   def show
-    # バトル画面
+
   end
 
   def play
@@ -78,10 +78,9 @@ class BattlesController < ApplicationController
       current_user.solved_cards.find_or_create_by(card: card)
       @battle.log << "正解！"
     else
-      @battle.log << "不正解！"
       damage = rand(1..3)
       @battle.player_hp -= damage
-      @battle.log << "#{damage}ダメージを受けた"
+      @battle.log << "不正解！#{damage}ダメージを受けた"
     end
     
     case card.effect_type
@@ -98,15 +97,36 @@ class BattlesController < ApplicationController
     index = @battle.player_hand.index(card_id)
     @battle.player_hand.delete_at(index) if index
 
-    return redirect_to root_path if gameover?
+    #勝敗判定
+    case gameover?
+    when :victory
+      @victory = true
+      @battle.save!
+      return render :show
+    when :defeat
+      @defeat = true
+      @battle.save!
+      return render :show
+    end
 
     boss_turn
 
+    case gameover?
+    when :victory
+      @victory = true
+      @battle.save!
+      return render :show
+    when :defeat
+      @defeat = true
+      @battle.save!
+      return render :show
+    end
+
     if @battle.player_hand.empty?
-      flash[:notice] = "デッキが無くなってしまった...あなたは負けた..."
-      return redirect_to root_path
-    elsif gameover?
-      return redirect_to root_path
+      @defeat = true
+      @battle.log << "デッキが尽きた…あなたは負けてしまった…"
+      @battle.save!
+      return render :show
     end
 
     # 手札補充
@@ -126,13 +146,8 @@ class BattlesController < ApplicationController
   end
 
   def gameover?
-    if @battle.player_hp <= 0
-      flash[:alert] = "あなたは負けてしまった..."
-      return true
-    elsif @battle.boss_hp <= 0
-      flash[:notice] = "ボスを倒した！勝利！"
-      return true
-    end
+    return :defeat if @battle.player_hp <= 0
+    return :victory if @battle.boss_hp <= 0
     false
   end
 
