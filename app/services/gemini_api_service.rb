@@ -8,8 +8,7 @@ class GeminiApiService
     uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{api_key}")
 
     # 初期条件（システムプロンプト）
-    system_instruction = "あなたは渡される数学の問題を解説し、最後に質問がないか聞いてください。"
-    
+    system_instruction = "あなたは渡される数学の問題を解説し、最後に質問がないか聞いてください。"    
     conversation_history = Rails.cache.fetch("conversation_#{session_id}", expires_in: 10.minutes) || []
     aggregated_context = conversation_history.join("\n")
     
@@ -48,6 +47,7 @@ class GeminiApiService
 
     conversation_history = conversation_history.last(10)
     Rails.cache.write("conversation_#{session_id}", conversation_history, expires_in: 10.minutes)
+    #Rails.cache.delete("conversation_#{session_id}")
     { text: formatted_text }
   end
 end
