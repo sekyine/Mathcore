@@ -1,6 +1,7 @@
 # app/controllers/gemini_controller.rb
 class GeminiController < ApplicationController
   protect_from_forgery with: :null_session  
+
   def test
     # URL のクエリパラメーターから question を受け取る
     @question = params[:question]
@@ -9,7 +10,6 @@ class GeminiController < ApplicationController
     # question の値を GeminApiService にそのまま渡す
     @api_response = GeminiApiService.call_gemini_api(@question, session_id)
   end
-
 
   def generate_content
     prompt = params[:prompt]
