@@ -1,6 +1,6 @@
 class BattlesController < ApplicationController
+  before_action :set_dungeon, only: %i[new]
   before_action :set_battle, only: [:show, :play]
-  before_action :set_dungeon, only: %i[new start_investigation]
 
   MAX_DECK_SIZE = Battle::MAX_DECK_SIZE
 
@@ -123,6 +123,13 @@ class BattlesController < ApplicationController
   end
 
   private
+
+  def set_dungeon
+    @dungeon = Dungeon.find_by(id: params[:dungeon_id] || session[:dungeon_id])
+    return if @dungeon
+
+    redirect_to dungeon_select_path, alert: "先にダンジョンを選択してください"
+  end
 
   def set_battle
     @battle = Battle.find(params[:id])
