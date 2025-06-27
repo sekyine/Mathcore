@@ -8,19 +8,17 @@
         <div class="col">
           <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
 
-            <!-- カード画像 -->
-            <div class="card-img-top d-flex align-items-center justify-content-center bg-black" style="aspect-ratio: 4 / 5;">
-              <%= image_tag uc.card.image, style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <div class="card-img-top bg-black" style="aspect-ratio: 4 / 5; overflow: hidden;">
+              <%= image_tag uc.card.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
             </div>
 
-            <!-- カード情報 -->
             <div class="card-body p-2">
               <table class="table table-dark table-bordered table-sm mb-2">
                 <tbody>
                   <tr>
                     <th scope="row">レア度</th>
                     <td>
-                      <%= safe_join(Array.new(uc.card.st) { content_tag(:i, '', class: 'fa-solid fa-star text-warning') }) %>
+                      <%= safe_join(Array.new(uc.card.st.to_i) { content_tag(:i, '', class: 'fa-solid fa-star text-warning') }) %>
                     </td>
                   </tr>
                   <tr>
@@ -34,57 +32,65 @@
                   <tr>
                     <th scope="row"></th>
                     <td>
-                   <% if @solved_card_ids.include?(uc.card.id) %>解答済み<% end %>
+                    <% if @solved_card_ids.include?(uc.card.id) %>解答済み<% end %>
                     </td>
                   </tr>
                 </tbody>
               </table>
 
-              <!-- モーダルボタン -->
-              <button type="button" class="btn btn-outline-light btn-sm w-100" 
-                      data-bs-toggle="modal" 
-                      data-bs-target="#cardModal<%= index %>" 
+              <button type="button" class="btn btn-outline-light btn-sm w-100"
+                      data-bs-toggle="modal"
+                      data-bs-target="#cardModal<%= index %>"
                       data-turbo="false">
                 問題を解く！
               </button>
             </div>
-
           </div>
         </div>
 
-        <!-- モーダル -->
         <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-dark">
               <div class="modal-body">
                 <%= image_tag uc.card.image, class: "img-fluid mb-3" %>
-                <p><strong>レア度:</strong> <%= uc.card.st %> ⭐</p>
-                <p><strong>枚数:</strong> <%= uc.quantity %> 枚</p>
+                <p><strong>問題:</strong> <%= uc.card.question %></p>
                 <p><strong>分野:</strong> <%= uc.card.bunya %></p>
-                <p>回答</p>
+                <hr>
+                <p>回答を選んでください</p>
 
-                <% 
+                <%
                   answers = [
+                    { text: uc.card.ans,    correct: true },
                     { text: uc.card.imans1, correct: false },
                     { text: uc.card.imans2, correct: false },
-                    { text: uc.card.ans,    correct: true  },
                     { text: uc.card.imans3, correct: false }
                   ].shuffle
                 %>
 
-                <% answers.each do |ans| %>
-                  <%= form_with url: answer_card_path, method: :post, local: true do %>
-                    <%= hidden_field_tag :card_id, uc.card.id %>
-                    <%= hidden_field_tag :correct, ans[:correct] %>
-                    <button type="submit" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
+                <div class="d-grid gap-2 answer-container">
+                  <% answers.each do |ans| %>
+                    <button type="button" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
                       <%= ans[:text] %>
                     </button>
                   <% end %>
-                <% end %>
+                </div>
+
+                <div class="mt-3 text-center">
+                  <button type="button"
+                          id="showExplanation<%= index %>"
+                          class="btn btn-info d-none explanation-btn"
+                          data-bs-toggle="modal"
+                          data-bs-target="#geminiModal"
+                          data-question="<%= uc.card.question %>">
+                    解説を表示
+                  </button>
+                </div>
+
               </div>
               <div class="modal-footer">
+                <p id="result<%= index %>" class="fw-bold text-center me-auto"></p>
+                <button type="button" class="btn btn-primary d-none retry-btn">もう一度挑戦する</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                <p id="result<%= index %>" class="fw-bold text-center"></p>
               </div>
             </div>
           </div>
@@ -96,15 +102,110 @@
   <p class="text-center text-muted">まだカードを所持していません。</p>
 <% end %>
 
-<!-- Toast  -->
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
-  <div id="answerToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body" id="toastBody">
-        正解！
+<div class="modal fade" id="geminiModal" tabindex="-1" aria-labelledby="geminiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="geminiModalLabel">解説</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
       </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      <div class="modal-body">
+        <iframe id="geminiIframe" src="about:blank" style="width:100%; height:600px; border:0;"></iframe>
+      </div>
     </div>
   </div>
 </div>
 
+<script>
+  const initializeCardModal = (modal) => {
+    const answerContainer = modal.querySelector('.answer-container');
+    const resultElement = modal.querySelector("[id^='result']");
+    const explanationBtn = modal.querySelector(".explanation-btn");
+    const retryBtn = modal.querySelector('.retry-btn');
+    const originalAnswerHTML = answerContainer.innerHTML;
+
+    const handleAnswerClick = (event) => {
+      const button = event.currentTarget;
+      const allButtons = modal.querySelectorAll(".answer-btn");
+      const isCorrect = button.getAttribute("data-answer") === "true";
+
+      allButtons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.getAttribute("data-answer") === "true") {
+          btn.classList.remove('btn-secondary');
+          btn.classList.add('btn-success');
+        } else if (btn === button) {
+          btn.classList.remove('btn-secondary');
+          btn.classList.add('btn-danger');
+        }
+      });
+      
+      if (retryBtn) retryBtn.classList.remove('d-none');
+
+      if (isCorrect) {
+        resultElement.textContent = "正解！";
+        resultElement.classList.add("text-success");
+        resultElement.classList.remove("text-danger");
+        explanationBtn.classList.remove("d-none");
+        const toastEl = document.getElementById('answerToast');
+        if(toastEl) {
+          const toast = new bootstrap.Toast(toastEl);
+          toast.show();
+        }
+      } else {
+        resultElement.textContent = "不正解！";
+        resultElement.classList.add("text-danger");
+        resultElement.classList.remove("text-success");
+      }
+    };
+
+    const resetForRetry = () => {
+      if (resultElement) {
+        resultElement.textContent = '';
+        resultElement.classList.remove('text-success', 'text-danger');
+      }
+      if (explanationBtn) explanationBtn.classList.add('d-none');
+      if (retryBtn) retryBtn.classList.add('d-none');
+      
+      answerContainer.innerHTML = originalAnswerHTML;
+      answerContainer.querySelectorAll(".answer-btn").forEach(button => {
+        button.addEventListener('click', handleAnswerClick);
+      });
+    };
+
+    modal.querySelectorAll(".answer-btn").forEach(button => {
+      button.addEventListener('click', handleAnswerClick);
+    });
+    
+    if (retryBtn) retryBtn.addEventListener('click', resetForRetry);
+    modal.addEventListener('hidden.bs.modal', resetForRetry);
+  };
+
+  const initializePage = () => {
+    document.querySelectorAll("[id^='cardModal']").forEach(initializeCardModal);
+
+    const geminiModalEl = document.getElementById("geminiModal");
+    if (geminiModalEl) {
+      geminiModalEl.addEventListener('hide.bs.modal', () => {
+        document.querySelectorAll('.modal.show').forEach(openModal => {
+          if (openModal.id !== 'geminiModal') {
+            const modalInstance = bootstrap.Modal.getInstance(openModal);
+            if (modalInstance) modalInstance.hide();
+          }
+        });
+        document.getElementById("geminiIframe").src = 'about:blank';
+      });
+    }
+
+    document.querySelectorAll('.explanation-btn').forEach(button => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        const question = button.getAttribute("data-question");
+        document.getElementById("geminiIframe").src = `/gemini/test?question=${encodeURIComponent(question)}`;
+      });
+    });
+  };
+
+  document.addEventListener("turbo:load", initializePage);
+  document.addEventListener("DOMContentLoaded", initializePage);
+</script>
