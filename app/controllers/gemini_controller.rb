@@ -1,14 +1,14 @@
 # app/controllers/gemini_controller.rb
 class GeminiController < ApplicationController
-  protect_from_forgery with: :null_session  
+  protect_from_forgery with: :null_session
 
   def test
-    # URL のクエリパラメーターから question を受け取る
-    @question = params[:question]
-    # セッションに一意な値を与える（例: session.id または SecureRandom.uuid）
+    # チャットページを初めて開く際に、前の会話履歴をクリアする
     session_id = session.id || SecureRandom.uuid
-    # question の値を GeminApiService にそのまま渡す
-    @api_response = GeminiApiService.call_gemini_api(@question, session_id)
+    Rails.cache.delete("conversation_#{session_id}")
+
+    # このアクションはビューを表示するだけにする
+    # @question や @api_response は不要になる
   end
 
   def generate_content
@@ -21,9 +21,13 @@ class GeminiController < ApplicationController
     begin
       session_id = session.id || SecureRandom.uuid
       result = GeminiApiService.call_gemini_api(prompt, session_id)
+      # レスポンスに会話履歴も含めて、デバッグしやすくする
       render json: { response: result, conversation_history: Rails.cache.read("conversation_#{session_id}") }
     rescue => e
-      render json: { error: e.message }, status: :internal_server_error
+      # エラーハンドリングをより詳細に
+      Rails.logger.error "Gemini API Error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: "APIとの通信中にエラーが発生しました: #{e.message}" }, status: :internal_server_error
     end
   end
 end

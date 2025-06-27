@@ -1,59 +1,18 @@
-<head>
-  <meta name="csrf-token" content="<%= form_authenticity_token %>">
-</head>
-<h1>GeminiTest</h1>
-<input type="text" id="promptInput" placeholder="プロンプトを入力してください" size="40">
-<button id="callGeminiBtn">送信</button>
-
-<h2>会話:</h2>
-<div id="conversationHistory"></div>
-
-<script>
-  // 送信ボタンのクリックイベント処理
-  document.getElementById("callGeminiBtn").addEventListener("click", () => {
-    const promptInput = document.getElementById("promptInput");
-    const prompt = promptInput.value;
-  
-    fetch("http://127.0.0.1:3000/gemini", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ""
-      },
-      // API送信用のプロンプトは内部変数（例：aggregatedPrompt）を使うか、最新の入力のみ送るか
-      body: JSON.stringify({ prompt: prompt })
-    })
-    .then(res => res.json())
-    .then(data => {
-      const conversationHistory = document.getElementById("conversationHistory");
-      const resultText = data.response.text;
-  
-      // 画面に追加するのは最新の発言のみ（履歴は内部管理）
-      const userMessage = `<p><strong>ユーザー:</strong> ${prompt}</p>`;
-      conversationHistory.insertAdjacentHTML('beforeend', userMessage);
-  
-      const aiMessage = `<p><strong>AI:</strong> ${resultText}</p>`;
-      conversationHistory.insertAdjacentHTML('beforeend', aiMessage);
-  
-      // 送信後、入力欄を空に
-      promptInput.value = "";
-    })
-    .catch(error => {
-      document.getElementById("conversationHistory")
-        .insertAdjacentHTML('beforeend', `<p style="color: red;">エラー: ${error}</p>`);
-    });
-  });
-  document.addEventListener("DOMContentLoaded", function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const autoPrompt = urlParams.get('question');
-    if (autoPrompt) {
-      // 入力欄に自動で値をセット
-      document.getElementById("promptInput").value = autoPrompt;
-      // 自動で送信ボタンをクリックして処理を開始
-      document.getElementById("callGeminiBtn").click();
-    }
-  });
-
-</script>
-
-
+<div data-controller="gemini-chat" class="chat-container">
+  <div class="chat-header">
+    <h2>Gemini AI チャット</h2>
+  </div>
+  <div class="chat-messages" data-gemini-chat-target="messages">
+    <div class="message-row ai-message">
+      <div class="message-bubble">
+        <p>数学に関することならなんでも聞いてください！</p>
+      </div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <form data-action="submit->gemini-chat#sendMessage" data-gemini-chat-target="form" class="chat-form">
+      <input type="text" data-gemini-chat-target="input" class="form-control" placeholder="メッセージを入力...">
+      <button type="submit" class="btn btn-primary">送信</button>
+    </form>
+  </div>
+</div>
