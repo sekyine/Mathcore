@@ -1,0 +1,22 @@
+<h1 class="text-center mb-4">ダンジョンを選択</h1>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+<% if @dungeons.any? %>
+  <% @dungeons.each do |d| %>
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title"><%= d.name %></h5>
+          <p class="card-text"><%= d.description.truncate(80) %></p>
+          <%= link_to new_battle_path(dungeon_id: d.id),
+                      class: 'btn btn-outline-warning' do %>
+            <i class="fa-solid fa-dragon me-1"></i> このダンジョンへ
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% else %>
+  <p class="text-center text-muted">現在選択可能なダンジョンがありません。</p>
+<% end %>
+</div>

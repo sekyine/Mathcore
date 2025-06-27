@@ -11,7 +11,6 @@
             <div class="card-img-top bg-black" style="aspect-ratio: 4 / 5; overflow: hidden;">
               <%= image_tag uc.card.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
             </div>
-
             <div class="card-body p-2">
               <table class="table table-dark table-bordered table-sm mb-2">
                 <tbody>
@@ -38,7 +37,9 @@
                 </tbody>
               </table>
 
+
               <button type="button" class="btn btn-outline-light btn-sm w-100"
+
                       data-bs-toggle="modal"
                       data-bs-target="#cardModal<%= index %>"
                       data-turbo="false">
@@ -48,6 +49,7 @@
           </div>
         </div>
 
+
         <div class="modal fade" id="cardModal<%= index %>" tabindex="-1" aria-labelledby="cardModalLabel<%= index %>" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-dark">
@@ -55,6 +57,7 @@
                 <%= image_tag uc.card.image, class: "img-fluid mb-3" %>
                 <p><strong>問題:</strong> <%= uc.card.question %></p>
                 <p><strong>分野:</strong> <%= uc.card.bunya %></p>
+
                 <hr>
                 <p>回答を選んでください</p>
 
@@ -73,6 +76,7 @@
                       <%= ans[:text] %>
                     </button>
                   <% end %>
+
                 </div>
 
                 <div class="mt-3 text-center">
@@ -102,15 +106,18 @@
   <p class="text-center text-muted">まだカードを所持していません。</p>
 <% end %>
 
+
 <div class="modal fade" id="geminiModal" tabindex="-1" aria-labelledby="geminiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="geminiModalLabel">解説</h5>
+
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
       </div>
       <div class="modal-body">
         <iframe id="geminiIframe" src="about:blank" style="width:100%; height:600px; border:0;"></iframe>
+
       </div>
     </div>
   </div>

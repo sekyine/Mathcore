@@ -42,12 +42,14 @@
         <div class="card-body p-2">
           <p class="card-text mb-1"><%= card.bunya %></p>
           <p class="card-text small mb-2">（<%= card.effect_type %>: <%= effective_power_with_base(card, current_user) %>）</p>
+          <% if not @victory || @defeat %>
           <button type="button" class="btn btn-outline-light btn-sm w-100"
                   data-bs-toggle="modal"
                   data-bs-target="#cardModal<%= index %>"
                   data-turbo="false">
             問題を解く！
           </button>
+          <% end %>
         </div>
       </div>
 
@@ -106,3 +108,55 @@
   <pre style="color:white">player_hand: <%= @battle.player_hand %></pre>
   <pre style="color:white">deck: <%= @battle.deck %></pre>
 </div>
+
+<!-- 勝利モーダル -->
+<div class="modal fade" id="victoryModal" tabindex="-1" aria-labelledby="victoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-success text-white text-center">
+      <div class="modal-header">
+        <h5 class="modal-title" id="victoryModalLabel">勝利！</h5>
+      </div>
+      <div class="modal-body">
+        <p>ボスを倒しました！</p>
+        <%= image_tag "win.jpg", class: "img-fluid", style: "max-height: 200px;" %>
+      </div>
+      <div class="modal-footer">
+        <%= link_to "トップに戻る", root_path, class: "btn btn-light" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 敗北モーダル -->
+<div class="modal fade" id="defeatModal" tabindex="-1" aria-labelledby="defeatModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-danger text-white text-center">
+      <div class="modal-header">
+        <h5 class="modal-title" id="defeatModalLabel">敗北…</h5>
+      </div>
+      <div class="modal-body">
+        <p>あなたは倒れてしまった…</p>
+        <%= image_tag "lose.jpg", class: "img-fluid", style: "max-height: 200px;" %>
+      </div>
+      <div class="modal-footer">
+        <%= link_to "トップに戻る", root_path, class: "btn btn-light" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @victory %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const victoryModal = new bootstrap.Modal(document.getElementById('victoryModal'));
+      victoryModal.show();
+    });
+  </script>
+<% elsif @defeat %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const defeatModal = new bootstrap.Modal(document.getElementById('defeatModal'));
+      defeatModal.show();
+    });
+  </script>
+<% end %>
