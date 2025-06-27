@@ -43,6 +43,17 @@
         .insertAdjacentHTML('beforeend', `<p style="color: red;">エラー: ${error}</p>`);
     });
   });
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const autoPrompt = urlParams.get('question');
+    if (autoPrompt) {
+      // 入力欄に自動で値をセット
+      document.getElementById("promptInput").value = autoPrompt;
+      // 自動で送信ボタンをクリックして処理を開始
+      document.getElementById("callGeminiBtn").click();
+    }
+  });
+
 </script>
 
 
