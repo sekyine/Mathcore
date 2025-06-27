@@ -1,0 +1,11 @@
+<h1>カード管理</h1>
+
+<%= form_with url: import_csv_admin_cards_path, method: :post, local: true, html: { multipart: true } do |form| %>
+  <div>
+    <%= form.label :csv_file, "CSVファイルを選択" %><br>
+    <%= form.file_field :csv_file %>
+  </div>
+  <div>
+    <%= form.submit "インポート" %>
+  </div>
+<% end %>

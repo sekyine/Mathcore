@@ -26,5 +26,12 @@ Rails.application.routes.draw do
     post :answer, on: :collection
   end
   post 'cards/answer', to: 'cards#answer', as: :answer_card
+  namespace :admin do
+    resources :cards, only: [:index] do
+      collection do
+        post :import_csv
+      end
+    end
+  end
 end
 
