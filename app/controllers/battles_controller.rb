@@ -1,11 +1,14 @@
 class BattlesController < ApplicationController
   before_action :set_battle, only: [:show, :play]
+  before_action :set_dungeon, only: %i[new start_investigation]
 
   MAX_DECK_SIZE = Battle::MAX_DECK_SIZE
 
   def new
-    # デッキ構築画面
+    return redirect_to dungeon_select_path, alert: "ダンジョンを選択してください" unless @dungeon
     @max_deck_size = MAX_DECK_SIZE
+    # 枚数 > 0 の手持ちカードをビューに渡す
+    @user_cards = current_user.user_cards.where("quantity > 0")
   end
 
   def start_investigation
