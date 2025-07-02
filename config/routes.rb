@@ -5,12 +5,33 @@ Rails.application.routes.draw do
 
   get "up" => "rails/health#show", as: :rails_health_check
 
+  get 'gacha/redraw', to: 'gacha#redraw', as: 'redraw'
+
   root 'static_pages#home'
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/draw', to: 'gacha#draw'
+
+  post '/gemini', to: 'gemini#generate_content'
+  get '/gemini', to: 'gemini#generate_content'
+  get 'gemini/test', to: 'gemini#test'
   resources :user_cards, path: 'cards'
   resources :battles, only: [:new, :create, :show] do
     post :play, on: :member
+    collection do
+      post :start_investigation
+    end
+  end
+  resource :battle_investigate, only: [:new] do
+    post :answer, on: :collection
+  end
+  post 'cards/answer', to: 'cards#answer', as: :answer_card
+  namespace :admin do
+    resources :cards, only: [:index] do
+      collection do
+        post :import_csv
+      end
+    end
   end
 end
+
