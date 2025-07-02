@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/draw', to: 'gacha#draw'
 
+  get 'dungeons/select', to: 'dungeons#select', as: 'dungeon_select'
+
+
   post '/gemini', to: 'gemini#generate_content'
   get '/gemini', to: 'gemini#generate_content'
   get 'gemini/test', to: 'gemini#test'
@@ -26,5 +29,12 @@ Rails.application.routes.draw do
     post :answer, on: :collection
   end
   post 'cards/answer', to: 'cards#answer', as: :answer_card
+  namespace :admin do
+    resources :cards, only: [:index] do
+      collection do
+        post :import_csv
+      end
+    end
+  end
 end
 

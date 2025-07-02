@@ -40,7 +40,8 @@ class BattleInvestigatesController < ApplicationController
         deck: full_deck,
         player_hand: full_deck.shift(5),
         turn: 1,
-        log: ["バトル開始！"]
+        log: ["バトル開始！"],
+        bonus_cards: session[:bonus_cards]
       )
 
       @investigation.turn_count = 0

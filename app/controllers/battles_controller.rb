@@ -1,11 +1,14 @@
 class BattlesController < ApplicationController
+  before_action :set_dungeon, only: %i[new]
   before_action :set_battle, only: [:show, :play]
 
   MAX_DECK_SIZE = Battle::MAX_DECK_SIZE
 
   def new
-    # デッキ構築画面
+    return redirect_to dungeon_select_path, alert: "ダンジョンを選択してください" unless @dungeon
     @max_deck_size = MAX_DECK_SIZE
+    # 枚数 > 0 の手持ちカードをビューに渡す
+    @user_cards = current_user.user_cards.where("quantity > 0")
   end
 
   def start_investigation
@@ -101,6 +104,7 @@ class BattlesController < ApplicationController
     case gameover?
     when :victory
       @victory = true
+      add_bonus_cards_to_user
       @battle.save!
       return render :show
     when :defeat
@@ -114,6 +118,7 @@ class BattlesController < ApplicationController
     case gameover?
     when :victory
       @victory = true
+      add_bonus_cards_to_user
       @battle.save!
       return render :show
     when :defeat
@@ -141,6 +146,13 @@ class BattlesController < ApplicationController
 
   private
 
+  def set_dungeon
+    @dungeon = Dungeon.find_by(id: params[:dungeon_id] || session[:dungeon_id])
+    return if @dungeon
+
+    redirect_to dungeon_select_path, alert: "先にダンジョンを選択してください"
+  end
+
   def set_battle
     @battle = Battle.find(params[:id])
   end
@@ -160,6 +172,17 @@ class BattlesController < ApplicationController
       damage = rand(10..20)
       @battle.player_hp -= damage
       @battle.log << "ボスの攻撃！#{damage}ダメージ"
+    end
+  end
+
+  def add_bonus_cards_to_user
+    # return unless @battle.bonus_cards.is_a?(Array)
+
+    @battle.bonus_cards.each do |card_id|
+      user_card = current_user.user_cards.find_or_initialize_by(card_id: card_id)
+      user_card.quantity ||= 0
+      user_card.quantity += 1
+      user_card.save!
     end
   end
 end

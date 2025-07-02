@@ -14,3 +14,17 @@ Card.create(image: 'test3.png', st: 2, bunya: "二次方程式", question: "ax^2
 Card.create(image: 'test4.png', st: 1, bunya: "引き算", question: "13-8=", ans: '5', imans1: '8', imans2: '3', imans3: '6',effect_type:"defence" ,power:1)
 Card.create(image: 'test5.png', st: 3, bunya: "連立方程式", question: "{█(3x+2y=3@4x+3y=4)┤の解を求めなさい", ans: 'x=1,y=0', imans1: 'x=0,y=1', imans2: 'x=1,y=1', imans3: 'x=1,y=-1',effect_type:"heal" ,power:2)
 
+Dungeon.create!([
+  {
+    name:        "チュートリアルダンジョン",
+    description: "はじめての方向け練習ダンジョン",
+  },
+  {
+    name:        "四則演算ダンジョン",
+    description: "足し算・引き算・掛け算・割り算が出題される",
+  },
+  {
+    name:        "分数マスター",
+    description: "分数の計算問題にチャレンジ！",
+  }
+])
