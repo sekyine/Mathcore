@@ -24,14 +24,13 @@
           <div class="card-body">
             <h5 class="card-title" style="color: #bfa14f;">ガチャ</h5>
             <p class="card-text" style="color: #ccc;">第一弾　四則演算</p>
-            <%= link_to draw_path, id: 'gacha-button', class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+            <%= link_to draw_path, id: 'gacha-button', class: 'btn btn-outline-warning btn-lg se-clickable', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
               <i class="fa-solid fa-dice fa-lg me-2"></i> ガチャる
               
               <% end %>
           </div>
         </div>
       </div>
-      <audio id="click-sound" src="<%= asset_path 'click.mp3' %>"></audio>
 
       <!-- ダンジョン -->
       <div class="col">
@@ -39,7 +38,7 @@
           <div class="card-body">
             <h5 class="card-title" style="color: #bfa14f;">ダンジョン</h5>
             <p class="card-text" style="color: #ccc;">君の知識でボスとバトル！</p>
-            <%= link_to new_battle_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+            <%= link_to new_battle_path, class: 'btn btn-outline-warning btn-lg se-clickable', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
               <i class="fa-solid fa-dragon fa-lg me-2"></i> ダンジョる
             <% end %>
             </div>
@@ -52,7 +51,7 @@
           <div class="card-body">
             <h5 class="card-title" style="color: #bfa14f;">コレクション</h5>
             <p class="card-text" style="color: #ccc;">集めたカード一覧</p>
-            <%= link_to user_cards_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+            <%= link_to user_cards_path, class: 'btn btn-outline-warning btn-lg se-clickable', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
               <i class="fa-solid fa-clone fa-lg me-2"></i> コレクトる
             <% end %>
             </div>
@@ -65,7 +64,7 @@
           <div class="card-body">
             <h5 class="card-title" style="color: #bfa14f;">AI に聞く</h5>
             <p class="card-text" style="color: #ccc;">Gemini に質問！</p>
-            <%= link_to gemini_test_path, class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
+            <%= link_to gemini_test_path, class: 'btn btn-outline-warning btn-lg se-clickable', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
               <i class="fa-solid fa-comment fa-lg me-2"></i> クエスチョる
             <% end %>
           </div>
@@ -74,4 +73,5 @@
 
     </div>
   </div>
+  <audio id="click-sound" src="<%= asset_path 'click.mp3' %>"></audio>
 <% end %>

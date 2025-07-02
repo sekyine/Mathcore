@@ -1,8 +1,5 @@
 //= link_tree ../images
-//= link_directory ../javascripts .js
-
 //= link_tree ../builds
-
 //= link_tree ../stylesheets .scss
 
-//= link controllers/application.js
+//= link_tree ../audios 

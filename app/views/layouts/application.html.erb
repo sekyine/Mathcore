@@ -33,51 +33,9 @@
     
     <%= yield %> 
     
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const toastElement = document.getElementById("answerToast");
-          const toastBody = document.getElementById("toastBody");
-          const toast = new bootstrap.Toast(toastElement);
+      
 
-          document.querySelectorAll(".answer-btn").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-              const isCorrect = btn.dataset.answer === "true";
-              if (isCorrect) {
-                toastBody.textContent = "正解！";
-                toastElement.classList.remove("bg-danger");
-                toastElement.classList.add("bg-success");
-              } else {
-                toastBody.textContent = "不正解…";
-                toastElement.classList.remove("bg-success");
-                toastElement.classList.add("bg-danger");
-              }
-              toast.show();
-            });
-          });
-        });
-      </script>
-
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          document.querySelectorAll('.answer-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              const isCorrect = button.dataset.answer === 'true';
-              const resultId = button.dataset.resultId;
-              const resultElement = document.getElementById(resultId);
-
-              if (resultElement) {
-                resultElement.textContent = isCorrect ? '正解！' : '不正解…';
-                resultElement.className = isCorrect
-                  ? 'fw-bold text-center text-success'
-                  : 'fw-bold text-center text-danger';
-              }
-            });
-          });
-        });
-      </script>
-
-
-              
+      <audio src="<%= asset_path 'bgm.mp3' %>" autoplay loop></audio>    
     </body>
 
   
