@@ -43,6 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_054128) do
     t.string "imans3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "answer"
     t.string "effect_type"
     t.integer "power"
     t.string "question"
@@ -72,6 +73,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_054128) do
     t.datetime "updated_at", null: false
     t.index ["card_id"], name: "index_user_cards_on_card_id"
     t.index ["user_id"], name: "index_user_cards_on_user_id"
+  end
+
+  create_table "usercards", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "card_id", null: false
+    t.integer "quantity", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_usercards_on_card_id"
+    t.index ["user_id"], name: "index_usercards_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

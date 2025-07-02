@@ -1,0 +1,6 @@
+<h1>問題: <%= @card.question %></h1>
+
+<%= form_with url: solve_card_path(@card), method: :post do %>
+    <%= label_tag :answer, "あなたの答え:" %>
+    <%= submit_tag "回答する" %>
+<% end %>
