@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_02_041255) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_02_051942) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -31,6 +31,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_041255) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "bonus_cards"
+    t.integer "dungeon_id"
     t.index ["user_id"], name: "index_battles_on_user_id"
   end
 
@@ -54,6 +55,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_041255) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "boss_hp"
+    t.integer "boss_attack_power"
+    t.integer "boss_heal_power"
+    t.integer "boss_defence_power"
+    t.string "weak_bunya"
+    t.string "card_bunya_filter"
   end
 
   create_table "solved_cards", force: :cascade do |t|
