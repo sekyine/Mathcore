@@ -1,0 +1,17 @@
+<!-- 所持カード一覧 -->
+<h2>所持カード一覧</h2>
+<% @user_cards.each do |uc| %>
+  <div>
+    <%= image_tag uc.card.image %>
+    <%= button_to "デッキに追加", deck_cards_path(deck_id: @deck.id, card_id: uc.card.id), method: :post %>
+  </div>
+<% end %>
+
+<!-- デッキ内容 -->
+<h2>現在のデッキ</h2>
+<% @deck_cards.each do |dc| %>
+  <div>
+    <%= image_tag dc.card.image %>
+    <%= button_to "削除", deck_card_path(dc), method: :delete %>
+  </div>
+<% end %>
