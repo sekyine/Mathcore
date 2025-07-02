@@ -26,11 +26,11 @@
             <p class="card-text" style="color: #ccc;">第一弾　四則演算</p>
             <%= link_to draw_path, id: 'gacha-button', class: 'btn btn-outline-warning btn-lg', style: 'border-color: #bfa14f; color: #bfa14f;' do %>
               <i class="fa-solid fa-dice fa-lg me-2"></i> ガチャる
-            <% end %>
+              <audio id="click-sound" src="<%= asset_path 'click.mp3' %>"></audio>
+              <% end %>
           </div>
         </div>
       </div>
-      <audio id="click-sound" src="<%= asset_path 'click.mp3' %>"></audio>
 
       <!-- ダンジョン -->
       <div class="col">
