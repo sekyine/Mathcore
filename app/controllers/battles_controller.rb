@@ -101,6 +101,7 @@ class BattlesController < ApplicationController
     case gameover?
     when :victory
       @victory = true
+      add_bonus_cards_to_user
       @battle.save!
       return render :show
     when :defeat
@@ -114,6 +115,7 @@ class BattlesController < ApplicationController
     case gameover?
     when :victory
       @victory = true
+      add_bonus_cards_to_user
       @battle.save!
       return render :show
     when :defeat
@@ -160,6 +162,17 @@ class BattlesController < ApplicationController
       damage = rand(10..20)
       @battle.player_hp -= damage
       @battle.log << "ボスの攻撃！#{damage}ダメージ"
+    end
+  end
+
+  def add_bonus_cards_to_user
+    # return unless @battle.bonus_cards.is_a?(Array)
+
+    @battle.bonus_cards.each do |card_id|
+      user_card = current_user.user_cards.find_or_initialize_by(card_id: card_id)
+      user_card.quantity ||= 0
+      user_card.quantity += 1
+      user_card.save!
     end
   end
 end
