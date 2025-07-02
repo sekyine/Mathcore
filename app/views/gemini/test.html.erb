@@ -1,8 +1,8 @@
 <head>
   <meta name="csrf-token" content="<%= form_authenticity_token %>">
 </head>
-<h1>GeminiTest</h1>
-<input type="text" id="promptInput" placeholder="プロンプトを入力してください" size="40">
+<h1>解説の間</h1>
+<input type="text" id="promptInput" placeholder="質問を入力してください" size="40">
 <button id="callGeminiBtn">送信</button>
 
 <h2>会話:</h2>
@@ -32,7 +32,7 @@
       const userMessage = `<p><strong>ユーザー:</strong> ${prompt}</p>`;
       conversationHistory.insertAdjacentHTML('beforeend', userMessage);
   
-      const aiMessage = `<p><strong>AI:</strong> ${resultText}</p>`;
+      const aiMessage = `<p><strong>解説者:</strong> ${resultText}</p>`;
       conversationHistory.insertAdjacentHTML('beforeend', aiMessage);
   
       // 送信後、入力欄を空に
@@ -55,5 +55,4 @@
   });
 
 </script>
-
 

@@ -26,7 +26,10 @@
   </head>
 
    <body style="background-color: #1c1c1c; color: #f5f5dc; font-family: 'Helvetica Neue', sans-serif;">
+   <% unless controller_name == 'gemini' && action_name == 'test' %>
     <%= render 'layouts/header' %>  
+   <% end %>
+
     <% flash.each do |message_type, message| %> 
       <%= message %> 
     <% end %> 
