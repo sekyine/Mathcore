@@ -14,17 +14,35 @@ Card.create(image: 'test3.png', st: 2, bunya: "二次方程式", question: "ax^2
 Card.create(image: 'test4.png', st: 1, bunya: "引き算", question: "13-8=", ans: '5', imans1: '8', imans2: '3', imans3: '6',effect_type:"defence" ,power:1)
 Card.create(image: 'test5.png', st: 3, bunya: "連立方程式", question: "{█(3x+2y=3@4x+3y=4)┤の解を求めなさい", ans: 'x=1,y=0', imans1: 'x=0,y=1', imans2: 'x=1,y=1', imans3: 'x=1,y=-1',effect_type:"heal" ,power:2)
 
-Dungeon.create!([
+Dungeon.create!([ #card_bunya_filterとweak_bunyaは機能してないっす
   {
-    name:        "チュートリアルダンジョン",
+    name: "チュートリアルダンジョン",
     description: "はじめての方向け練習ダンジョン",
+    boss_hp: 1,
+    boss_attack_power: 5,
+    boss_heal_power: 10,
+    boss_defence_power: 0,
+    weak_bunya: "足し算",
+    card_bunya_filter: "足し算,引き算"
   },
   {
-    name:        "四則演算ダンジョン",
+    name: "四則演算ダンジョン",
     description: "足し算・引き算・掛け算・割り算が出題される",
+    boss_hp: 2,
+    boss_attack_power: 15,
+    boss_heal_power: 20,
+    boss_defence_power: 0,
+    weak_bunya: "割り算",
+    card_bunya_filter: "足し算,引き算,掛け算,割り算"
   },
   {
-    name:        "分数マスター",
+    name: "分数マスター",
     description: "分数の計算問題にチャレンジ！",
+    boss_hp: 3,
+    boss_attack_power: 20,
+    boss_heal_power: 25,
+    boss_defence_power: 1,
+    weak_bunya: "分数",
+    card_bunya_filter: "分数"
   }
 ])
