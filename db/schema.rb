@@ -49,6 +49,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_041255) do
     t.string "question"
   end
 
+  create_table "dungeons", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "solved_cards", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "card_id", null: false
