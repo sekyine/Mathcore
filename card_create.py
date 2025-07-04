@@ -6,9 +6,9 @@ import textwrap
 
 # **背景画像（固定サイズ: 1080×1350）**
 background_size = (1080, 1350)
-background = Image.open("background.png").convert("RGBA")
-character = Image.open("character.png").convert("RGBA")
-latex_formula = r"$E=mc^2+ \frac{1}{2}mv^2$"
+background = Image.open("/home/snowl/Mathcore/app/assets/images/background.jpeg").convert("RGBA")
+character = Image.open("/home/snowl/Mathcore/app/assets/images/Mathcore-2-complex_number.png").convert("RGBA")
+latex_formula = r"(3 + 4i) + (2 - 5i) - (1 + 2i)"
 background = background.resize(background_size)
 # **ファイル名を安全な形に変換**
 safe_filename = re.sub(r"[^a-zA-Z0-9]", "_", latex_formula) + ".png"
@@ -48,7 +48,7 @@ background.paste(character, (char_x, char_y), character)
 
 # **左上に数字を描画**
 draw = ImageDraw.Draw(background)
-font = ImageFont.truetype("arial.ttf", 100)
+font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 100)
 draw.text((10, 10), "1", fill="black", font=font)
 
 

@@ -1,0 +1,5 @@
+image,st,bunya,ans,imans1,imans2,imans3,effect_type,power,question
+win.jpeg,1,??????,2,3,4,5,attack,20,1
+equation.png,2,???,1,2,3,4,attack,5,1+2
+equation.png,2,???,5,1,2,3,deffence,3,5+8
+complex_number.png,5,???,i,1,2,3,attack,4,(1 + 2i)+(4 + 5i)
