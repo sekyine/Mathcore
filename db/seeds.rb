@@ -17,27 +17,27 @@ Card.create(image: 'test5.png', st: 3, bunya: "連立方程式", question: "{█
 Dungeon.create!([ #card_bunya_filterとweak_bunyaは機能してないっす
   {
     name: "チュートリアルダンジョン",
-    description: "はじめての方向け練習ダンジョン",
-    boss_hp: 1,
-    boss_attack_power: 5,
-    boss_heal_power: 10,
+    description: "はじめての方向け練習ダンジョン(弱点:足し算)",
+    boss_hp: 10,
+    boss_attack_power: 2,
+    boss_heal_power: 2,
     boss_defence_power: 0,
     weak_bunya: "足し算",
     card_bunya_filter: "足し算,引き算"
   },
   {
     name: "四則演算ダンジョン",
-    description: "足し算・引き算・掛け算・割り算が出題される",
-    boss_hp: 2,
-    boss_attack_power: 15,
-    boss_heal_power: 20,
+    description: "足し算・引き算・掛け算・割り算が出題される(弱点:???)",
+    boss_hp: 20,
+    boss_attack_power: 3,
+    boss_heal_power: 3,
     boss_defence_power: 0,
-    weak_bunya: "割り算",
+    weak_bunya: "足し算,引き算,掛け算,割り算",
     card_bunya_filter: "足し算,引き算,掛け算,割り算"
   },
   {
     name: "分数マスター",
-    description: "分数の計算問題にチャレンジ！",
+    description: "分数の計算問題にチャレンジ！(弱点:分数)",
     boss_hp: 3,
     boss_attack_power: 20,
     boss_heal_power: 25,
