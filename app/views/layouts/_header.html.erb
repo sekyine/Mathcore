@@ -14,5 +14,14 @@
         <a href="/auth/twitter" class="btn btn-sm btn-outline-light">ログイン</a>
       <% end %>
     </div>
+  
+   <% if logged_in? %>
+      <button id="bgm-toggle-button" class="btn btn-outline-light me-2" 
+              data-action="click->bgm#toggle" 
+              data-bgm-target="toggleButton">
+        <i class="fa-solid fa-volume-xmark"></i>
+      </button>
+    <% end %>
+
   </div>
 </header>
