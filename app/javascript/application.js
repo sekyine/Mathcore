@@ -10,7 +10,7 @@ console.log("【A】application.js スクリプトの評価開始 (フルリロ�
 if (!window.bgm) {
   console.log("【B】BGMオブジェクトが存在しないため、新規作成します。");
   window.bgm = new Howl({
-    src: ['/assets/bgm.mp3'], // あなたのBGMファイル名に変更してください
+    src: ['/assets/audios/bgm.mp3'], // あなたのBGMファイル名に変更してください
     loop: true,
     volume: 0.3,
     html5: true
