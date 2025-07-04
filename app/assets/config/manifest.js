@@ -6,3 +6,5 @@
 //= link_tree ../stylesheets .scss
 
 //= link controllers/application.js
+
+//= link_tree ../audios

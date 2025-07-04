@@ -23,9 +23,13 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-  </head>
+  
+    <%= audio_tag "bgm.mp3", loop: true, id: "bgm" %>
+    </head>
 
    <body style="background-color: #1c1c1c; color: #f5f5dc; font-family: 'Helvetica Neue', sans-serif;">
+    
+    
     <%= render 'layouts/header' %>  
     <% flash.each do |message_type, message| %> 
       <%= message %> 
@@ -76,10 +80,43 @@
             });
           });
         });
+
+        document.body.addEventListener('click', () => {
+      const bgm = document.getElementById('bgm');
+      // muted属性をtrueにすることで、多くの場合自動再生が可能になります。
+      // ユーザーがクリックしたら音量を元に戻して再生します。
+      if (bgm.paused) {
+        bgm.play().catch(e => {
+          console.error("音声の再生に失敗しました:", e);
+        });
+      }
+    }, { once: true });
       </script>
 
+      <script>
+        document.addEventListener('turbo:load', () => {
+          // BGMのaudio要素を取得
+          const bgm = document.getElementById('bgm');
+          
+          // audio要素が存在する場合のみ処理を実行
+          if (bgm) {
+            // ページ上のどこかがクリックされた最初の1回だけ、以下の処理を実行
+            const playBgm = () => {
+              // 音声がまだ再生されていない場合のみ再生
+              if (bgm.paused) {
+                bgm.play().catch(e => {
+                  // ユーザーが操作する前に再生しようとするとエラーが出ることがあるため、コンソールに出力
+                  console.error("BGMの再生に失敗しました:", e);
+                });
+              }
+              // 2回目以降のクリックで再度この関数が呼ばれないようにイベントリスナーを削除
+              document.body.removeEventListener('click', playBgm);
+            };
 
-  
+            document.body.addEventListener('click', playBgm);
+          }
+        });
+      </script>
     </body>
 
   
