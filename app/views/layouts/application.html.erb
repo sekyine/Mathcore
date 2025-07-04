@@ -26,7 +26,7 @@
   
     </head>
 
-   <body style="background-color: #1c1c1c; color: #f5f5dc; font-family: 'Helvetica Neue', sans-serif;">
+  <body style="background-color: #1c1c1c; color: #f5f5dc; font-family: 'Helvetica Neue', sans-serif;">
     
     
     <%= render 'layouts/header' %>  
@@ -36,36 +36,11 @@
     
     <%= yield %> 
 
-    <% if logged_in? %>
-      <%= audio_tag "bgm.mp3", autoplay: true, muted: true, loop: true, id: "bgm", data: { bgm_target: "audio" } %>
-    <% end %>
+    <div data-controller="bgm">
+      <audio data-bgm-target="audio" src="<%= asset_path 'bgm.mp3' %>" autoplay loop muted></audio>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-  
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const toastElement = document.getElementById("answerToast");
-          const toastBody = document.getElementById("toastBody");
-          const toast = new bootstrap.Toast(toastElement);
-
-          document.querySelectorAll(".answer-btn").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-              const isCorrect = btn.dataset.answer === "true";
-              if (isCorrect) {
-                toastBody.textContent = "正解！";
-                toastElement.classList.remove("bg-danger");
-                toastElement.classList.add("bg-success");
-              } else {
-                toastBody.textContent = "不正解…";
-                toastElement.classList.remove("bg-success");
-                toastElement.classList.add("bg-danger");
-              }
-              toast.show();
-            });
-          });
-        });
-      </script>
+    
 
       <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -85,7 +60,7 @@
           });
         });
       </script>
-    </body>
+  </body>
 
   
 </html>
