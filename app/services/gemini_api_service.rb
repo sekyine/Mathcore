@@ -4,11 +4,25 @@ require 'net/http'
 
 class GeminiApiService
   def self.call_gemini_api(prompt, session_id)
+
+    history_key = "conversation_#{session_id}"
+    qna_key     = "qna_map_#{session_id}"
+
+    # キャッシュから Q&A マップを取得（なければ空ハッシュ）
+    qna_map = Rails.cache.fetch(qna_key) { {} }
+
+    # 1) もし過去に同じ質問(prompt)をしていたら即返却
+    if qna_map[prompt]
+      return { text: qna_map[prompt], cached: true }
+    end
+
     api_key = ENV['GEMINI_API_KEY']
     uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{api_key}")
 
     # 初期条件（システムプロンプト）
+
     system_instruction = "あなたは渡される数学の問題を解説し、最後に質問がないか聞いてください。"    
+
     conversation_history = Rails.cache.fetch("conversation_#{session_id}", expires_in: 10.minutes) || []
     aggregated_context = conversation_history.join("\n")
     
@@ -45,9 +59,14 @@ class GeminiApiService
     conversation_history << "ユーザー: #{prompt}"
     conversation_history << "AI: #{formatted_text}"
 
-    conversation_history = conversation_history.last(10)
+    conversation_history = conversation_history.last(20)
     Rails.cache.write("conversation_#{session_id}", conversation_history, expires_in: 10.minutes)
-    #Rails.cache.delete("conversation_#{session_id}")
+
+    Rails.cache.write(
+      qna_key,
+      qna_map,
+      #expires_in: 24.hours   # ← 1日に延長
+    )
     { text: formatted_text }
   end
 end

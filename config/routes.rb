@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/draw', to: 'gacha#draw'
 
+  get 'dungeons/select', to: 'dungeons#select', as: 'dungeon_select'
+
+
   post '/gemini', to: 'gemini#generate_content'
   get '/gemini', to: 'gemini#generate_content'
   get 'gemini/test', to: 'gemini#test'
