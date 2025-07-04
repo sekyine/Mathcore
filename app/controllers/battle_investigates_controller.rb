@@ -32,16 +32,19 @@ class BattleInvestigatesController < ApplicationController
       base_deck = session[:base_deck] || []
       bonus_cards = session[:bonus_cards] || []
       full_deck = (base_deck + bonus_cards).shuffle
+      
+      dungeon = Dungeon.find_by(id: session[:dungeon_id])
 
       battle = Battle.create!(
         user: current_user,
         player_hp: 100,
-        boss_hp: 1,
+        boss_hp: dungeon&.boss_hp || 50, # デフォルト値あり
         deck: full_deck,
         player_hand: full_deck.shift(5),
         turn: 1,
         log: ["バトル開始！"],
-        bonus_cards: session[:bonus_cards]
+        bonus_cards: session[:bonus_cards],
+        dungeon_id: dungeon&.id
       )
 
       @investigation.turn_count = 0
