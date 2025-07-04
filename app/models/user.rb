@@ -6,4 +6,5 @@ class User < ApplicationRecord
   has_many :solved_card_objects, through: :solved_cards, source: :card
 
   has_many :battle_investigates
+  attribute :dungeon_numbers, :json, default: ->{ [1] }
 end
