@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_02_051942) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_071817) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -108,6 +108,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_051942) do
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "dungeon_numbers", default: [1], null: false
   end
 
   add_foreign_key "battle_investigates", "users"
