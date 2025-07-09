@@ -208,7 +208,7 @@
       button.addEventListener("click", (event) => {
         event.preventDefault();
         const question = button.getAttribute("data-question");
-        document.getElementById("geminiIframe").src = `/gemini/test?question=${encodeURIComponent(question)}`;
+        document.getElementById("geminiIframe").src = `/gemini/test?question=${encodeURIComponent(question)}&iframe=true`;
       });
     });
   };
