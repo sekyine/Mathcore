@@ -47,7 +47,7 @@
       <div class="card bg-dark text-white battle-card" style="width: 8rem; min-width: 8rem;">
         <%= image_tag card.image, class: "card-img-top", style: "height: 135px; object-fit: cover;" %>
         <div class="card-body p-2">
-          <p class="card-text mb-1 <%= 'text-danger' if @current_weak_bunyas.include?(card.bunya.strip) %>">
+          <p class="card-text mb-1 <%= 'text-danger' if @current_weak_bunyas.present? && @current_weak_bunyas.include?(card.bunya.strip) %>">
             <%= card.bunya %>
           </p>
           <p class="card-text small mb-2">（<%= card.effect_type %>: <%= effective_power_with_base(card, current_user) %>）</p>

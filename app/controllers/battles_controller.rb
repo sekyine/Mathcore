@@ -104,6 +104,7 @@ class BattlesController < ApplicationController
       @battle.boss_hp -= damage
       @battle.log << "攻撃！ボスに#{damage}ダメージ"
     when 'defence'
+      defence = power
       @battle.log << "防御！次に受けるダメージが-#{power}される"
     when 'heal'
       @battle.player_hp += power
@@ -203,6 +204,8 @@ class BattlesController < ApplicationController
       @battle.log << "ボスが回復！#{heal}回復"
     else
       damage = [((dungeon&.boss_attack_power || 5) * rand(0.8..1.2)).to_i, 0].max
+
+      defence = 0
       @battle.player_hp -= damage
       @battle.log << "ボスの攻撃！#{damage}ダメージ"
     end
