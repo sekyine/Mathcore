@@ -1,4 +1,6 @@
 class BattlesController < ApplicationController
+  include CardsHelper
+
   before_action :set_dungeon, only: %i[new]
   before_action :set_battle, only: [:show, :play]
 
@@ -6,6 +8,9 @@ class BattlesController < ApplicationController
 
   def new
     return redirect_to dungeon_select_path, alert: "ダンジョンを選択してください" unless @dungeon
+
+    session[:dungeon_id] = @dungeon.id
+
     @max_deck_size = MAX_DECK_SIZE
     # 枚数 > 0 の手持ちカードをビューに渡す
     @user_cards = current_user.user_cards.where("quantity > 0")
@@ -51,16 +56,6 @@ class BattlesController < ApplicationController
       return redirect_to new_battle_path
     end
 
-    # @battle = Battle.create!( #今はbattle_investigation_controller
-    #   user: current_user, #にてパラメータを弄ってます
-    #   player_hp: 100, 
-    #   boss_hp: 1,
-    #   deck: full_deck,
-    #   player_hand: full_deck.shift(5),
-    #   turn: 1,
-    #   log: ["バトル開始！"]
-    # )
-
     # セッション初期化
     session[:base_deck] = nil
     session[:bonus_cards] = nil
@@ -69,14 +64,19 @@ class BattlesController < ApplicationController
   end
 
   def show
-
+    if @battle.dungeon.name == "四則演算ダンジョン"
+      @current_weak_bunyas = [@battle.dungeon.rotating_weak_bunya(@battle.turn)]
+    else
+      @current_weak_bunyas = @battle.dungeon.weak_bunya.to_s.split(',').map(&:strip)
+    end
   end
 
   def play
     card_id = params[:card_id].to_i
     correct = ActiveModel::Type::Boolean.new.cast(params[:correct])
     card = Card.find(card_id)
-
+    dungeon = @battle.dungeon
+    
     if correct
       current_user.solved_cards.find_or_create_by(card: card)
       @battle.log << "正解！"
@@ -86,15 +86,28 @@ class BattlesController < ApplicationController
       @battle.log << "不正解！#{damage}ダメージを受けた"
     end
     
+    power = effective_power(card, current_user)
+
     case card.effect_type
     when 'attack'
-      @battle.boss_hp -= card.power
-      @battle.log << "攻撃！ボスに#{card.power}ダメージ"
+
+      damage = [(power - dungeon&.boss_defence_power), 0].max
+      weak = dungeon.weak_bunya.to_s.split(',')
+      if dungeon.name == "四則演算ダンジョン"
+        weak = [dungeon.rotating_weak_bunya(@battle.turn)]
+      end
+      if weak.include?(card.bunya)
+        damage = (damage * 1.5).ceil
+        @battle.log << "弱点を突いた！ダメージ1.5倍！"
+      end
+
+      @battle.boss_hp -= damage
+      @battle.log << "攻撃！ボスに#{damage}ダメージ"
     when 'defence'
-      @battle.log << "防御！次に受けるダメージが-#{card.power}される"
+      @battle.log << "防御！次に受けるダメージが-#{power}される"
     when 'heal'
-      @battle.player_hp += card.power
-      @battle.log << "回復！HPが#{card.power}回復"
+      @battle.player_hp += power
+      @battle.log << "回復！HPが#{power}回復"
     end
     
     index = @battle.player_hand.index(card_id)
@@ -104,29 +117,49 @@ class BattlesController < ApplicationController
     case gameover?
     when :victory
       @victory = true
+      add_bonus_cards_to_user
+      clear_no = @battle.dungeon_id + 1
+      user    = current_user
+
+      # nil 防止
+      user.dungeon_numbers ||= []
+
+      # 重複を避けたいなら include? でチェック
+      unless user.dungeon_numbers.include?(clear_no)
+        user.dungeon_numbers << clear_no
+        user.save!    # JSON カラムなので save! で更新可
+      end
+      
+      session.delete(:dungeon_id)
       @battle.save!
       return render :show
     when :defeat
       @defeat = true
+      session.delete(:dungeon_id)
       @battle.save!
       return render :show
     end
 
     boss_turn
-
+    
+    #勝敗判定その2
     case gameover?
     when :victory
       @victory = true
+      add_bonus_cards_to_user
+      session.delete(:dungeon_id)
       @battle.save!
       return render :show
     when :defeat
       @defeat = true
+      session.delete(:dungeon_id)
       @battle.save!
       return render :show
     end
 
     if @battle.player_hand.empty?
       @defeat = true
+      session.delete(:dungeon_id)
       @battle.log << "デッキが尽きた…あなたは負けてしまった…"
       @battle.save!
       return render :show
@@ -162,14 +195,27 @@ class BattlesController < ApplicationController
   end
 
   def boss_turn
-    if @battle.boss_hp <= 80 && rand < 0.3
-      heal = rand(10..25)
+    dungeon = @battle.dungeon_id && Dungeon.find_by(id: @battle.dungeon_id)
+
+    if @battle.boss_hp <= (dungeon&.boss_hp / 2) && rand < 0.3 #30%の確率で回復
+      heal = [((dungeon&.boss_heal_power || 5) * rand(0.8..1.2)).to_i, 0].max #healpowerの0.8~1.2倍回復 初期healpower 5(for debug)
       @battle.boss_hp += heal
       @battle.log << "ボスが回復！#{heal}回復"
     else
-      damage = rand(10..20)
+      damage = [((dungeon&.boss_attack_power || 5) * rand(0.8..1.2)).to_i, 0].max
       @battle.player_hp -= damage
       @battle.log << "ボスの攻撃！#{damage}ダメージ"
+    end
+  end
+
+  def add_bonus_cards_to_user
+    # return unless @battle.bonus_cards.is_a?(Array)
+
+    @battle.bonus_cards.each do |card_id|
+      user_card = current_user.user_cards.find_or_initialize_by(card_id: card_id)
+      user_card.quantity ||= 0
+      user_card.quantity += 1
+      user_card.save!
     end
   end
 end

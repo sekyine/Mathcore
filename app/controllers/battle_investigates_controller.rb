@@ -2,9 +2,47 @@ class BattleInvestigatesController < ApplicationController
   before_action :set_investigation
 
   def new
-    @card = Card.order("RANDOM()").limit(3)
+    dungeon = Dungeon.find_by(id: session[:dungeon_id])
+    
+    if dungeon && dungeon.card_bunya_filter.present?
+      bunya_list = dungeon.card_bunya_filter.split(',').map(&:strip)
+      # bunya_list に合致するカードを取得
+      cards = Card.where(bunya: bunya_list)
+      if cards.exists?
+        @card = cards.order("RANDOM()").limit(3)
+      else
+        # 該当カードがなければランダムに3枚取得
+        @card = Card.order("RANDOM()").limit(3)
+      end
+    else
+      # dungeonやfilterがなければランダムに3枚取得
+      @card = Card.order("RANDOM()").limit(3)
+    end
   end
 
+  # def fetch_explore_cards(limit = 3) #not working...
+  #   rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }
+
+  #   rarity = weighted_random(rates)
+  #   cards = Card.where(st: rarity)
+
+  #   # カードがない場合は全カードからランダム取得
+  #   cards = Card.all if cards.empty?
+
+  #   cards.order("RANDOM()").limit(limit)
+  # end
+
+  # def weighted_random(weights)
+  #   total = weights.values.sum
+  #   point = rand(total)
+  #   current = 0
+
+  #   weights.each do |key, weight|
+  #     current += weight
+  #     return key if point < current
+  #   end
+  # end
+  
   def set_investigation
     @investigation = current_user.battle_investigates.where('created_at >= ?', 30.minutes.ago).last ||
     current_user.battle_investigates.create(collected_cards: [], turn_count: 0)
@@ -32,15 +70,19 @@ class BattleInvestigatesController < ApplicationController
       base_deck = session[:base_deck] || []
       bonus_cards = session[:bonus_cards] || []
       full_deck = (base_deck + bonus_cards).shuffle
+      
+      dungeon = Dungeon.find_by(id: session[:dungeon_id])
 
       battle = Battle.create!(
         user: current_user,
         player_hp: 100,
-        boss_hp: 1,
+        boss_hp: dungeon&.boss_hp || 50, # デフォルト値あり
         deck: full_deck,
         player_hand: full_deck.shift(5),
         turn: 1,
-        log: ["バトル開始！"]
+        log: ["バトル開始！"],
+        bonus_cards: session[:bonus_cards],
+        dungeon_id: dungeon&.id
       )
 
       @investigation.turn_count = 0
