@@ -104,7 +104,7 @@ class BattlesController < ApplicationController
       @battle.boss_hp -= damage
       @battle.log << "攻撃！ボスに#{damage}ダメージ"
     when 'defence'
-      defence = power
+      @defence = power
       @battle.log << "防御！次に受けるダメージが-#{power}される"
     when 'heal'
       @battle.player_hp += power
@@ -122,10 +122,7 @@ class BattlesController < ApplicationController
       clear_no = @battle.dungeon_id + 1
       user    = current_user
 
-      # nil 防止
       user.dungeon_numbers ||= []
-
-      # 重複を避けたいなら include? でチェック
       unless user.dungeon_numbers.include?(clear_no)
         user.dungeon_numbers << clear_no
         user.save!    # JSON カラムなので save! で更新可
@@ -148,6 +145,15 @@ class BattlesController < ApplicationController
     when :victory
       @victory = true
       add_bonus_cards_to_user
+      clear_no = @battle.dungeon_id + 1
+      user    = current_user
+
+      user.dungeon_numbers ||= []
+      unless user.dungeon_numbers.include?(clear_no)
+        user.dungeon_numbers << clear_no
+        user.save!    # JSON カラムなので save! で更新可
+      end
+      
       session.delete(:dungeon_id)
       @battle.save!
       return render :show
@@ -204,8 +210,8 @@ class BattlesController < ApplicationController
       @battle.log << "ボスが回復！#{heal}回復"
     else
       damage = [((dungeon&.boss_attack_power || 5) * rand(0.8..1.2)).to_i, 0].max
-
-      defence = 0
+      damage = [damage - (@defence || 0 ), 0].max
+      @defence = 0
       @battle.player_hp -= damage
       @battle.log << "ボスの攻撃！#{damage}ダメージ"
     end
