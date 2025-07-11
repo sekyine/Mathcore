@@ -6,28 +6,42 @@ class GachaController < ApplicationController
 
   # redrawアクションでガチャの抽選と結果表示を行う
   def redraw
-    pull_gacha
+    @card = pull_gacha
     # app/views/gacha/redraw.html.erb を表示する
   end
+
+  # ▼▼▼ draw_tenアクションを追加 ▼▼▼
+  def draw_ten
+    @cards = []
+    100.times do
+      @cards << pull_gacha
+    end
+    # app/views/gacha/draw_ten.html.erb を表示する
+  end
+  # ▲▲▲ ここまで追加 ▲▲▲
 
   private
 
   # ガチャを引く共通ロジック
+  # ▼▼▼ @cardへの代入をやめ、引いたカードを返すように変更 ▼▼▼
   def pull_gacha
     rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }.freeze
     rarity = weighted_random(rates)
     cards = Card.where(st: rarity)
-    @card = cards.sample
+    card = cards.sample
 
-    if @card && logged_in?
-      user_card = current_user.user_cards.find_or_initialize_by(card: @card)
+    if card && logged_in?
+      user_card = current_user.user_cards.find_or_initialize_by(card: card)
       user_card.quantity ||= 0
       user_card.quantity += 1
       user_card.save!
-    elsif @card.nil?
+    elsif card.nil?
       flash.now[:alert] = '該当するレアリティのカードが見つかりませんでした。'
     end
+    
+    return card # 引いたカードを返す
   end
+  # ▲▲▲ ここまで変更 ▲▲▲
 
   def weighted_random(weights)
     total = weights.values.sum
