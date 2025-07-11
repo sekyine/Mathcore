@@ -127,6 +127,8 @@ class BattlesController < ApplicationController
     when :victory
       @victory = true
       add_bonus_cards_to_user
+       current_user.increment!(:gacha_points) # ポイントを1増やす
+      flash[:notice] = "ダンジョンクリア！ガチャポイントを1獲得しました！"
       clear_no = @battle.dungeon_id + 1
       user    = current_user
 

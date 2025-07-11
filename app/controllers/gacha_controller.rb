@@ -1,4 +1,5 @@
 class GachaController < ApplicationController
+   before_action :check_gacha_points, only: [:redraw]
   # drawアクションはガチャを引くページを表示する役割のみ
   def draw
     # ここでは何も処理せず、app/views/gacha/draw.html.erb を表示する
@@ -6,6 +7,10 @@ class GachaController < ApplicationController
 
   # redrawアクションでガチャの抽選と結果表示を行う
   def redraw
+    # ポイント消費処理
+    current_user.decrement!(:gacha_points, 1)
+    
+    
     @card = pull_gacha
     # app/views/gacha/redraw.html.erb を表示する
   end
@@ -22,6 +27,17 @@ class GachaController < ApplicationController
 
   private
 
+  def check_gacha_points
+    # 10連ガチャかどうかで必要なポイント数を判断
+    required_points = (action_name == 'draw_ten') ? 10 : 1
+    
+    # ▼▼▼ gacha_pointsがnilの場合に0として扱うように修正 ▼▼▼
+    current_points = current_user.gacha_points || 0
+
+    unless current_points >= required_points
+      redirect_to gacha_draw_path, alert: "ガチャポイントが足りません（現在 #{current_points}ポイント）。ダンジョンをクリアしてポイントを貯めましょう！"
+    end
+  end
   # ガチャを引く共通ロジック
   # ▼▼▼ @cardへの代入をやめ、引いたカードを返すように変更 ▼▼▼
   def pull_gacha
