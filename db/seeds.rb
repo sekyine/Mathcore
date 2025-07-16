@@ -102,12 +102,12 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
   },
   {
     name: "法廷",
-    description: "我々は罪を犯したのだ...(弱点:なし)",
+    description: "我々は罪を犯したのだ...(弱点:???)",
     boss_hp: 10,
     boss_attack_power: 5,
     boss_heal_power: 0,
     boss_defence_power: 5,
-    weak_bunya: "",
+    weak_bunya: "方程式,連立方程式,二次方程式",
     card_bunya_filter: "方程式,連立方程式,二次方程式",
     target_level: 3,
     order_in_level: 2
@@ -162,12 +162,12 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
   },
   {
     name: "双眸を為す",
-    description: "瞼を閉じる。開く。また閉じる。(弱点:極限)",
+    description: "瞼を閉じる。開く。また閉じる。(弱点:???)",
     boss_hp: 100,
     boss_attack_power: 10,
     boss_heal_power: 10,
     boss_defence_power: 0,
-    weak_bunya: "極限",
+    weak_bunya: "微分,積分,極限",
     card_bunya_filter: "微分,積分,極限",
     target_level: 4,
     order_in_level: 4

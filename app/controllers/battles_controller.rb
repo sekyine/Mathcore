@@ -65,7 +65,7 @@ class BattlesController < ApplicationController
 
  def show
     # ▼▼▼ &. を使って @battle.dungeon が nil でもエラーにならないように修正 ▼▼▼
-    if @battle.dungeon&.name == "四則演算ダンジョン"
+    if ["四則演算ダンジョン","法廷","双眸を為す"].include?(@battle.dungeon&.name)
       @current_weak_bunyas = [@battle.dungeon.rotating_weak_bunya(@battle.turn)]
     else
       # ▼▼▼ @battle.dungeon が nil の場合を考慮 ▼▼▼
@@ -78,7 +78,6 @@ class BattlesController < ApplicationController
     correct = ActiveModel::Type::Boolean.new.cast(params[:correct])
     card = Card.find(card_id)
     dungeon = @battle.dungeon
-    flash[:effect_type] = card.effect_type
     
     if correct
       current_user.solved_cards.find_or_create_by(card: card)
@@ -99,7 +98,7 @@ class BattlesController < ApplicationController
       # ▼▼▼ dungeonが存在する場合のみ弱点判定を行うように修正 ▼▼▼
       if dungeon
         weak = dungeon.weak_bunya.to_s.split(',')
-        if dungeon.name == "四則演算ダンジョン"
+        if ["四則演算ダンジョン","法廷","双眸を為す"].include?(dungeon.name)
           weak = [dungeon.rotating_weak_bunya(@battle.turn)]
         end
         if weak.include?(card.bunya)
