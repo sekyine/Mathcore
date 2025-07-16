@@ -112,6 +112,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_032743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "dungeon_numbers", default: [1, 2, 3, 4], null: false
+    t.integer "gacha_points"
     t.integer "math_level", default: 1, null: false
     t.json "dungeon_progress"
   end

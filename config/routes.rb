@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get 'gacha/redraw', to: 'gacha#redraw', as: 'redraw'
-
+  get 'gacha/draw_ten', to: 'gacha#draw_ten', as: 'draw_ten' # この行を追加
   root 'static_pages#home'
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'

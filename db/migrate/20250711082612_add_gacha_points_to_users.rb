@@ -1,0 +1,5 @@
+class AddGachaPointsToUsers < ActiveRecord::Migration[8.0]
+  def change
+    add_column :users, :gacha_points, :integer
+  end
+end
