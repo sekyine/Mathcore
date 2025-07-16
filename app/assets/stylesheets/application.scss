@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+body {
+  font-family: 'DotGothic16', sans-serif !important;
+  background-color: #1c1c1c;
+  color: #f5f5dc;
+}
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -32,7 +39,7 @@
   padding: 15px;
   min-height: 150px;
   color: white;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'DotGothic16', monospace;
 }
 
 .log-message {

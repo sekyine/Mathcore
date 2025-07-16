@@ -1,3 +1,8 @@
+// 1. Google Fontsを最初にインポートします
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+// 2. BootstrapのSassファイルをインポートします
 @import "bootstrap";
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "application.scss";
+
+// 3. 最後に、あなた自身のカスタムスタイルをインポートします
+@import "application";
