@@ -23,7 +23,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaは機能してないっす
     boss_heal_power: 2,
     boss_defence_power: 0,
     weak_bunya: "足し算",
-    card_bunya_filter: "足し算,引き算"
+    card_bunya_filter: "足し算,引き算",
+    kind:"cave"
   },
   {
     name: "四則演算ダンジョン",
@@ -33,7 +34,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaは機能してないっす
     boss_heal_power: 3,
     boss_defence_power: 0,
     weak_bunya: "足し算,引き算,掛け算,割り算",
-    card_bunya_filter: "足し算,引き算,掛け算,割り算"
+    card_bunya_filter: "足し算,引き算,掛け算,割り算",
+    kind:"castle"
   },
   {
     name: "分数マスター",
@@ -43,6 +45,7 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaは機能してないっす
     boss_heal_power: 25,
     boss_defence_power: 1,
     weak_bunya: "分数",
-    card_bunya_filter: "分数"
+    card_bunya_filter: "分数",
+    kind:"castle"
   }
 ])

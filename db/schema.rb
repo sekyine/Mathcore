@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_04_071817) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_11_063609) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -80,6 +80,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_071817) do
     t.integer "boss_defence_power"
     t.string "weak_bunya"
     t.string "card_bunya_filter"
+    t.string "kind"
   end
 
   create_table "solved_cards", force: :cascade do |t|
