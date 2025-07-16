@@ -1,5 +1,276 @@
-image,st,bunya,ans,imans1,imans2,imans3,effect_type,power,question
-win.jpeg,1,??????,2,3,4,5,attack,20,1
-equation.png,2,???,1,2,3,4,attack,5,1+2
-equation.png,2,???,5,1,2,3,deffence,3,5+8
-complex_number.png,5,???,i,1,2,3,attack,4,(1 + 2i)+(4 + 5i)
+﻿image,st,bunya,question,ans,imans1,imans2,imans3,effect,power
+card_2.png,1,一次不等式,5x + 5 \leq 0,x \leq -5/5,2,10,10,heal,3
+card_1.png,1,一次不等式,4x + 8 \leq 0,x \leq -8/4,8,16,28,heal,9
+card_2.png,1,一次不等式,9x + 9 \leq 0,x \leq -9/9,29,5,25,attack,7
+card_2.png,1,一次不等式,5x + 6 \leq 0,x \leq -6/5,30,21,12,heal,8
+card_2.png,1,一次不等式,6x + 5 \leq 0,x \leq -5/6,9,10,12,heal,8
+card_3.png,2,一次不等式,6x + 17 \leq 0,x \leq -17/6,18,18,14,defense,7
+card_2.png,2,一次不等式,19x + 5 \leq 0,x \leq -5/19,13,25,18,defense,5
+card_1.png,2,一次不等式,18x + 1 \leq 0,x \leq -1/18,13,7,19,defense,6
+card_4.png,2,一次不等式,20x + 12 \leq 0,x \leq -12/20,12,30,18,heal,3
+card_2.png,2,一次不等式,4x + 10 \leq 0,x \leq -10/4,20,26,1,heal,9
+card_4.png,3,一次不等式,19x + 12 \leq 0,x \leq -12/19,10,15,19,heal,8
+card_2.png,3,一次不等式,9x + 30 \leq 0,x \leq -30/9,22,10,15,attack,7
+card_2.png,3,一次不等式,4x + 4 \leq 0,x \leq -4/4,20,21,9,attack,10
+card_3.png,3,一次不等式,21x + 28 \leq 0,x \leq -28/21,10,10,8,attack,10
+card_2.png,3,一次不等式,12x + 16 \leq 0,x \leq -16/12,27,10,20,defense,9
+card_2.png,4,一次不等式,29x + 16 \leq 0,x \leq -16/29,7,25,15,attack,4
+card_1.png,4,一次不等式,21x + 17 \leq 0,x \leq -17/21,23,29,24,attack,7
+card_3.png,4,一次不等式,39x + 26 \leq 0,x \leq -26/39,4,24,12,attack,4
+card_4.png,4,一次不等式,17x + 6 \leq 0,x \leq -6/17,28,4,12,defense,5
+card_1.png,4,一次不等式,34x + 32 \leq 0,x \leq -32/34,29,13,12,attack,3
+card_2.png,5,一次不等式,24x + 12 \leq 0,x \leq -12/24,30,3,30,attack,4
+card_2.png,5,一次不等式,36x + 36 \leq 0,x \leq -36/36,11,13,30,attack,6
+card_2.png,5,一次不等式,37x + 34 \leq 0,x \leq -34/37,18,1,23,defense,10
+card_4.png,5,一次不等式,16x + 2 \leq 0,x \leq -2/16,23,2,20,heal,2
+card_4.png,5,一次不等式,5x + 23 \leq 0,x \leq -23/5,23,28,15,attack,7
+card_1.png,1,二次関数,3 + 9,12,22,7,21,defense,5
+card_3.png,1,二次関数,5 + 4,9,24,11,26,defense,5
+card_1.png,1,二次関数,9 + 2,11,29,16,29,attack,3
+card_1.png,1,二次関数,4 + 8,12,14,17,19,attack,6
+card_4.png,1,二次関数,7 + 5,12,29,12,10,heal,10
+card_1.png,2,二次関数,14 + 14,28,22,29,28,attack,2
+card_3.png,2,二次関数,13 + 20,33,16,6,12,attack,9
+card_2.png,2,二次関数,2 + 15,17,10,24,28,heal,8
+card_2.png,2,二次関数,20 + 16,36,26,24,23,attack,10
+card_1.png,2,二次関数,19 + 2,21,8,17,21,heal,9
+card_4.png,3,二次関数,26 + 13,39,4,19,27,attack,5
+card_2.png,3,二次関数,29 + 19,48,3,29,11,attack,7
+card_1.png,3,二次関数,9 + 21,30,19,24,2,heal,10
+card_3.png,3,二次関数,22 + 12,34,16,18,2,attack,5
+card_4.png,3,二次関数,16 + 16,32,25,14,1,heal,6
+card_4.png,4,二次関数,1 + 12,13,11,23,30,defense,3
+card_3.png,4,二次関数,3 + 5,8,22,3,30,heal,6
+card_2.png,4,二次関数,3 + 24,27,25,29,23,defense,8
+card_1.png,4,二次関数,5 + 15,20,2,15,17,heal,9
+card_4.png,4,二次関数,37 + 3,40,10,7,28,attack,10
+card_2.png,5,二次関数,35 + 41,76,5,22,17,attack,7
+card_2.png,5,二次関数,22 + 40,62,25,8,15,heal,3
+card_2.png,5,二次関数,33 + 4,37,1,9,10,defense,6
+card_4.png,5,二次関数,4 + 46,50,2,15,29,heal,7
+card_4.png,5,二次関数,14 + 15,29,24,24,28,heal,9
+card_4.png,1,複素数,(1 + 2i)^2,-3 + 4i,10,18,27,heal,3
+card_4.png,1,複素数,(2 + 5i)^2,-21 + 20i,3,9,2,heal,4
+card_1.png,1,複素数,(5 + 3i)^2,16 + 30i,22,16,9,attack,10
+card_4.png,1,複素数,(2 + 5i)^2,-21 + 20i,8,15,23,defense,8
+card_2.png,1,複素数,(2 + 4i)^2,-12 + 16i,22,27,10,heal,4
+card_2.png,2,複素数,(1 + 1i)^2,0 + 2i,7,27,5,defense,6
+card_1.png,2,複素数,(10 + 5i)^2,75 + 100i,25,10,17,heal,7
+card_1.png,2,複素数,(7 + 1i)^2,48 + 14i,13,15,9,heal,1
+card_2.png,2,複素数,(6 + 2i)^2,32 + 24i,20,29,10,heal,4
+card_4.png,2,複素数,(9 + 9i)^2,0 + 162i,9,6,7,defense,8
+card_2.png,3,複素数,(5 + 7i)^2,-24 + 70i,7,13,10,defense,7
+card_3.png,3,複素数,(6 + 9i)^2,-45 + 108i,21,4,28,attack,5
+card_3.png,3,複素数,(14 + 7i)^2,147 + 196i,11,13,23,attack,2
+card_3.png,3,複素数,(5 + 12i)^2,-119 + 120i,23,7,23,attack,8
+card_3.png,3,複素数,(14 + 14i)^2,0 + 392i,17,22,19,defense,6
+card_4.png,4,複素数,(6 + 8i)^2,-28 + 96i,9,4,30,defense,3
+card_4.png,4,複素数,(12 + 1i)^2,143 + 24i,8,9,10,defense,8
+card_1.png,4,複素数,(12 + 7i)^2,95 + 168i,23,29,29,attack,4
+card_4.png,4,複素数,(16 + 12i)^2,112 + 384i,1,5,15,attack,2
+card_2.png,4,複素数,(16 + 12i)^2,112 + 384i,5,7,22,heal,4
+card_1.png,5,複素数,(10 + 8i)^2,36 + 160i,17,19,19,attack,1
+card_2.png,5,複素数,(16 + 1i)^2,255 + 32i,19,18,28,attack,10
+card_4.png,5,複素数,(13 + 12i)^2,25 + 312i,25,19,26,heal,10
+card_2.png,5,複素数,(24 + 12i)^2,432 + 576i,29,23,23,defense,5
+card_3.png,5,複素数,(11 + 4i)^2,105 + 88i,8,26,25,defense,9
+card_2.png,1,指数・対数,log_2(8),3,3,23,21,attack,9
+card_1.png,1,指数・対数,log_3(3),1,17,18,26,heal,9
+card_2.png,1,指数・対数,log_3(3),1,9,25,29,defense,7
+card_3.png,1,指数・対数,log_5(5),1,28,24,5,heal,5
+card_1.png,1,指数・対数,log_3(27),3,25,28,12,heal,2
+card_4.png,2,指数・対数,log_5(125),3,4,18,27,heal,5
+card_3.png,2,指数・対数,log_4(16),2,5,21,29,attack,5
+card_2.png,2,指数・対数,log_5(5),1,14,15,5,defense,6
+card_1.png,2,指数・対数,log_2(8),3,10,18,21,heal,3
+card_4.png,2,指数・対数,log_2(4),2,22,28,2,heal,9
+card_3.png,3,指数・対数,log_4(16),2,15,21,25,defense,9
+card_2.png,3,指数・対数,log_2(8),3,3,7,25,heal,8
+card_4.png,3,指数・対数,log_4(64),3,29,12,25,attack,1
+card_2.png,3,指数・対数,log_2(2),1,15,1,1,attack,4
+card_1.png,3,指数・対数,log_4(64),3,27,1,17,heal,2
+card_3.png,4,指数・対数,log_3(9),2,28,19,3,defense,6
+card_4.png,4,指数・対数,log_3(3),1,7,1,23,heal,10
+card_2.png,4,指数・対数,log_2(4),2,4,1,21,heal,3
+card_3.png,4,指数・対数,log_4(16),2,14,22,23,heal,8
+card_3.png,4,指数・対数,log_5(25),2,23,14,19,attack,5
+card_3.png,5,指数・対数,log_4(64),3,2,26,28,heal,2
+card_4.png,5,指数・対数,log_2(4),2,2,12,25,heal,9
+card_1.png,5,指数・対数,log_2(8),3,21,28,22,heal,1
+card_3.png,5,指数・対数,log_5(25),2,24,17,10,attack,5
+card_3.png,5,指数・対数,log_3(9),2,4,22,21,heal,10
+card_2.png,1,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},29,22,3,attack,6
+card_1.png,1,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},28,4,6,attack,1
+card_1.png,1,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},20,6,11,attack,3
+card_4.png,1,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},21,26,20,heal,5
+card_4.png,1,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},23,30,2,attack,4
+card_1.png,2,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},14,11,10,attack,4
+card_2.png,2,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},25,14,29,attack,6
+card_1.png,2,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},28,8,23,attack,7
+card_4.png,2,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},1,22,27,defense,3
+card_2.png,2,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},26,18,30,attack,7
+card_3.png,3,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},3,7,8,attack,2
+card_2.png,3,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},25,21,11,heal,5
+card_2.png,3,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},26,19,7,heal,10
+card_3.png,3,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},22,22,26,heal,9
+card_3.png,3,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},21,8,21,defense,10
+card_3.png,4,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},15,22,11,attack,4
+card_4.png,4,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},14,30,20,attack,9
+card_4.png,4,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},26,21,20,defense,4
+card_3.png,4,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},15,18,24,defense,8
+card_2.png,4,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},9,13,13,defense,6
+card_2.png,5,三角関数,\sin(\frac{\pi}{6}),\frac{1}{2},24,10,23,defense,10
+card_1.png,5,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},28,6,24,defense,3
+card_3.png,5,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},12,9,4,defense,10
+card_2.png,5,三角関数,\sin(\frac{\pi}{4}),\frac{\sqrt{2}}{2},28,26,27,attack,5
+card_2.png,5,三角関数,\sin(\frac{\pi}{3}),\frac{\sqrt{3}}{2},6,26,12,attack,8
+card_3.png,1,微分,10 + 5,15,19,14,28,heal,3
+card_4.png,1,微分,3 + 7,10,24,12,3,defense,3
+card_4.png,1,微分,5 + 3,8,24,12,15,heal,6
+card_4.png,1,微分,8 + 5,13,14,6,19,heal,3
+card_1.png,1,微分,5 + 8,13,10,12,29,heal,10
+card_3.png,2,微分,15 + 6,21,18,14,23,defense,7
+card_3.png,2,微分,13 + 6,19,5,17,26,defense,2
+card_1.png,2,微分,13 + 15,28,4,16,25,defense,7
+card_2.png,2,微分,3 + 15,18,14,11,6,defense,3
+card_3.png,2,微分,13 + 1,14,17,10,30,defense,9
+card_1.png,3,微分,3 + 12,15,27,18,3,attack,7
+card_2.png,3,微分,20 + 11,31,27,15,8,attack,1
+card_4.png,3,微分,30 + 11,41,9,24,12,attack,5
+card_2.png,3,微分,2 + 29,31,9,9,11,attack,1
+card_2.png,3,微分,13 + 10,23,2,10,1,attack,9
+card_1.png,4,微分,13 + 26,39,27,27,3,defense,5
+card_3.png,4,微分,14 + 26,40,20,28,5,attack,6
+card_4.png,4,微分,8 + 29,37,17,18,21,defense,4
+card_3.png,4,微分,29 + 2,31,21,29,26,defense,4
+card_2.png,4,微分,17 + 16,33,22,10,2,attack,4
+card_4.png,5,微分,19 + 25,44,3,11,20,attack,3
+card_2.png,5,微分,21 + 6,27,27,14,2,defense,5
+card_3.png,5,微分,8 + 6,14,5,20,5,attack,7
+card_1.png,5,微分,15 + 40,55,21,6,22,heal,7
+card_4.png,5,微分,42 + 37,79,14,14,19,attack,4
+card_3.png,1,積分,7 + 9,16,20,14,11,defense,8
+card_1.png,1,積分,8 + 9,17,26,18,7,attack,5
+card_3.png,1,積分,1 + 8,9,5,21,3,defense,9
+card_1.png,1,積分,9 + 2,11,18,15,5,attack,1
+card_3.png,1,積分,4 + 8,12,7,1,27,defense,5
+card_3.png,2,積分,15 + 17,32,3,8,26,attack,8
+card_1.png,2,積分,3 + 2,5,10,14,4,attack,2
+card_2.png,2,積分,6 + 13,19,16,28,26,attack,8
+card_2.png,2,積分,17 + 11,28,22,2,4,attack,10
+card_2.png,2,積分,10 + 18,28,4,23,26,attack,5
+card_2.png,3,積分,24 + 18,42,30,26,8,heal,10
+card_1.png,3,積分,22 + 2,24,25,14,17,attack,1
+card_1.png,3,積分,10 + 19,29,28,8,28,defense,6
+card_3.png,3,積分,21 + 21,42,26,19,21,heal,6
+card_4.png,3,積分,23 + 4,27,19,30,10,defense,1
+card_4.png,4,積分,39 + 11,50,24,2,29,attack,8
+card_2.png,4,積分,11 + 1,12,29,23,10,defense,3
+card_2.png,4,積分,38 + 39,77,10,14,28,heal,6
+card_2.png,4,積分,27 + 27,54,20,16,5,attack,3
+card_3.png,4,積分,37 + 39,76,17,25,19,heal,9
+card_1.png,5,積分,31 + 5,36,10,15,21,heal,3
+card_3.png,5,積分,30 + 27,57,13,1,6,defense,10
+card_3.png,5,積分,50 + 46,96,24,13,8,heal,8
+card_3.png,5,積分,12 + 19,31,17,1,12,attack,9
+card_1.png,5,積分,37 + 48,85,20,21,22,heal,8
+card_4.png,1,極限,8 + 4,12,1,13,18,heal,3
+card_2.png,1,極限,9 + 8,17,18,20,5,heal,7
+card_3.png,1,極限,5 + 7,12,26,8,16,attack,8
+card_3.png,1,極限,6 + 8,14,20,11,15,defense,2
+card_4.png,1,極限,7 + 7,14,8,30,3,defense,4
+card_2.png,2,極限,4 + 10,14,8,9,19,heal,6
+card_1.png,2,極限,18 + 2,20,10,13,21,heal,6
+card_2.png,2,極限,13 + 11,24,26,14,15,attack,10
+card_3.png,2,極限,20 + 1,21,9,17,24,attack,1
+card_2.png,2,極限,10 + 2,12,19,25,9,attack,9
+card_3.png,3,極限,4 + 25,29,28,20,4,defense,9
+card_1.png,3,極限,20 + 14,34,19,3,28,attack,1
+card_4.png,3,極限,30 + 19,49,5,22,5,attack,7
+card_4.png,3,極限,16 + 13,29,25,27,11,defense,3
+card_3.png,3,極限,9 + 8,17,5,23,1,defense,8
+card_3.png,4,極限,30 + 12,42,11,20,13,defense,5
+card_3.png,4,極限,17 + 18,35,15,28,10,defense,5
+card_1.png,4,極限,17 + 25,42,18,7,11,defense,4
+card_1.png,4,極限,33 + 22,55,18,27,5,attack,8
+card_4.png,4,極限,22 + 19,41,13,19,21,defense,5
+card_4.png,5,極限,17 + 9,26,6,2,19,attack,10
+card_2.png,5,極限,1 + 45,46,2,18,14,attack,2
+card_3.png,5,極限,18 + 23,41,5,14,27,defense,10
+card_4.png,5,極限,44 + 49,93,25,29,1,heal,9
+card_3.png,5,極限,42 + 15,57,20,8,15,heal,2
+card_2.png,1,確率,1 + 10,11,10,29,2,defense,7
+card_4.png,1,確率,4 + 5,9,10,17,7,defense,4
+card_3.png,1,確率,2 + 6,8,5,5,15,defense,5
+card_4.png,1,確率,2 + 10,12,15,26,20,defense,1
+card_3.png,1,確率,8 + 2,10,11,5,26,heal,9
+card_3.png,2,確率,18 + 14,32,29,4,15,defense,9
+card_2.png,2,確率,20 + 9,29,23,13,14,heal,8
+card_3.png,2,確率,12 + 20,32,7,27,5,heal,9
+card_3.png,2,確率,12 + 2,14,26,7,23,defense,4
+card_1.png,2,確率,8 + 15,23,3,25,28,heal,6
+card_4.png,3,確率,16 + 18,34,18,8,8,defense,9
+card_4.png,3,確率,15 + 2,17,22,26,12,heal,6
+card_2.png,3,確率,28 + 30,58,27,16,8,attack,7
+card_1.png,3,確率,14 + 18,32,14,28,13,defense,8
+card_3.png,3,確率,29 + 18,47,28,8,4,attack,5
+card_1.png,4,確率,24 + 6,30,2,16,21,heal,2
+card_4.png,4,確率,11 + 35,46,23,6,23,attack,3
+card_3.png,4,確率,20 + 16,36,11,4,22,heal,10
+card_3.png,4,確率,7 + 17,24,13,29,13,heal,5
+card_1.png,4,確率,14 + 31,45,4,25,1,heal,6
+card_4.png,5,確率,35 + 4,39,13,19,9,defense,4
+card_2.png,5,確率,12 + 29,41,15,3,22,heal,2
+card_1.png,5,確率,41 + 27,68,23,16,17,attack,4
+card_1.png,5,確率,48 + 10,58,18,11,4,attack,8
+card_3.png,5,確率,50 + 33,83,20,26,2,heal,7
+card_2.png,1,数列,4 + 9,13,15,21,6,heal,4
+card_3.png,1,数列,2 + 4,6,14,20,17,heal,10
+card_4.png,1,数列,7 + 1,8,10,17,17,attack,3
+card_4.png,1,数列,4 + 8,12,26,27,1,defense,2
+card_4.png,1,数列,4 + 3,7,19,7,28,attack,6
+card_4.png,2,数列,2 + 3,5,16,13,29,defense,1
+card_1.png,2,数列,18 + 3,21,19,24,26,defense,1
+card_3.png,2,数列,15 + 14,29,15,24,19,defense,10
+card_4.png,2,数列,9 + 20,29,6,12,2,defense,2
+card_2.png,2,数列,13 + 16,29,16,3,16,heal,2
+card_2.png,3,数列,29 + 24,53,4,12,20,attack,6
+card_4.png,3,数列,14 + 11,25,11,23,3,attack,6
+card_2.png,3,数列,4 + 24,28,5,24,12,attack,8
+card_4.png,3,数列,21 + 21,42,5,10,30,defense,4
+card_3.png,3,数列,29 + 22,51,15,20,14,heal,2
+card_3.png,4,数列,16 + 5,21,9,17,25,attack,7
+card_1.png,4,数列,16 + 27,43,10,18,15,defense,5
+card_4.png,4,数列,39 + 23,62,26,14,4,defense,5
+card_4.png,4,数列,5 + 21,26,14,13,4,attack,1
+card_3.png,4,数列,33 + 21,54,22,10,9,heal,2
+card_4.png,5,数列,18 + 2,20,22,16,5,attack,7
+card_4.png,5,数列,39 + 3,42,7,26,7,attack,10
+card_2.png,5,数列,5 + 46,51,29,9,8,attack,1
+card_3.png,5,数列,10 + 19,29,10,18,22,attack,6
+card_3.png,5,数列,38 + 10,48,16,1,29,defense,8
+card_1.png,1,ベクトル,6 + 10,16,15,27,5,heal,7
+card_4.png,1,ベクトル,5 + 2,7,8,3,9,defense,6
+card_1.png,1,ベクトル,8 + 7,15,8,1,4,attack,1
+card_3.png,1,ベクトル,7 + 2,9,6,14,4,attack,3
+card_2.png,1,ベクトル,3 + 7,10,8,11,3,heal,2
+card_1.png,2,ベクトル,2 + 8,10,17,25,30,defense,9
+card_3.png,2,ベクトル,5 + 2,7,28,15,22,attack,1
+card_4.png,2,ベクトル,8 + 1,9,29,26,30,defense,3
+card_2.png,2,ベクトル,6 + 12,18,15,26,24,defense,8
+card_4.png,2,ベクトル,20 + 14,34,28,21,29,defense,10
+card_3.png,3,ベクトル,16 + 26,42,23,28,12,defense,7
+card_1.png,3,ベクトル,1 + 7,8,22,24,22,attack,4
+card_4.png,3,ベクトル,18 + 8,26,30,15,29,attack,8
+card_2.png,3,ベクトル,28 + 28,56,1,11,20,defense,6
+card_1.png,3,ベクトル,24 + 11,35,14,11,21,heal,10
+card_4.png,4,ベクトル,11 + 37,48,8,21,10,defense,2
+card_3.png,4,ベクトル,28 + 11,39,19,7,17,attack,4
+card_1.png,4,ベクトル,24 + 32,56,14,2,27,attack,6
+card_4.png,4,ベクトル,16 + 31,47,8,25,5,defense,10
+card_2.png,4,ベクトル,9 + 22,31,14,24,29,heal,2
+card_4.png,5,ベクトル,47 + 3,50,12,24,8,defense,3
+card_2.png,5,ベクトル,34 + 34,68,13,20,18,attack,10
+card_4.png,5,ベクトル,3 + 44,47,13,3,14,defense,8
+card_1.png,5,ベクトル,12 + 49,61,9,21,3,heal,10
+card_3.png,5,ベクトル,24 + 40,64,22,8,20,attack,2

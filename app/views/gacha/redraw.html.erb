@@ -4,7 +4,13 @@
   <% if @card %>
     <div class="card p-4 mb-4 shadow" style="background-color: #2c2c2c; border: 1px solid #ffd700;">
       <strong class="mb-3 d-block" style="color: #ffd700;">結果</strong>
-      <%= image_tag @card.image, size: '218x270', class: 'mb-3' %>
+
+    <% if @card.image.present? %>
+      <%= image_tag asset_path(@card.image), size: '218x270', class: 'mb-3' %>
+    <% else %>
+      <p style="color: red;">画像が登録されていません</p>
+    <% end %>
+
       <p style="color: #f5f5dc;"> <i class="fa-solid fa-star"></i> <%= @card.st %></p>
     </div>
   <% else %>
