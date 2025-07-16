@@ -123,7 +123,7 @@ class BattleInvestigatesController < ApplicationController
 
       battle = Battle.create!(
         user: current_user,
-        player_hp: 100,
+        player_hp: player_hp_by_level(current_user.math_level),
         boss_hp: dungeon&.boss_hp || 50, # デフォルト値あり
         deck: full_deck,
         player_hand: full_deck.shift(5),
@@ -143,4 +143,20 @@ class BattleInvestigatesController < ApplicationController
     end
     redirect_to new_battle_investigate_path
   end
+
+  def player_hp_by_level(level)
+    case level
+    when 1
+      20
+    when 2
+      30
+    when 3
+      50
+    when 4
+      80
+    else
+      30 # default
+    end
+  end
+
 end

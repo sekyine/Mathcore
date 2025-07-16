@@ -36,6 +36,7 @@ class Admin::CardsController < ApplicationController
             power: row["power"],
             question: row["question"]
           )
+          
         end
 
         redirect_to admin_cards_path, notice: "CSVインポートに成功しました"
