@@ -1,5 +1,13 @@
 class GachaController < ApplicationController
-   before_action :check_gacha_points, only: [:redraw]
+  before_action :check_gacha_points, only: [:redraw]
+
+  ALLOWED_BUNYA_BY_LEVEL = {
+    1 => %w[足し算 引き算 掛け算 割り算 大きな数 かんたんな小数 かんたんな分数 かんたんな図形],
+    2 => %w[比例・反比例 小数 分数 図形],
+    3 => %w[方程式 連立方程式 二次方程式 平方根 一次関数 確率],
+    4 => %w[一次不等式 二次関数 複素数 指数・対数 三角関数 微分 積分 極限 数列 ベクトル 確率]
+  }.freeze
+
   # drawアクションはガチャを引くページを表示する役割のみ
   def draw
     # ここでは何も処理せず、app/views/gacha/draw.html.erb を表示する
@@ -12,7 +20,7 @@ class GachaController < ApplicationController
     
     
     @card = pull_gacha
-    # app/views/gacha/redraw.html.erb を表示する
+     # app/views/gacha/redraw.html.erb を表示する
   end
 
   # ▼▼▼ draw_tenアクションを追加 ▼▼▼
@@ -43,7 +51,12 @@ class GachaController < ApplicationController
   def pull_gacha
     rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }.freeze
     rarity = weighted_random(rates)
+
+    allowed_level = current_user.math_level || 1 #学年別フィルタ
+    allowed_bunya = ALLOWED_BUNYA_BY_LEVEL[allowed_level] || []
     cards = Card.where(st: rarity)
+                .where("difficulty_level <= ?", allowed_level)
+                .where(bunya: allowed_bunya)
     card = cards.sample
 
     if card && logged_in?
