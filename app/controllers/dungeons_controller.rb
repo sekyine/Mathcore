@@ -1,13 +1,11 @@
 class DungeonsController < ApplicationController
   def select
-    # あなたのアプリに沿って「ダンジョン一覧」や「難易度」などを @dungeons に詰める
-    allowed_ids = current_user.dungeon_numbers
+    current_level = current_user.math_level
+    progress = current_user.dungeon_progress || {}
+    order = progress[current_level.to_s].to_i
 
-    # ユーザーが持っているダンジョンだけ
-    @dungeons = if allowed_ids.any?
-                  Dungeon.where(id: allowed_ids)
-                else
-                  Dungeon.none
-                end
+    @dungeons = Dungeon.where(target_level: current_level)
+                      .where("order_in_level <= ?", order + 1)
+                      .order(:order_in_level)
   end
 end

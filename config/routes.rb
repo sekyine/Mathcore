@@ -36,5 +36,11 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :users, only: [] do
+    collection do
+      get 'options'    # GET /users/options → 設定画面表示
+      patch 'update_settings'  # PATCH /users/update_settings → 設定保存
+    end
+  end
 end
 

@@ -122,11 +122,7 @@ class BattlesController < ApplicationController
       clear_no = @battle.dungeon_id + 1
       user    = current_user
 
-      user.dungeon_numbers ||= []
-      unless user.dungeon_numbers.include?(clear_no)
-        user.dungeon_numbers << clear_no
-        user.save!    # JSON カラムなので save! で更新可
-      end
+      clear_dungeon(@battle.dungeon)
       
       session.delete(:dungeon_id)
       @battle.save!
@@ -148,11 +144,7 @@ class BattlesController < ApplicationController
       clear_no = @battle.dungeon_id + 1
       user    = current_user
 
-      user.dungeon_numbers ||= []
-      unless user.dungeon_numbers.include?(clear_no)
-        user.dungeon_numbers << clear_no
-        user.save!    # JSON カラムなので save! で更新可
-      end
+      clear_dungeon(@battle.dungeon)
       
       session.delete(:dungeon_id)
       @battle.save!
@@ -225,6 +217,17 @@ class BattlesController < ApplicationController
       user_card.quantity ||= 0
       user_card.quantity += 1
       user_card.save!
+    end
+  end
+  
+  def clear_dungeon(dungeon)
+    progress = current_user.dungeon_progress || {}
+    level = dungeon.target_level.to_s
+    current_order = progress[level].to_i
+
+    if dungeon.order_in_level > current_order
+      progress[level] = dungeon.order_in_level
+      current_user.update!(dungeon_progress: progress)
     end
   end
 end
