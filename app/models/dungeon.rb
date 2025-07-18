@@ -1,5 +1,7 @@
 class Dungeon < ApplicationRecord
   has_many :battles
+  enum :kind, { cave: 'cave', castle: 'castle',mount: 'mount',iseki: 'iseki',sougen: 'sougen' }
+
 
   def filtered_bunyas
     (card_bunya_filter || "").split(",").map(&:strip)
@@ -12,4 +14,5 @@ class Dungeon < ApplicationRecord
     index = (turn - 1) % bunyas.length
     bunyas[index]
   end
+
 end

@@ -25,7 +25,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "足し算",
     card_bunya_filter: "足し算",
     target_level: 1,
-    order_in_level: 1
+    order_in_level: 1,
+    kind:"cave"
   },
   {
     name: "四則演算ダンジョン",
@@ -37,7 +38,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "足し算,引き算,掛け算,割り算",
     card_bunya_filter: "足し算,引き算,掛け算,割り算",
     target_level: 1,
-    order_in_level: 2
+    order_in_level: 2,
+    kind:"castle"
   },
   {
     name: "イロンナカズ公園",
@@ -49,7 +51,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "かんたんな小数,かんたんな分数",
     card_bunya_filter: "大きな数,かんたんな小数,かんたんな分数,かんたんな図形",
     target_level: 1,
-    order_in_level: 3
+    order_in_level: 3,
+    kind:"sougen"
   },
   {
     name: "チュートリアル（小学校高学年）",
@@ -61,7 +64,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "引き算",
     card_bunya_filter: "引き算,掛け算",
     target_level: 2,
-    order_in_level: 1
+    order_in_level: 1,
+    kind:"iseki"
   },
   {
     name: "ヒレイ山",
@@ -73,7 +77,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "比例・反比例",
     card_bunya_filter: "掛け算,割り算,比例・反比例",
     target_level: 2,
-    order_in_level: 1
+    order_in_level: 1,
+    kind:"mount"
   },
   {
     name: "小数・分数サファリパーク",
@@ -85,7 +90,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "小数,分数",
     card_bunya_filter: "かんたんな小数,かんたんな分数,かんたんな図形,小数,分数,図形",
     target_level: 2,
-    order_in_level: 3
+    order_in_level: 3,
+    kind:"sougen"
   },
   {
     name: "チュートリアル（中学生）",
@@ -97,7 +103,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "二次方程式",
     card_bunya_filter: "二次方程式,分数",
     target_level: 3,
-    order_in_level: 1
+    order_in_level: 1,
+    kind:"cave"
   },
   {
     name: "法廷",
@@ -109,7 +116,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "方程式,連立方程式,二次方程式",
     card_bunya_filter: "方程式,連立方程式,二次方程式",
     target_level: 3,
-    order_in_level: 2
+    order_in_level: 2,
+    kind:"iseki"
   },
   {
     name: "解放",
@@ -121,7 +129,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "確率",
     card_bunya_filter: "平方根,一次関数,確率",
     target_level: 3,
-    order_in_level: 3
+    order_in_level: 3,
+    kind:"mount"
   },
   {
     name: "チュートリアル（高校生）",
@@ -133,7 +142,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "二次方程式",
     card_bunya_filter: "二次方程式,関数,ベクトル",
     target_level: 4,
-    order_in_level: 1
+    order_in_level: 1,
+    kind:"mount"
   },
   {
     name: "夢想の境魔",
@@ -145,7 +155,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "複素数",
     card_bunya_filter: "一時不等式,二次関数,複素数",
     target_level: 4,
-    order_in_level: 2
+    order_in_level: 2,
+    kind:"sougen"
   },
   {
     name: "教場の滲み",
@@ -157,7 +168,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "三角関数,ベクトル",
     card_bunya_filter: "指数・対数,三角関数,確率,数列,ベクトル",
     target_level: 4,
-    order_in_level: 3
+    order_in_level: 3,
+    kind:"castle"
   },
   {
     name: "双眸を為す",
@@ -169,6 +181,7 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "微分,積分,極限",
     card_bunya_filter: "微分,積分,極限",
     target_level: 4,
-    order_in_level: 4
+    order_in_level: 4,
+    kind:"mount"
   }
 ])

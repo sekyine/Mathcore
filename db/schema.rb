@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_18_075339) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -49,6 +49,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
     t.string "effect_type"
     t.integer "power"
     t.string "question"
+    t.string "answer"
+  end
+
+  create_table "deck_cards", force: :cascade do |t|
+    t.integer "deck_id", null: false
+    t.integer "card_id", null: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_deck_cards_on_card_id"
+    t.index ["deck_id"], name: "index_deck_cards_on_deck_id"
+  end
+
+  create_table "decks", force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_decks_on_user_id"
   end
 
   create_table "deck_cards", force: :cascade do |t|
@@ -82,6 +101,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
     t.string "card_bunya_filter"
     t.integer "target_level", default: 1, null: false
     t.integer "order_in_level"
+    t.string "kind"
   end
 
   create_table "solved_cards", force: :cascade do |t|
@@ -111,7 +131,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "dungeon_numbers", default: [1, 2, 3, 4], null: false
-    t.integer "gacha_points"
+    t.integer "gacha_points", default: 3
     t.integer "math_level", default: 1, null: false
     t.json "dungeon_progress"
   end

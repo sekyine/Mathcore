@@ -5,6 +5,7 @@ require 'net/http'
 class GeminiApiService
   def self.call_gemini_api(prompt, session_id)
 
+
     history_key = "conversation_#{session_id}"
     qna_key     = "qna_map_#{session_id}"
 
@@ -15,6 +16,7 @@ class GeminiApiService
     if qna_map[prompt]
       return { text: qna_map[prompt], cached: true }
     end
+
 
     api_key = ENV['GEMINI_API_KEY']
     uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{api_key}")
