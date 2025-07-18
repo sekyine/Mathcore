@@ -35,7 +35,6 @@ class Admin::CardsController < ApplicationController
             effect_type: row["effect_type"],
             power: row["power"],
             question: row["question"],
-            difficulty_level: row["difficulty_level"] # 追加　忘れてた　ごめぴ
           )
           
         end

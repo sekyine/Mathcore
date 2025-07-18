@@ -55,7 +55,6 @@ class GachaController < ApplicationController
     allowed_level = current_user.math_level || 1 #学年別フィルタ
     allowed_bunya = ALLOWED_BUNYA_BY_LEVEL[allowed_level] || []
     cards = Card.where(st: rarity)
-                .where("difficulty_level <= ?", allowed_level)
                 .where(bunya: allowed_bunya)
     card = cards.sample
 

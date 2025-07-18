@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_16_032743) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -48,8 +48,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_032743) do
     t.string "effect_type"
     t.integer "power"
     t.string "question"
-    t.string "answer"
-    t.integer "difficulty_level"
   end
 
   create_table "deck_cards", force: :cascade do |t|
