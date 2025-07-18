@@ -71,3 +71,59 @@
    max-width: 90%;
    max-height: 90%;
  }
+
+  /* Geminiチャット用のスタイル */
+.chat-container {
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chat-window {
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: 500px; /* 必要に応じて調整 */
+  overflow-y: auto;
+}
+
+.chat-message-container {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.ai-message {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  color: #949593;
+}
+
+.user-message .message-bubble {
+  background-color: #007bff; /* 青色 */
+  border-bottom-right-radius: 5px;
+}
+
+.ai-message .message-bubble {
+  background-color: #28a745; /* 緑色 */
+  border-bottom-left-radius: 5px;
+}
+
+.message-bubble p {
+  margin: 0;
+}

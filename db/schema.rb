@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_04_071817) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -80,6 +80,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_071817) do
     t.integer "boss_defence_power"
     t.string "weak_bunya"
     t.string "card_bunya_filter"
+    t.integer "target_level", default: 1, null: false
+    t.integer "order_in_level"
   end
 
   create_table "solved_cards", force: :cascade do |t|
@@ -108,7 +110,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_071817) do
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "dungeon_numbers", default: [1], null: false
+    t.json "dungeon_numbers", default: [1, 2, 3, 4], null: false
+    t.integer "gacha_points"
+    t.integer "math_level", default: 1, null: false
+    t.json "dungeon_progress"
   end
 
   add_foreign_key "battle_investigates", "users"

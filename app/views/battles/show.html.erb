@@ -32,10 +32,10 @@
   <hr>
 
   <!--四則演算ダンジョンの時だけ表示-->
-  <% if @battle.dungeon.name == "四則演算ダンジョン" && @current_weak_bunyas.present? %>
-    <div class="alert alert-warning text-center" role="alert">
-      現在の弱点分野：<strong><%= @current_weak_bunyas.join('、') %></strong>
-    </div>
+  <% if ["四則演算ダンジョン","法廷","双眸を為す"].include?(@battle.dungeon&.name) && @current_weak_bunyas.present? %>
+      <div class="alert alert-warning text-center" role="alert">
+        現在の弱点分野：<strong><%= @current_weak_bunyas.join('、') %></strong>
+      </div>
   <% end %>
 
   <h3 class="mb-3 text-white">あなたの手札</h3>

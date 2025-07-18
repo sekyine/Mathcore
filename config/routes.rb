@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get 'gacha/redraw', to: 'gacha#redraw', as: 'redraw'
-
+  get 'gacha/draw_ten', to: 'gacha#draw_ten', as: 'draw_ten' # この行を追加
   root 'static_pages#home'
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
@@ -34,6 +34,12 @@ Rails.application.routes.draw do
       collection do
         post :import_csv
       end
+    end
+  end
+  resources :users, only: [] do
+    collection do
+      get 'options'    # GET /users/options → 設定画面表示
+      patch 'update_settings'  # PATCH /users/update_settings → 設定保存
     end
   end
 end

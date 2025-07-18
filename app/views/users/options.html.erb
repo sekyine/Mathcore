@@ -1,0 +1,12 @@
+<div class="container mt-4 text-white">
+  <h2>オプション設定</h2>
+  <%= form_with model: @user, url: update_settings_users_path, method: :patch, local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :math_level, "学習レベル", class: "form-label" %>
+      <%= f.select :math_level,
+        options_for_select([["小学校低学年", 1], ["小学校高学年", 2], ["中学生", 3], ["高校生", 4]], @user.math_level),
+        {}, class: "form-select" %>
+    </div>
+    <%= f.submit "保存する", class: "btn btn-primary" %>
+  <% end %>
+</div>

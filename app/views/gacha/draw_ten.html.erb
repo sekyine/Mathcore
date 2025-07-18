@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">ガチャ結果</h1>
+
+  <div class="row row-cols-2 row-cols-md-5 g-4">
+    <% @cards.each do |card| %>
+      <div class="col">
+        <% if card %>
+          <div class="card h-100 text-center">
+            <%= image_tag card.image, class: "card-img-top", alt: card.bunya %>
+            <div class="card-body">
+              <h5 class="card-title"><%= card.bunya %></h5>
+              <p class="card-text">レアリティ: <%= card.st %></p>
+            </div>
+          </div>
+        <% else %>
+          <div class="card h-100 text-center">
+            <div class="card-body d-flex align-items-center justify-content-center">
+              <p>カードがありませんでした</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-center mt-5">
+    <%= link_to "もう一度引く", draw_path, class: "btn btn-primary btn-lg" %>
+    <%= link_to "マイカードへ", user_cards_index_path, class: "btn btn-secondary btn-lg" %>
+  </div>
+</div>
