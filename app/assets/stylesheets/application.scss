@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+@import "bootstrap";
+@import "./dungeons.scss";
 
 body {
   font-family: 'DotGothic16', sans-serif !important;
@@ -21,8 +23,7 @@ body {
  *= require_self
  */
 
- @import "bootstrap";
- @import "./dungeons.scss";
+
 
 
  /* battles/show.html.erb のための追加スタイル */
