@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_18_075339) do
   create_table "battle_investigates", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "collected_cards"
@@ -110,7 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_072256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "dungeon_numbers", default: [1, 2, 3, 4], null: false
-    t.integer "gacha_points"
+    t.integer "gacha_points", default: 3
     t.integer "math_level", default: 1, null: false
     t.json "dungeon_progress"
   end
