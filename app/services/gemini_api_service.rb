@@ -4,6 +4,7 @@ require 'net/http'
 
 class GeminiApiService
   def self.call_gemini_api(prompt, session_id)
+  
     api_key = ENV['GEMINI_API_KEY']
     uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{api_key}")
 

@@ -4,7 +4,8 @@ module.exports = {
     'postcss-import': {
 path: ['node_modules'] 
 },
-
-    autoprefixer: {}
+    autoprefixer: {},
+    cssnano: {}
   }
 }
+

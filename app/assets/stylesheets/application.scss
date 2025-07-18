@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+@import "bootstrap";
+@import "./dungeons.scss";
+
+body {
+  font-family: 'DotGothic16', sans-serif !important;
+  background-color: #1c1c1c;
+  color: #f5f5dc;
+}
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -14,7 +23,8 @@
  *= require_self
  */
 
- @import "bootstrap";
+
+
 
  /* battles/show.html.erb のための追加スタイル */
 
@@ -32,7 +42,7 @@
   padding: 15px;
   min-height: 150px;
   color: white;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'DotGothic16', monospace;
 }
 
 .log-message {
