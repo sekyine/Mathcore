@@ -9,8 +9,12 @@
       <%= link_to 'ホーム', root_path, class: 'btn btn-sm btn-outline-warning' %>
       <%= link_to "所持カード一覧", user_cards_path, class: 'btn btn-sm btn-outline-light'%>
       <% if logged_in? %>
+        <%= link_to 'オプション', options_users_path, class: 'btn btn-sm btn-outline-light' %>
         <%= link_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-sm btn-outline-light' %>
-      <% else %>
+        <span class="text-white me-3">
+          <i class="fa-solid fa-coins"></i> GP: <%= current_user.gacha_points || 0 %>
+        </span>
+        <% else %>
         <a href="/auth/twitter" class="btn btn-sm btn-outline-light">ログイン</a>
       <% end %>
     </div>

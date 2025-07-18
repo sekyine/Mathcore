@@ -1,4 +1,5 @@
 # app/controllers/gemini_controller.rb
+
 class GeminiController < ApplicationController
   protect_from_forgery with: :null_session  
 
@@ -9,6 +10,11 @@ class GeminiController < ApplicationController
     session_id = session.id || SecureRandom.uuid
     # question の値を GeminApiService にそのまま渡す
     @api_response = GeminiApiService.call_gemini_api(@question, session_id)
+
+    # ▼▼▼ この行を追加 ▼▼▼
+    # 'iframe' パラメータがtrueの場合、レイアウトを適用しない
+    render layout: false if params[:iframe] == 'true'
+    # ▲▲▲ この行を追加 ▲▲▲
   end
 
   def generate_content
@@ -27,4 +33,3 @@ class GeminiController < ApplicationController
     end
   end
 end
-

@@ -7,41 +7,89 @@ class BattleInvestigatesController < ApplicationController
     if dungeon && dungeon.card_bunya_filter.present?
       bunya_list = dungeon.card_bunya_filter.split(',').map(&:strip)
       # bunya_list に合致するカードを取得
-      cards = Card.where(bunya: bunya_list)
-      if cards.exists?
-        @card = cards.order("RANDOM()").limit(3)
+      filtered_cards = Card.where(bunya: bunya_list)
+      if filtered_cards.exists?
+        @card = fetch_explore_cards_with_filter(filtered_cards, 3)
       else
         # 該当カードがなければランダムに3枚取得
-        @card = Card.order("RANDOM()").limit(3)
+        @card = fetch_explore_cards(3)
       end
     else
       # dungeonやfilterがなければランダムに3枚取得
-      @card = Card.order("RANDOM()").limit(3)
+      @card = fetch_explore_cards(3)
     end
   end
 
-  # def fetch_explore_cards(limit = 3) #not working...
-  #   rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }
+  def fetch_explore_cards(limit = 3)
+    rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }
 
-  #   rarity = weighted_random(rates)
-  #   cards = Card.where(st: rarity)
+    cards = []
+    used_ids = []
 
-  #   # カードがない場合は全カードからランダム取得
-  #   cards = Card.all if cards.empty?
+    attempts = 0
+    while cards.size < limit && attempts < 30 #フェイルセーフ(重複したカードが出たら何度でも(30回まで)引き直す)
+      rarity = weighted_random(rates)
+      rarity_cards = Card.where(st: rarity).where.not(id: used_ids)
 
-  #   cards.order("RANDOM()").limit(limit)
-  # end
+      if rarity_cards.exists?
+        card = rarity_cards.order("RANDOM()").first
+        cards << card
+        used_ids << card.id
+      else
+        fallback = Card.where.not(id: used_ids)
+        if fallback.exists?
+          card = fallback.order("RANDOM()").first
+          cards << card
+          used_ids << card.id
+        end
+      end
 
-  # def weighted_random(weights)
-  #   total = weights.values.sum
-  #   point = rand(total)
-  #   current = 0
+      attempts += 1
+    end
 
-  #   weights.each do |key, weight|
-  #     current += weight
-  #     return key if point < current
-  #   end
-  # end
+    cards
+  end
+
+  def fetch_explore_cards_with_filter(filtered_scope, limit = 3)
+    rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }
+
+    cards = []
+    used_ids = []
+
+    attempts = 0
+    while cards.size < limit && attempts < 30 #フェイルセーフ
+      rarity = weighted_random(rates)
+      rarity_cards = filtered_scope.where(st: rarity).where.not(id: used_ids)
+
+      if rarity_cards.exists?
+        card = rarity_cards.order("RANDOM()").first
+        cards << card
+        used_ids << card.id
+      else
+        fallback = filtered_scope.where.not(id: used_ids)
+        if fallback.exists?
+          card = fallback.order("RANDOM()").first
+          cards << card
+          used_ids << card.id
+        end
+      end
+
+      attempts += 1
+    end
+
+    cards
+  end
+
+  def weighted_random(weights)
+    total = weights.values.sum
+    point = rand(total)
+    current = 0
+
+    weights.each do |key, weight|
+      current += weight
+      return key if point < current
+    end
+  end
   
   def set_investigation
     @investigation = current_user.battle_investigates.where('created_at >= ?', 30.minutes.ago).last ||
@@ -75,7 +123,7 @@ class BattleInvestigatesController < ApplicationController
 
       battle = Battle.create!(
         user: current_user,
-        player_hp: 100,
+        player_hp: player_hp_by_level(current_user.math_level),
         boss_hp: dungeon&.boss_hp || 50, # デフォルト値あり
         deck: full_deck,
         player_hand: full_deck.shift(5),
@@ -95,4 +143,20 @@ class BattleInvestigatesController < ApplicationController
     end
     redirect_to new_battle_investigate_path
   end
+
+  def player_hp_by_level(level)
+    case level
+    when 1
+      20
+    when 2
+      30
+    when 3
+      50
+    when 4
+      80
+    else
+      30 # default
+    end
+  end
+
 end
