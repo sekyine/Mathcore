@@ -1,59 +1,212 @@
-<head>
-  <meta name="csrf-token" content="<%= form_authenticity_token %>">
-</head>
-<h1>GeminiTest</h1>
-<input type="text" id="promptInput" placeholder="プロンプトを入力してください" size="40">
-<button id="callGeminiBtn">送信</button>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+</style>
 
-<h2>会話:</h2>
-<div id="conversationHistory"></div>
+<div class="chat-container">
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-message-container">
+      <div class="chat-message ai-message">
+        <div class="message-bubble">
+          <p>数学に関することならなんでも聞いてください！</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="promptInput" placeholder="質問を入力してください" size="40">
+    <button id="callGeminiBtn">送信</button>
+  </div>
+</div>
+
+<style>
+  .chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    border: 3px solid #000; /* 黒 */
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 70vh; 
+    background-color: #949593;
+  }
+
+  .chat-window {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-message-container {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-message {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .user-message {
+    justify-content: flex-end;
+  }
+
+  .ai-message {
+    justify-content: flex-start;
+  }
+
+  .message-bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: white;
+    line-height: 1.5;
+  }
+
+  .user-message .message-bubble {
+    background-color: #000; /* 黒 */
+    color: white;
+    border-bottom-right-radius: 5px;
+  }
+
+  .ai-message .message-bubble {
+    background-color: #d30001; /* 赤 */
+    color: white;
+    border-bottom-left-radius: 5px;
+  }
+
+  .message-bubble p {
+    margin: 0;
+  }
+  
+  .loading-message .message-bubble {
+    background-color: #ccc;
+    color: #333;
+  }
+
+  .chat-input-area {
+    padding: 10px;
+    border-top: 3px solid #000; /* 黒 */
+    background-color: #949593;
+    display: flex;
+  }
+
+  #promptInput {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin-right: 10px;
+  }
+
+  #callGeminiBtn {
+    background-color: #ffd700; /* 金色 */
+    color: #000; /* 黒 */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  #callGeminiBtn:hover {
+    background-color: #e6c300; /* 少し暗い金色 */
+  }
+</style>
 
 <script>
-  // 送信ボタンのクリックイベント処理
-  document.getElementById("callGeminiBtn").addEventListener("click", () => {
-    const promptInput = document.getElementById("promptInput");
-    const prompt = promptInput.value;
-  
-    fetch("http://127.0.0.1:3000/gemini", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ""
-      },
-      // API送信用のプロンプトは内部変数（例：aggregatedPrompt）を使うか、最新の入力のみ送るか
-      body: JSON.stringify({ prompt: prompt })
-    })
-    .then(res => res.json())
-    .then(data => {
-      const conversationHistory = document.getElementById("conversationHistory");
-      const resultText = data.response.text;
-  
-      // 画面に追加するのは最新の発言のみ（履歴は内部管理）
-      const userMessage = `<p><strong>ユーザー:</strong> ${prompt}</p>`;
-      conversationHistory.insertAdjacentHTML('beforeend', userMessage);
-  
-      const aiMessage = `<p><strong>AI:</strong> ${resultText}</p>`;
-      conversationHistory.insertAdjacentHTML('beforeend', aiMessage);
-  
-      // 送信後、入力欄を空に
-      promptInput.value = "";
-    })
-    .catch(error => {
-      document.getElementById("conversationHistory")
-        .insertAdjacentHTML('beforeend', `<p style="color: red;">エラー: ${error}</p>`);
-    });
-  });
-  document.addEventListener("DOMContentLoaded", function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const autoPrompt = urlParams.get('question');
-    if (autoPrompt) {
-      // 入力欄に自動で値をセット
-      document.getElementById("promptInput").value = autoPrompt;
-      // 自動で送信ボタンをクリックして処理を開始
-      document.getElementById("callGeminiBtn").click();
+document.addEventListener('DOMContentLoaded', () => {
+  const promptInput = document.getElementById('promptInput');
+  const callGeminiBtn = document.getElementById('callGeminiBtn');
+  const chatWindow = document.getElementById('chatWindow');
+
+  const appendMessage = (message, sender) => {
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'chat-message-container';
+
+    const messageElement = document.createElement('div');
+    messageElement.className = `chat-message ${sender}-message`;
+
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+    
+    const p = document.createElement('p');
+    p.textContent = message;
+    
+    bubble.appendChild(p);
+    messageElement.appendChild(bubble);
+    messageContainer.appendChild(messageElement);
+    chatWindow.appendChild(messageContainer);
+
+    // 自動で一番下までスクロール
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+    
+    return messageContainer; // ローディング表示の更新用に要素を返す
+  };
+
+  const callApi = async () => {
+    const prompt = promptInput.value.trim();
+    if (prompt === '') return;
+
+    appendMessage(prompt, 'user');
+    promptInput.value = '';
+
+    // ローディングメッセージを追加
+    const loadingMessageContainer = appendMessage('...', 'ai');
+    loadingMessageContainer.querySelector('.chat-message').classList.add('loading-message');
+
+
+    try {
+      const response = await fetch('/gemini', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+        },
+        body: JSON.stringify({ prompt: prompt })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const aiResponse = data.response.text;
+      
+      const loadingBubble = loadingMessageContainer.querySelector('.message-bubble p');
+      loadingBubble.textContent = aiResponse;
+      loadingMessageContainer.querySelector('.chat-message').classList.remove('loading-message');
+      
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    } catch (error) {
+      console.error('Error calling Gemini API:', error);
+      const errorBubble = loadingMessageContainer.querySelector('.message-bubble p');
+      errorBubble.textContent = 'エラーが発生しました。';
+      loadingMessageContainer.querySelector('.chat-message').classList.remove('loading-message');
+    }
+  };
+
+  callGeminiBtn.addEventListener('click', callApi);
+  promptInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      callApi();
     }
   });
 
+  // === ここから追加したコード ===
+  const urlParams = new URLSearchParams(window.location.search);
+  const autoPrompt = urlParams.get('question');
+  if (autoPrompt) {
+    // 入力欄に自動で値をセット
+    promptInput.value = autoPrompt;
+    // 自動で送信ボタンをクリックして処理を開始
+    callGeminiBtn.click();
+  }
+  // === ここまで追加したコード ===
+});
 </script>
-
-

@@ -1,3 +1,7 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+</style>
+
 <div id="animation-overlay" style="display: none;">
   <%= image_tag "pack_opening.gif", id: "animation-gif" %>
 </div>
@@ -9,7 +13,19 @@
   <div id="slider-label">ガチャを引く</div>
 </div>
 
+
+<div class="position-absolute bottom-0 start-50 translate-middle">
+    
+    <%= link_to "", draw_ten_path, class: "btn btn-dark btn-lg",style: 'border-color: black; color: black;', id: "100gacha_button"%>
+    
+</div>
+
+
 <style>
+  #100gacha_button {
+    bottom: 0px;
+  }
+  
   #slider-container {
     width: 300px;
     height: 50px;

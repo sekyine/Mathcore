@@ -1,3 +1,7 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+</style>
+
 <h1 class="text-center mb-4 text-warning">所持カード一覧</h1>
 
 <% if @user_cards.any? %>
@@ -72,11 +76,14 @@
 
                 <div class="d-grid gap-2 answer-container">
                   <% answers.each do |ans| %>
-                    <button type="button" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
-                      <%= ans[:text] %>
-                    </button>
+                    <%= form_with url: answer_card_path, method: :post, local: true do %>
+                      <%= hidden_field_tag :card_id, uc.card.id %>
+                      <%= hidden_field_tag :correct, ans[:correct] %>
+                      <button type="submit" class="btn btn-secondary answer-btn" data-answer="<%= ans[:correct] %>">
+                        <%= ans[:text] %>
+                      </button>
+                    <% end %>
                   <% end %>
-
                 </div>
 
                 <div class="mt-3 text-center">
@@ -133,8 +140,11 @@
 
     const handleAnswerClick = (event) => {
       const button = event.currentTarget;
+      const form = button.closest('form');
       const allButtons = modal.querySelectorAll(".answer-btn");
       const isCorrect = button.getAttribute("data-answer") === "true";
+
+      form.submit();
 
       allButtons.forEach(btn => {
         btn.disabled = true;
@@ -208,7 +218,7 @@
       button.addEventListener("click", (event) => {
         event.preventDefault();
         const question = button.getAttribute("data-question");
-        document.getElementById("geminiIframe").src = `/gemini/test?question=${encodeURIComponent(question)}`;
+        document.getElementById("geminiIframe").src = `/gemini/test?question=${encodeURIComponent(question)}&iframe=true`;
       });
     });
   };
