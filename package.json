@@ -6,9 +6,11 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "cssnano": "^7.1.0",
     "postcss": "^8.5.4",
     "postcss-cli": "^11.0.1",
-    "postcss-import": "^16.1.1"
+    "postcss-import": "^16.1.1",
+    "postcss-scss": "^4.0.9"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",

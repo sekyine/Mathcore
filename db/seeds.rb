@@ -25,7 +25,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "足し算",
     card_bunya_filter: "足し算",
     target_level: 1,
-    order_in_level: 1
+    order_in_level: 1,
+    kind:"cave"
   },
   {
     name: "四則演算ダンジョン",
@@ -37,7 +38,8 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "足し算,引き算,掛け算,割り算",
     card_bunya_filter: "足し算,引き算,掛け算,割り算",
     target_level: 1,
-    order_in_level: 2
+    order_in_level: 2,
+    kind:"castle"
   },
   {
     name: "イロンナカズ公園",
