@@ -63,11 +63,13 @@ class BattlesController < ApplicationController
     redirect_to battle_path(@battle)
   end
 
-  def show
-    if @battle.dungeon.name == "四則演算ダンジョン"
+ def show
+    # ▼▼▼ &. を使って @battle.dungeon が nil でもエラーにならないように修正 ▼▼▼
+    if @battle.dungeon&.name == "四則演算ダンジョン"
       @current_weak_bunyas = [@battle.dungeon.rotating_weak_bunya(@battle.turn)]
     else
-      @current_weak_bunyas = @battle.dungeon.weak_bunya.to_s.split(',').map(&:strip)
+      # ▼▼▼ @battle.dungeon が nil の場合を考慮 ▼▼▼
+      @current_weak_bunyas = @battle.dungeon&.weak_bunya.to_s.split(',').map(&:strip)
     end
   end
 
@@ -76,6 +78,7 @@ class BattlesController < ApplicationController
     correct = ActiveModel::Type::Boolean.new.cast(params[:correct])
     card = Card.find(card_id)
     dungeon = @battle.dungeon
+    flash[:effect_type] = card.effect_type
     
     if correct
       current_user.solved_cards.find_or_create_by(card: card)
@@ -90,20 +93,26 @@ class BattlesController < ApplicationController
 
     case card.effect_type
     when 'attack'
-
-      damage = [(power - dungeon&.boss_defence_power), 0].max
-      weak = dungeon.weak_bunya.to_s.split(',')
-      if dungeon.name == "四則演算ダンジョン"
-        weak = [dungeon.rotating_weak_bunya(@battle.turn)]
+      # ▼▼▼ boss_defence_powerがnilの場合に0として扱うように修正 ▼▼▼
+      damage = [(power - (dungeon&.boss_defence_power || 0)), 0].max
+      
+      # ▼▼▼ dungeonが存在する場合のみ弱点判定を行うように修正 ▼▼▼
+      if dungeon
+        weak = dungeon.weak_bunya.to_s.split(',')
+        if dungeon.name == "四則演算ダンジョン"
+          weak = [dungeon.rotating_weak_bunya(@battle.turn)]
+        end
+        if weak.include?(card.bunya)
+          damage = (damage * 1.5).ceil
+          @battle.log << "弱点を突いた！ダメージ1.5倍！"
+        end
       end
-      if weak.include?(card.bunya)
-        damage = (damage * 1.5).ceil
-        @battle.log << "弱点を突いた！ダメージ1.5倍！"
-      end
+      # ▲▲▲ ここまで修正 ▲▲▲
 
       @battle.boss_hp -= damage
       @battle.log << "攻撃！ボスに#{damage}ダメージ"
     when 'defence'
+      defence = power
       @battle.log << "防御！次に受けるダメージが-#{power}される"
     when 'heal'
       @battle.player_hp += power
@@ -118,6 +127,8 @@ class BattlesController < ApplicationController
     when :victory
       @victory = true
       add_bonus_cards_to_user
+       current_user.increment!(:gacha_points) # ポイントを1増やす
+      flash[:notice] = "ダンジョンクリア！ガチャポイントを1獲得しました！"
       clear_no = @battle.dungeon_id + 1
       user    = current_user
 
@@ -203,6 +214,8 @@ class BattlesController < ApplicationController
       @battle.log << "ボスが回復！#{heal}回復"
     else
       damage = [((dungeon&.boss_attack_power || 5) * rand(0.8..1.2)).to_i, 0].max
+
+      defence = 0
       @battle.player_hp -= damage
       @battle.log << "ボスの攻撃！#{damage}ダメージ"
     end

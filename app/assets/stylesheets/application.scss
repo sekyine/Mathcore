@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+body {
+  font-family: 'DotGothic16', sans-serif !important;
+  background-color: #1c1c1c;
+  color: #f5f5dc;
+}
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -34,7 +41,7 @@
   padding: 15px;
   min-height: 150px;
   color: white;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'DotGothic16', monospace;
 }
 
 .log-message {
@@ -73,3 +80,59 @@
    max-width: 90%;
    max-height: 90%;
  }
+
+  /* Geminiチャット用のスタイル */
+.chat-container {
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chat-window {
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: 500px; /* 必要に応じて調整 */
+  overflow-y: auto;
+}
+
+.chat-message-container {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.ai-message {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  color: #949593;
+}
+
+.user-message .message-bubble {
+  background-color: #007bff; /* 青色 */
+  border-bottom-right-radius: 5px;
+}
+
+.ai-message .message-bubble {
+  background-color: #28a745; /* 緑色 */
+  border-bottom-left-radius: 5px;
+}
+
+.message-bubble p {
+  margin: 0;
+}
