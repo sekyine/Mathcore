@@ -2,10 +2,10 @@
   @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 </style>
 
-<h3>探索中 (<%= @investigation.turn_count %> / 3)</h3>
+<h3>探索中... (<%= @investigation.turn_count %> / 3)</h3>
 
 <div class="container mt-4">
- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+ <div class="row row-cols-3 row-cols-md-3 row-cols-lg-3 g-3">
   <% @card.each_with_index do |card, index| %>
    <div class="col">
     <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
