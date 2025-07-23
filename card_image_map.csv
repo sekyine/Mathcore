@@ -1,4 +1,4 @@
-﻿image,st,bunya,question,ans,imans1,imans2,imans3,effect_type,power
+﻿image,st,bunya,question,ans,imans1,imans2,imans3,effect,power
 card_1.png,1,bibun,"\( f(x) = 2x + 1 \)
 この関数の導関数を求めよ。",\( f'(x) = 2 \),12,13,83,defence,10
 card_2.png,1,bibun,"\( f(x) = 5x + 2 \)

@@ -79,14 +79,14 @@ for i, row in df.iterrows():
         # 描画用準備
         draw = ImageDraw.Draw(bg)
         font_st = ImageFont.truetype(FONT_PATH, 40)
-        font_q = ImageFont.truetype(FONT_PATH, 30)
+        font_q = ImageFont.truetype(FONT_PATH, 40)
 
         # 左上にレアリティ（★）を表示
-        draw.text((40, 30), "★" * int(row['st']), fill='gold', font=font_st)
+        draw.text((70, 60), "★" * int(row['st']), fill='gold', font=font_st)
 
         # LaTeXで描いた数式画像を貼り付け
         print(f"[描画] LaTeX数式を描画中...")
-        latex_img = render_latex(latex, color='grey')
+        latex_img = render_latex(latex, fontsize=42, color='white')
         latex_w, latex_h = latex_img.size
         latex_x = (W - latex_w) // 2
         latex_y = int(H * 0.1)  # 上寄り5%位置
@@ -101,9 +101,10 @@ for i, row in df.iterrows():
             text_h = bbox[3] - bbox[1]
 
             text_x = (W - text_w) // 2
-            text_y = latex_y + latex_h + 10  # LaTeX画像の下に表示
-
-            draw.text((text_x, text_y), japanese, fill='black', font=font_q)
+            text_y = latex_y + latex_h + 2  # LaTeX画像の下に表示
+            # シャドウ
+            draw.text((text_x+2, text_y+2), japanese, fill='black', font=font_q)
+            draw.text((text_x, text_y), japanese, fill='white', font=font_q)
 
         # 保存
 
