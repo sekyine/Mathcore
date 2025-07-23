@@ -6,6 +6,7 @@ body {
   font-family: 'DotGothic16', sans-serif !important;
   background-color: #1c1c1c;
   color: #f5f5dc;
+  padding-bottom: 120px;
 }
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
@@ -136,4 +137,58 @@ body {
 
 .message-bubble p {
   margin: 0;
+}
+
+.modal-content {
+ background-color: #000 !important; /* 黒色の背景 */
+ color: #ffc107 !important; /* 黄色の文字色 */
+ border: 1px solid #ffc107 !important; /* 黄色の枠線 */
+}
+
+.modal-header {
+ border-bottom: 1px solid #ffc107 !important;
+}
+
+.modal-footer {
+ border-top: 1px solid #ffc107 !important;
+}
+
+.btn-close {
+ filter: invert(77%) sepia(96%) saturate(1511%) hue-rotate(354deg) brightness(103%) contrast(103%); /* 白い閉じるボタンを黄色っぽく */
+}
+
+.card {
+ background-color: #000 !important; /* 黒色の背景 */
+ color: #ffc107 !important; /* 黄色の文字色 */
+ border: 1px solid #ffc107 !important; /* 黄色の枠線 */
+}
+
+.btn-primary, .btn-outline-secondary {
+ background-color: #000 !important;
+ color: #ffc107 !important;
+ border-color: #ffc107 !important;
+
+ &:hover {
+  background-color: #222 !important; /* ホバー時の少し明るい黒 */
+ }
+}
+
+.fixed-bottom-bar {
+  /* 画面下部に固定 */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  /* 中央揃え */
+  text-align: center;
+
+  /* デザイン */
+  background-color: rgba(33, 37, 41, 0.95); /* カードと似た半透明の黒 */
+  padding: 1rem;
+  border-top: 2px solid #ffc107; /* カードの枠線と合わせた黄色い線 */
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+
+  /* 他の要素より手前に表示 */
+  z-index: 1030;
 }
