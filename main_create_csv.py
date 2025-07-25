@@ -3,9 +3,14 @@ import random
 from pathlib import Path
 
 # 各分野の問題生成関数をインポート
-from exp import generate_problem as generate_exp
-from trig import generate_problem as generate_trig
-from diff import generate_problem as generate_diff
+from tashizann import generate_problem as generate_tashizann
+from hikizann import generate_problem as generate_hikizann
+from kakezann import generate_problem as generate_kakezann
+from warizann import generate_problem as generate_warizann
+from syousuu import generate_problem as generate_syousuu
+from bunnsuu import generate_problem as generate_bunnsuu
+from large_number import generate_problem as generate_large_number
+
 
 # 画像フォルダ（画像は分野ごとに名前が対応している想定）
 IMAGE_DIR = Path("./app/assets/images/")
@@ -15,8 +20,13 @@ OUTPUT_CSV = Path("card_create_test.csv")
 
 # 各分野ごとの生成設定
 FIELDS = [
-
-    ("bibun", generate_diff)
+    ("足し算", generate_tashizann),
+    ("引き算", generate_hikizann),
+    ("掛け算", generate_kakezann),
+    ("割り算", generate_warizann),
+    ("小数(小学校)", generate_syousuu),
+    ("分数(小学校)", generate_bunnsuu),
+    ("大きい数", generate_large_number)
 ]
 
 # ランダムに選ぶための設定

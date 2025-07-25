@@ -6,6 +6,7 @@ from matplotlib.font_manager import FontProperties
 import io
 import os
 import re
+import glob
 
 print(ImageFont.truetype("./Fonts/NotoSerifCJKjp-Regular.otf", 100))
 
@@ -22,7 +23,10 @@ def render_latex(formula, fontsize=30, color='grey', font_path="./Fonts/NotoSeri
     return Image.open(buf)
 
 # 読み込みとパスの設定
-df = pd.read_csv('card_create_test.csv', encoding='UTF-8')
+CSV_DIR = './csv_files/'  # あなたのCSVファイル群があるフォルダに変更
+csv_files = glob.glob(os.path.join(CSV_DIR, '*.csv'))
+df_list = [pd.read_csv(file, encoding='utf-8') for file in csv_files]
+df = pd.concat(df_list, ignore_index=True)
 OUTPUT_DIR = './app/assets/images/'
 BACKGROUND_PATH = './app/assets/images/background.png'
 FONT_PATH = "./Fonts/NotoSerifCJKjp-Regular.otf"
@@ -69,12 +73,23 @@ for i, row in df.iterrows():
         # LaTeXと日本語の分離
         q_raw = row['question']
         match = re.match(r"\\\((.*?)\\\)\s*(.*)", q_raw, re.DOTALL)
+
+        # $$ ... $$ パターンを変換
+        if not match and q_raw.startswith("$$") and "$$" in q_raw[2:]:
+            q_raw = q_raw.strip('$')  # 先頭と末尾の$$を除去
+            match = re.match(r"(.*?)\s*(.*)", q_raw, re.DOTALL)
+
         if match:
             latex = match.group(1).strip()
             japanese = match.group(2).strip()
         else:
             latex = ""
             japanese = q_raw
+
+        if not latex.strip():
+            print(f"[警告] 行 {i+1}: 空のLaTeX数式。スキップします。")
+            continue
+
 
         # 描画用準備
         draw = ImageDraw.Draw(bg)
@@ -117,12 +132,13 @@ for i, row in df.iterrows():
         output_csv_rows.append(row_data)
 
 
-        # 新しいCSVファイルに保存
-        output_csv_path = "card_image_map.csv"
-        df_output = pd.DataFrame(output_csv_rows)
-        df_output.to_csv(output_csv_path, index=False, encoding='utf-8-sig')
-        print(f"[完了] 対応CSVファイルを出力しました: {output_csv_path}")
 
     except Exception as e:
         print(f"[エラー] 行 {i+1} をスキップ: {e}")
         continue
+
+#新しいcsvを保存
+output_csv_path = "card_image_map.csv"
+df_output = pd.DataFrame(output_csv_rows)
+df_output.to_csv(output_csv_path, index=False, encoding='utf-8-sig')
+print(f"[完了] 対応CSVファイルを出力しました: {output_csv_path}")
