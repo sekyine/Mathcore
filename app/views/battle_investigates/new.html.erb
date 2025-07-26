@@ -4,26 +4,30 @@
 
 <h3>探索中 (<%= @investigation.turn_count %> / 3)</h3>
 
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap  justify-content-center" style="gap: 1.5rem; padding: 1rem;">
   <% @card.each do |card| %>
-    <div class="card m-2 p-2 border" style="width: 200px;">
-      <p><%= image_tag card.image, size: '109x135', class: 'mb-2' %></p>
-      <p><strong>分野:</strong> <%= card.bunya %></p>
+    <div class="col mb-4" style="max-width: 350px;">
+      <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
+        <div class="card-img-top bg-black" style="aspect-ratio: 4 / 5; overflow: hidden;">
+          <%= image_tag card.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
+        </div>
+        <p><strong>分野:</strong> <%= card.bunya %></p>
 
-      <% answers = [
-        { text: card.ans, correct: true },
-        { text: card.imans1, correct: false },
-        { text: card.imans2, correct: false },
-        { text: card.imans3, correct: false },
-      ].shuffle %>
+        <% answers = [
+          { text: card.ans, correct: true },
+          { text: card.imans1, correct: false },
+          { text: card.imans2, correct: false },
+          { text: card.imans3, correct: false },
+        ].shuffle %>
 
-      <% answers.each do |ans| %>
-        <%= form_with url: answer_battle_investigate_path, method: :post, local: true do %>
-          <%= hidden_field_tag :card_id, card.id %>
-          <%= hidden_field_tag :correct, ans[:correct] %>
-          <button class="btn btn-sm btn-primary m-1"><%= ans[:text] %></button>
+        <% answers.each do |ans| %>
+          <%= form_with url: answer_battle_investigate_path, method: :post, local: true do %>
+            <%= hidden_field_tag :card_id, card.id %>
+            <%= hidden_field_tag :correct, ans[:correct] %>
+            <button class="btn btn-sm btn-primary m-1"><%= ans[:text] %></button>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   <% end %>
 </div>
