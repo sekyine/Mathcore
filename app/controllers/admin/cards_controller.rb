@@ -20,7 +20,7 @@ class Admin::CardsController < ApplicationController
           BattleInvestigate.delete_all
         end
         #文字コード...encode("変換後", "変換前", inva... の形にする 現在はUTF-8で読み込み
-        csv_text = file.read.encode("UTF-8", "Shift_JIS", invalid: :replace, undef: :replace)
+        csv_text = file.read.encode("UTF-8", "UTF-8", invalid: :replace, undef: :replace)
         csv = CSV.parse(csv_text, headers: true)
 
         csv.each do |row|
