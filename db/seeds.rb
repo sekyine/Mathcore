@@ -88,7 +88,7 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     boss_heal_power: 2,
     boss_defence_power: 8,
     weak_bunya: "小数,分数",
-    card_bunya_filter: "かんたんな小数,かんたんな分数,かんたんな図形,小数,分数,図形",
+    card_bunya_filter: "小数,分数",
     target_level: 2,
     order_in_level: 3,
     kind:"sougen"
