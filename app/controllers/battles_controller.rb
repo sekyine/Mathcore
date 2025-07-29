@@ -82,42 +82,54 @@ class BattlesController < ApplicationController
     if correct
       current_user.solved_cards.find_or_create_by(card: card)
       @battle.log << "正解！"
+      power = effective_power(card, current_user)
+      case card.effect_type
+      when 'attack'
+        defence = dungeon&.boss_defence_power || 0
+
+        damage = power
+
+        if @battle.attack_boost
+            damage = (damage * 1.5).floor
+            @battle.attack_boost = false
+            @battle.log << "防御の構えからの反撃！攻撃力が1.5倍になった！"
+        end
+
+        if dungeon
+          weak = dungeon.weak_bunya.to_s.split(',')
+          if ["四則演算ダンジョン","法廷","双眸を為す"].include?(dungeon.name)
+            weak = [dungeon.rotating_weak_bunya(@battle.turn)]
+          end
+          if weak.include?(card.bunya)
+            damage = (damage * 1.5).ceil
+            @battle.log << "弱点を突いた！ダメージ1.5倍！"
+          end
+        end
+        
+        if damage <= defence
+          # 防御力以下の場合：ダメージ半減（切り捨て）、最低1
+          damage = [(damage / 2).floor, 1].max
+          @battle.log << "ボスに防御された！ダメージが半減！"
+        else
+          damage = damage - defence
+        end
+
+        @battle.boss_hp -= damage
+        @battle.log << "攻撃！ボスに#{damage}ダメージ"
+      when 'defence', 'defense'
+        @defence = power
+        @battle.attack_boost = true
+        @battle.log << "防御！次の攻撃が強化される！"
+      when 'heal'
+        @battle.player_hp += power
+        @battle.log << "回復！HPが#{power}回復"
+      end
     else
       damage = rand(1..3)
       @battle.player_hp -= damage
       @battle.log << "不正解！#{damage}ダメージを受けた"
     end
-    
-    power = effective_power(card, current_user)
 
-    case card.effect_type
-    when 'attack'
-      # ▼▼▼ boss_defence_powerがnilの場合に0として扱うように修正 ▼▼▼
-      damage = [(power - (dungeon&.boss_defence_power || 0)), 0].max
-      
-      # ▼▼▼ dungeonが存在する場合のみ弱点判定を行うように修正 ▼▼▼
-      if dungeon
-        weak = dungeon.weak_bunya.to_s.split(',')
-        if ["四則演算ダンジョン","法廷","双眸を為す"].include?(dungeon.name)
-          weak = [dungeon.rotating_weak_bunya(@battle.turn)]
-        end
-        if weak.include?(card.bunya)
-          damage = (damage * 1.5).ceil
-          @battle.log << "弱点を突いた！ダメージ1.5倍！"
-        end
-      end
-      # ▲▲▲ ここまで修正 ▲▲▲
-
-      @battle.boss_hp -= damage
-      @battle.log << "攻撃！ボスに#{damage}ダメージ"
-    when 'defence'
-      @defence = power
-      @battle.log << "防御！次に受けるダメージが-#{power}される"
-    when 'heal'
-      @battle.player_hp += power
-      @battle.log << "回復！HPが#{power}回復"
-    end
-    
     index = @battle.player_hand.index(card_id)
     @battle.player_hand.delete_at(index) if index
 
@@ -210,11 +222,17 @@ class BattlesController < ApplicationController
       @battle.boss_hp += heal
       @battle.log << "ボスが回復！#{heal}回復"
     else
-      damage = [((dungeon&.boss_attack_power || 5) * rand(0.8..1.2)).to_i, 0].max
-      damage = [damage - (@defence || 0 ), 0].max
+      raw_damage = [((dungeon&.boss_attack_power || 5) * rand(0.8..1.2)).to_i, 0].max
+      defence_value = @defence || 0
+      reduced_damage = [raw_damage - defence_value, 0].max
+      @battle.player_hp -= reduced_damage
+
+      if defence_value > 0
+        @battle.log << "防御の構え！-#{raw_damage - reduced_damage}軽減した！"
+      end
+      @battle.log << "ボスの攻撃！#{reduced_damage}ダメージ"
+
       @defence = 0
-      @battle.player_hp -= damage
-      @battle.log << "ボスの攻撃！#{damage}ダメージ"
     end
   end
 
