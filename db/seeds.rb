@@ -122,7 +122,7 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
   {
     name: "解放",
     description: "お勤めご苦労様でした。(弱点:かんたんな確率)",
-    boss_hp: 80,
+    boss_hp: 70,
     boss_attack_power: 10,
     boss_heal_power: 12,
     boss_defence_power: 0,

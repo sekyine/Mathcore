@@ -116,7 +116,7 @@ class BattlesController < ApplicationController
 
         @battle.boss_hp -= damage
         @battle.log << "攻撃！ボスに#{damage}ダメージ"
-      when 'defence'
+      when 'defence', 'defense'
         @defence = power
         @battle.attack_boost = true
         @battle.log << "防御！次の攻撃が強化される！"
