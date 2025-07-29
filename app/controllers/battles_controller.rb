@@ -87,13 +87,7 @@ class BattlesController < ApplicationController
       when 'attack'
         defence = dungeon&.boss_defence_power || 0
 
-        if power <= defence
-          # 防御力以下の場合：ダメージ半減（切り捨て）、最低1
-          damage = [(power / 2).floor, 1].max
-          @battle.log << "ボスに防御された！ダメージが半減！"
-        else
-          damage = power - defence
-        end
+        damage = power
 
         if @battle.attack_boost
             damage = (damage * 1.5).floor
@@ -111,7 +105,14 @@ class BattlesController < ApplicationController
             @battle.log << "弱点を突いた！ダメージ1.5倍！"
           end
         end
-        # ▲▲▲ ここまで修正 ▲▲▲
+        
+        if damage <= defence
+          # 防御力以下の場合：ダメージ半減（切り捨て）、最低1
+          damage = [(damage / 2).floor, 1].max
+          @battle.log << "ボスに防御された！ダメージが半減！"
+        else
+          damage = damage - defence
+        end
 
         @battle.boss_hp -= damage
         @battle.log << "攻撃！ボスに#{damage}ダメージ"
