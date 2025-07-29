@@ -44,7 +44,7 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
   {
     name: "イロンナカズ公園",
     description: "いろんな数が、君を羨ましそうに見ている...(弱点:かんたんな小数・かんたんな分数)",
-    boss_hp: 30,
+    boss_hp: 20,
     boss_attack_power: 5,
     boss_heal_power: 3,
     boss_defence_power: 0,
@@ -77,7 +77,7 @@ Dungeon.create!([ #card_bunya_filterとweak_bunyaはカンマ区切りで対応
     weak_bunya: "比例・反比例",
     card_bunya_filter: "掛け算,割り算,比例・反比例",
     target_level: 2,
-    order_in_level: 1,
+    order_in_level: 2,
     kind:"mount"
   },
   {
