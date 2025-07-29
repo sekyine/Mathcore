@@ -8,42 +8,41 @@
 
 <%= form_with url: start_investigation_battles_path, method: :post, id: "deck-form", local: true do %>
   <div class="deck-builder">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    
+    <div class="row row-cols-3 row-cols-lg-4 g-5">
       <% current_user.user_cards.each do |uc| %>
-        <div class="container">
-          
-          <div class="card-option mb-3 p-2 border rounded">
+        
+        <div class="col">
+          <div class="card shadow bg-dark text-white h-100 border-warning" style="border-width: 2px;">
             
-            <div class="row align-items-center">
-
+            <div class="row g-0 h-100">
               
-              <div class="col-3">
-                
-                <%= image_tag uc.card.image, class: 'img-fluid' %>
+              <div class="col-md-4">
+                <%= image_tag uc.card.image, class: 'img-fluid rounded-start', style: "height: 100%; width: 100%; object-fit: cover;" %>
               </div>
-
               
-              <div class="col-9">
-                <p class="mb-1"><strong><%= uc.card.bunya %></strong></p>
-                <p class="mb-1"><%= uc.card.effect_type %>: <%= uc.card.power %></p>
-                <p class="mb-2">所持枚数: <%= uc.quantity %></p>
-                
-                <div style="max-width: 25%;">
-                  <%= number_field_tag "deck[#{uc.card_id}]", 0, in: 0..uc.quantity, class: "form-control form-control-sm deck-input", data: { max: uc.quantity } %>
+              <div class="col-md-8">
+                <div class="card-body d-flex flex-column h-100">
+                  <p class="mb-1"><strong><%= uc.card.bunya %></strong></p>
+                  <p class="mb-1"><%= uc.card.effect_type %>: <%= uc.card.power %></p>
+                  <p class="mb-2">所持枚数: <%= uc.quantity %></p>
+                  
+                  <div class="mt-auto" style="max-width: 70%;">
+                    <%= number_field_tag "deck[#{uc.card_id}]", 0, in: 0..uc.quantity, class: "form-control form-control-sm deck-input", data: { max: uc.quantity } %>
+                  </div>
                 </div>
               </div>
-              
-            </div> 
+            </div>
           </div>
         </div>
       <% end %>
     </div>
   </div>
-
-<p id="deck-count">デッキ合計枚数: 0 / <%= max_deck_size %></p>
-
-<%= submit_tag "バトル開始！", class: "btn btn-warning", disabled: true, id: "start-battle", data: { max: max_deck_size } %>
-<% end %>
+  <div class="fixed-bottom-bar">
+    <p id="deck-count" class="mb-2">デッキ合計枚数: 0 / <%= max_deck_size %></p>
+    <%= submit_tag "バトル開始！", class: "btn btn-warning", disabled: true, id: "start-battle", data: { max: max_deck_size } %>
+  </div>
+    <% end %>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {

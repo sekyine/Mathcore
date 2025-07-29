@@ -76,7 +76,7 @@
             </div>
             <div class="modal-body">
               <%= image_tag card.image, class: "img-fluid mb-3" %>
-              <p><strong>レア度:</strong> <%= card.st %> ⭐</p>
+              <p><strong>レア度:</strong> <%= safe_join(Array.new(card.st.to_i) { content_tag(:i, '', class: 'fa-solid fa-star text-warning') }) %></p>
               <p><strong>分野:</strong> <%= card.bunya %></p>
               <hr>
               <p><strong>問題:</strong> <%= card.question %></p>
