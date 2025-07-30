@@ -21,7 +21,7 @@ class BattleInvestigatesController < ApplicationController
   end
 
   def fetch_explore_cards(limit = 3)
-    rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }
+    rates = { 1 => 40, 2 => 30, 3 => 15, 4 => 10, 5 => 5 }
 
     cards = []
     used_ids = []
@@ -51,7 +51,7 @@ class BattleInvestigatesController < ApplicationController
   end
 
   def fetch_explore_cards_with_filter(filtered_scope, limit = 3)
-    rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }
+    rates = { 1 => 40, 2 => 30, 3 => 15, 4 => 10, 5 => 5 }
 
     cards = []
     used_ids = []

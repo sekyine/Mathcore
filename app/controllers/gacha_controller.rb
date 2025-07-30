@@ -49,7 +49,7 @@ class GachaController < ApplicationController
   # ガチャを引く共通ロジック
   # ▼▼▼ @cardへの代入をやめ、引いたカードを返すように変更 ▼▼▼
   def pull_gacha
-    rates = { 1 => 70, 2 => 20, 3 => 5, 4 => 4, 5 => 1 }.freeze
+    rates = { 1 => 40, 2 => 30, 3 => 15, 4 => 10, 5 => 5 }.freeze
     rarity = weighted_random(rates)
 
     allowed_level = current_user.math_level || 1 #学年別フィルタ
