@@ -1,6 +1,6 @@
-# require 'csv'
+require 'csv'
 
-# class Admin::CardsController < ApplicationController
+class Admin::CardsController < ApplicationController
 #   def index
 #     @cards = Card.all
 #   end
@@ -48,4 +48,4 @@
 #       redirect_to admin_cards_path, alert: "CSVファイルを選択してください"
 #     end
 #   end
-# end
+end
