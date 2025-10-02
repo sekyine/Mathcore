@@ -1,24 +1,11 @@
-# README
+Mathcore
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+説明
+大学の実験で制作したアプリケーションです。
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+概要
+マスコレとは、⼩学⽣低学年から⾼校⽣を対象とした、算数・数学の学習を⽀援するゲーミフィケーション型アプリケーションである。
+本アプリは、基本的に1⼈⽤カードゲームの形式を採⽤している。
+マスコレの⼤きな特徴は、カードに記載されて算数・数学の問題を解かなければ、そのカードを使⽤する事ができない点にある。
+ゲームの基本的な流れとしては、まず「ガチャ」を引いてカードを獲得し、その後ダンジョンに挑戦してボスを倒すことで、報酬として新たなカードを⼊⼿できる。
+そして、獲得したカードを⽤いて、さらに難易度の⾼いダンジョンに挑戦していく......
